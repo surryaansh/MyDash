@@ -12,10 +12,10 @@ export const DarkModeToggle: React.FC<DarkModeToggleProps> = ({ isDarkMode, togg
     <button
       onClick={toggleDarkMode}
       aria-label={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
-      className={`group relative inline-flex items-center h-7 w-14 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+      className={`group relative inline-flex items-center h-7 w-14 rounded-full transition-colors duration-300 focus:outline-none ${
         isDarkMode 
-          ? 'bg-gray-700 focus:ring-red-600 focus:ring-offset-black' 
-          : 'bg-gray-300 hover:bg-black focus:ring-black focus:ring-offset-[#efeeee]'
+          ? 'bg-gray-700' 
+          : 'bg-gray-300 hover:bg-black'
       }`}
     >
       {/* Moon icon is on the left, visible in dark mode */}
