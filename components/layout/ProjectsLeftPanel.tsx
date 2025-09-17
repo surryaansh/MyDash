@@ -5,13 +5,9 @@ interface ProjectsLeftPanelProps {
 }
 
 const projects = [
-  "GARDEN",
-  "CATALOG",
-  "EXPLORER",
-  "FAUCET",
-  "GARDEN DASHBOARD",
-  "POSSIBLE WORKS",
-  "MERRY"
+  "BARKCHAIN",
+  "MYDASH",
+  "SURU GPT",
 ];
 
 export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode }) => {
