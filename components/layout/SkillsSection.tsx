@@ -28,7 +28,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>
-      <div className="flex-1 flex flex-wrap items-center justify-center gap-x-12 sm:gap-x-16 md:gap-x-20 gap-y-8 min-h-[12vh] py-7">
+      <div className="flex-1 flex flex-wrap items-center justify-center gap-x-12 sm:gap-x-16 md:gap-x-20 gap-y-4 py-4">
         <ReactSkillIcon className={iconClasses} />
         <NodeSkillIcon className={iconClasses} />
         <ExpressSkillIcon className={iconClasses} />
