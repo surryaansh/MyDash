@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface ProjectsLeftPanelProps {
   isDarkMode: boolean;
@@ -15,6 +15,7 @@ const projects = [
 ];
 
 export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode }) => {
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
 
   return (
@@ -25,20 +26,27 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
       </div>
       <div className="flex-1 flex flex-col justify-center pt-8 pb-12">
         <nav>
-          <ul>
-            {projects.map((project) => (
-              <li key={project} className="my-1 md:my-2">
-                {project === 'GARDEN' ? (
-                  <button className="w-full text-left text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-[#FF4500]">
+          <ul onMouseLeave={() => setHoveredProject(null)}>
+            {projects.map((project) => {
+              // An item is "active" if it's GARDEN and nothing is hovered, OR if it's being hovered directly.
+              const isActive = (project === 'GARDEN' && !hoveredProject) || project === hoveredProject;
+
+              return (
+                <li key={project}>
+                  <button
+                    onMouseEnter={() => setHoveredProject(project)}
+                    className={`w-full text-left transition-all duration-200 ease-in-out leading-none md:leading-tight
+                      ${isActive
+                        ? 'text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter text-[#FF4500]'
+                        : 'text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight'
+                      }`
+                    }
+                  >
                     {project}
                   </button>
-                ) : (
-                  <button className="w-full text-left text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight transition-all duration-300 ease-in-out hover:font-extrabold hover:text-[#FF4500] hover:scale-105 hover:translate-x-4 origin-left">
-                    {project}
-                  </button>
-                )}
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
