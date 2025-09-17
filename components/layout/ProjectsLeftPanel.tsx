@@ -11,7 +11,7 @@ const projects = [
 ];
 
 export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode }) => {
-  const [selectedProject, setSelectedProject] = useState<string>('GARDEN');
+  const [selectedProject, setSelectedProject] = useState<string>(projects[0]);
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
 
   return (
