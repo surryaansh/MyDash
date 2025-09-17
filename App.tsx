@@ -21,6 +21,7 @@ export default function App() {
   const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
   const [relativeCursorPosition, setRelativeCursorPosition] = useState({ x: -100, y: -100 });
   const [isHoveringLink, setIsHoveringLink] = useState(false);
+  const [isHoveringOrange, setIsHoveringOrange] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   
@@ -32,6 +33,7 @@ export default function App() {
       
       const target = event.target as HTMLElement;
       setIsHoveringLink(!!target.closest('a, button'));
+      setIsHoveringOrange(!!target.closest('.no-invert'));
 
       if (imageContainerRef.current) {
         const rect = imageContainerRef.current.getBoundingClientRect();
@@ -97,6 +99,8 @@ export default function App() {
       <BlendedCursor 
         position={cursorPosition} 
         isHoveringLink={isHoveringLink} 
+        isHoveringOrange={isHoveringOrange}
+        isDarkMode={isDarkMode}
         isTransitioning={isTransitioning}
       />
       

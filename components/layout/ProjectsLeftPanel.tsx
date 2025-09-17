@@ -32,7 +32,7 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
                     onClick={() => setSelectedProject(project)}
                     className={`w-full text-left transition-all duration-200 ease-in-out leading-none md:leading-tight
                       ${isActive
-                        ? 'text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-[#FF4500]'
+                        ? 'no-invert text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-[#FF4500]'
                         : 'text-2xl font-normal tracking-tight'
                       }`
                     }

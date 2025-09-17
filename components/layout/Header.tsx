@@ -11,7 +11,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) =>
   return (
     <header className={`flex flex-col md:flex-row justify-between items-center py-4 border-b ${isDarkMode ? 'border-[#efeeee]' : 'border-black'}`}>
       <div className="flex items-center gap-4 mb-4 md:mb-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 no-invert">
           <LightningIcon className="h-6 text-[#FF4500]" />
           <span className="text-xl font-extrabold italic text-[#FF4500] tracking-wide">SURYANSH // SINGH</span>
         </div>
