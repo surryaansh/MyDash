@@ -24,7 +24,7 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
         <span>02 WORK</span>
         <span>/02</span>
       </div>
-      <div className="flex-1 flex flex-col pt-8">
+      <div className="flex-1 flex flex-col pt-2">
         <nav>
           <ul>
             {projects.map((project) => {
@@ -36,8 +36,8 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
                     onClick={() => setSelectedProject(project)}
                     className={`w-full text-left transition-all duration-200 ease-in-out leading-none md:leading-tight
                       ${isActive
-                        ? 'text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter text-[#FF4500]'
-                        : 'text-2xl font-medium tracking-tight'
+                        ? 'text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-[#FF4500]'
+                        : 'text-2xl font-normal tracking-tight'
                       }`
                     }
                   >
