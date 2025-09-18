@@ -16,7 +16,7 @@ export const ContactRightPanel: React.FC<ContactRightPanelProps> = ({ isDarkMode
         <span>06 CONTACT</span>
         <span>/06</span>
       </div>
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden pb-12 no-cursor-invert">
         <img
           src="/connect-me.png"
           alt="An abstract, glowing wireframe figure reaching out a hand."
