@@ -44,34 +44,38 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
   const velocity = useRef(0);
   const lastMouseX = useRef(0);
   const animationFrameId = useRef<number | null>(null);
+  const virtualScrollLeft = useRef(0);
 
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    const scrollSpeed = 1.02; // Adjusted for new animation loop
-    const friction = 0.95; // Damping factor for inertia
+    const scrollSpeed = 1.02;
+    const friction = 0.95;
 
     const animate = () => {
+      if (!scroller) return;
+
       if (!isDragging.current) {
         if (Math.abs(velocity.current) > 0.1) {
-          // Apply inertia
-          scroller.scrollLeft += velocity.current;
-          velocity.current *= friction; // Apply friction
+          virtualScrollLeft.current += velocity.current;
+          velocity.current *= friction;
         } else {
-          // Auto-scroll when idle
           velocity.current = 0;
-          scroller.scrollLeft += scrollSpeed;
+          virtualScrollLeft.current += scrollSpeed;
         }
       }
       
-      // Handle seamless infinite loop
       const scrollableWidth = scroller.scrollWidth / 2;
-      if (scroller.scrollLeft >= scrollableWidth) {
-        scroller.scrollLeft -= scrollableWidth;
-      } else if (scroller.scrollLeft < 0) {
-        scroller.scrollLeft += scrollableWidth;
+      if (scrollableWidth > 0) {
+        if (virtualScrollLeft.current >= scrollableWidth) {
+          virtualScrollLeft.current -= scrollableWidth;
+        } else if (virtualScrollLeft.current < 0) {
+          virtualScrollLeft.current += scrollableWidth;
+        }
       }
+      
+      scroller.scrollLeft = virtualScrollLeft.current;
 
       animationFrameId.current = requestAnimationFrame(animate);
     };
@@ -88,10 +92,10 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollerRef.current) return;
     isDragging.current = true;
-    velocity.current = 0; // Stop any ongoing animation
+    velocity.current = 0;
     startX.current = e.pageX;
     lastMouseX.current = e.pageX;
-    scrollLeftStart.current = scrollerRef.current.scrollLeft;
+    scrollLeftStart.current = virtualScrollLeft.current;
     scrollerRef.current.style.cursor = 'grabbing';
     scrollerRef.current.style.userSelect = 'none';
   };
@@ -110,11 +114,9 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
     e.preventDefault();
     const mouseX = e.pageX;
     
-    // Update scroll position directly for responsiveness
     const walk = mouseX - startX.current;
-    scrollerRef.current.scrollLeft = scrollLeftStart.current - walk;
+    virtualScrollLeft.current = scrollLeftStart.current - walk;
     
-    // Calculate velocity for inertia. The velocity is the opposite of the mouse movement direction.
     velocity.current = lastMouseX.current - mouseX;
     lastMouseX.current = mouseX;
   };
