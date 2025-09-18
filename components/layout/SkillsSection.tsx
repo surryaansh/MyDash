@@ -15,16 +15,22 @@ interface SkillsSectionProps {
   isDarkMode: boolean;
 }
 
-const skills = [
+// FIX: Add an explicit type to the `skills` array to include the optional `transform` property.
+// This resolves the TypeScript error where `skill.transform` was accessed on a type where it was not defined.
+const skills: Array<{
+  component: React.FC<{ className?: string }>;
+  size?: string;
+  transform?: string;
+}> = [
   { component: ReactSkillIcon },
-  { component: NodeSkillIcon, transform: 'transform -translate-y-1.5' },
-  { component: ExpressSkillIcon, transform: 'transform translate-y-px', size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
-  { component: MongoSkillIcon, transform: 'transform -translate-y-px', size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
-  { component: EthereumSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 h-40 md:w-[10.5rem] md:h-[10.5rem]' },
-  { component: SoliditySkillIcon, transform: 'transform -translate-y-px' },
-  { component: MetamaskSkillIcon, transform: 'transform -translate-y-px', size: 'w-48 md:w-[12rem]' },
-  { component: PolygonSkillIcon, transform: 'transform -translate-y-px', size: 'w-48 md:w-[12rem]' },
-  { component: TypescriptSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]' },
+  { component: NodeSkillIcon },
+  { component: ExpressSkillIcon, size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
+  { component: MongoSkillIcon, size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
+  { component: EthereumSkillIcon, size: 'w-40 h-40 md:w-[10.5rem] md:h-[10.5rem]' },
+  { component: SoliditySkillIcon },
+  { component: MetamaskSkillIcon, size: 'w-36 md:w-[9rem]' },
+  { component: PolygonSkillIcon, size: 'w-36 md:w-[9rem]' },
+  { component: TypescriptSkillIcon, size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]' },
   { component: PythonSkillIcon },
 ];
 
@@ -43,7 +49,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>
-      <div className="overflow-hidden py-3">
+      <div className="overflow-hidden py-10 md:py-14 flex items-center">
         <div className="flex w-max animate-scroll-left hover:[animation-play-state:paused]">
           {[...skills, ...skills].map((skill, index) => (
             <div key={index} className="px-5 sm:px-7 md:px-10 flex-shrink-0 flex items-center justify-center">
