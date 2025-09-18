@@ -2,12 +2,15 @@ import React from 'react';
 
 interface ContactRightPanelProps {
   isDarkMode: boolean;
+  setIsConnectHovered: (isHovered: boolean) => void;
 }
 
-export const ContactRightPanel: React.FC<ContactRightPanelProps> = ({ isDarkMode }) => {
+export const ContactRightPanel: React.FC<ContactRightPanelProps> = ({ isDarkMode, setIsConnectHovered }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
-  const buttonClasses = `px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl font-bold transition-transform duration-200 hover:scale-105 ${
-    isDarkMode ? 'bg-[#efeeee] text-black' : 'bg-black text-[#efeeee]'
+  const buttonClasses = `px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl font-bold transition-all duration-300 hover:scale-105 ${
+    isDarkMode 
+      ? 'bg-[#efeeee] text-black hover:bg-[#FF4500] hover:text-white' 
+      : 'bg-black text-[#efeeee] hover:bg-[#FF4500] hover:text-white'
   }`;
 
   return (
@@ -17,7 +20,12 @@ export const ContactRightPanel: React.FC<ContactRightPanelProps> = ({ isDarkMode
         <span>/06</span>
       </div>
       <div className="flex-1 flex items-center justify-center pb-16">
-        <a href="mailto:suryanshs1804@gmail.com" className={buttonClasses}>
+        <a 
+          href="mailto:suryanshs1804@gmail.com" 
+          className={buttonClasses}
+          onMouseEnter={() => setIsConnectHovered(true)}
+          onMouseLeave={() => setIsConnectHovered(false)}
+        >
             LET'S CONNECT
         </a>
       </div>

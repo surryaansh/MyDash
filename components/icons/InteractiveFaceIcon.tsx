@@ -4,13 +4,15 @@ interface InteractiveFaceIconProps {
   /** The global mouse position provided by the parent component. */
   cursorPosition: { x: number; y: number };
   isDarkMode: boolean;
+  /** Whether the parent "LET'S CONNECT" button is being hovered. */
+  isConnectHovered: boolean;
 }
 
 /**
  * An interactive SVG face icon where the eyes and eyebrows follow the cursor's movement,
  * creating an expressive and engaging UI element.
  */
-export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode }) => {
+export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode, isConnectHovered }) => {
   const faceRef = useRef<SVGSVGElement>(null);
 
   // State to store the calculated positions and scale of the SVG elements on the screen.
@@ -115,9 +117,18 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   /**
    * Calculates the eyebrow transforms (rotation, translation) based on cursor position relative to the face.
+   * If `isConnectHovered` is true, it returns a fixed "angry" expression.
    * @returns An object containing the transform properties for both left and right eyebrows.
    */
   const getEyebrowTransforms = () => {
+    // Override the animation with a fixed expression when the connect button is hovered.
+    if (isConnectHovered) {
+      return {
+        left: { angle: 35, dx: 0, dy: 15 },
+        right: { angle: -35, dx: 0, dy: 15 },
+      };
+    }
+    
     const { face } = elementPositions;
     if (face.width === 0 || face.x === 0) {
       return { left: { angle: 0, dx: 0, dy: 0 }, right: { angle: 0, dx: 0, dy: 0 } };
@@ -166,6 +177,10 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   const rightEyebrowSVG_CX = 574;
   const rightEyebrowSVG_CY = 239;
 
+  // Mouth paths for different expressions.
+  const neutralMouthPath = "M435 458 L 475 458"; // A simple, neutral line.
+  const determinedMouthPath = "M425 463 C 445 448 465 448 485 463"; // A downturned curve.
+
   return (
     <svg ref={faceRef} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="67 105 745 364">
       <defs>
@@ -187,15 +202,13 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       
       {/* Left Eyebrow */}
       <g 
-        style={{ transition: 'transform 0.1s ease-out' }} 
+        style={{ transition: 'transform 0.2s ease-out' }} 
         transform={`
           translate(${leftEyebrowTransform.dx}, ${leftEyebrowTransform.dy}) 
           rotate(${leftEyebrowTransform.angle}, ${leftEyebrowSVG_CX}, ${leftEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(-65, 25) rotate(-25, 286, 238)">
-          <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
-        </g>
+        <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
       </g>
 
       {/* Right Eye */}
@@ -208,19 +221,22 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       
       {/* Right Eyebrow */}
       <g 
-        style={{ transition: 'transform 0.1s ease-out' }} 
+        style={{ transition: 'transform 0.2s ease-out' }} 
         transform={`
           translate(${rightEyebrowTransform.dx}, ${rightEyebrowTransform.dy}) 
           rotate(${rightEyebrowTransform.angle}, ${rightEyebrowSVG_CX}, ${rightEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(75, 10) rotate(30, 574, 239)">
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
-        </g>
       </g>
       
       {/* Mouth */}
-      <path transform="scale(1.43) translate(-4, -3)" d="M303.755 322.279C303.755 322.279 306.533 301.467 315.204 302.897C317.611 303.294 319.874 305.306 321.63 307.387C322.882 308.872 326.005 308.326 326.714 306.517C327.558 304.369 328.793 302.219 330.549 301.169C337.703 296.892 347.191 314.644 347.191 314.644" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" opacity="1" pathLength="1" strokeDashoffset="0px" strokeDasharray="1px 1px"></path>
+      <path 
+        d={isConnectHovered ? determinedMouthPath : neutralMouthPath} 
+        stroke="currentColor" 
+        strokeWidth="3" 
+        strokeLinecap="round"
+      />
     </svg>
   );
 };
