@@ -98,7 +98,7 @@ export default function App() {
       <MemoizedHeader isDarkMode={isDarkMode} toggleDarkMode={handleThemeToggle} />
 
       <main className="flex-1 flex flex-col">
-        <section id="about" className={`flex flex-col lg:flex-row flex-1 divide-y lg:divide-y-0 lg:divide-x ${borderClasses}`}>
+        <section id="about" className={`flex flex-col lg:flex-row flex-1 divide-y lg:divide-y-0 lg:divide-x min-h-[60vh] ${borderClasses}`}>
           <MemoizedLeftPanel isDarkMode={isDarkMode} />
           <RightPanel 
             ref={mainImageContainerRef}
