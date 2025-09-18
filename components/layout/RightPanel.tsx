@@ -43,7 +43,7 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
             }}
             aria-hidden="true"
           />
-          <div className="absolute top-0 left-0 right-0 bottom-10">
+          <div className="absolute top-0 left-0 right-0 bottom-6">
             <img 
                 src="/vaporwave-david.png"
                 alt="Vaporwave style statue of David wearing a glowing crown and glasses."
@@ -51,7 +51,7 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
             />
           </div>
           <FilledLightningIcon 
-            className="absolute bottom-10 right-6 md:bottom-18 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem]"
+            className="absolute bottom-6 right-6 md:bottom-14 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem]"
             style={{ mixBlendMode: 'normal' }}
           />
         </div>
