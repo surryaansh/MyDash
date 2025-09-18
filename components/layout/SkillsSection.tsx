@@ -16,11 +16,11 @@ interface SkillsSectionProps {
 const skills = [
   { component: ReactSkillIcon },
   { component: NodeSkillIcon, transform: 'transform -translate-y-1.5' },
-  { component: ExpressSkillIcon, transform: 'transform translate-y-1' },
-  { component: MongoSkillIcon },
-  { component: EthereumSkillIcon, size: 'w-32 h-32 md:w-[9rem] md:h-[9rem]' },
+  { component: ExpressSkillIcon, transform: 'transform translate-y-1', size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
+  { component: MongoSkillIcon, size: 'w-28 h-28 md:w-[8.5rem] md:h-[8.5rem]' },
+  { component: EthereumSkillIcon, size: 'w-36 h-36 md:w-[10rem] md:h-[10rem]' },
   { component: SoliditySkillIcon },
-  { component: TypescriptSkillIcon, size: 'w-32 h-32 md:w-[9rem] md:h-[9rem]' },
+  { component: TypescriptSkillIcon, size: 'w-36 h-36 md:w-[10rem] md:h-[10rem]' },
   { component: PythonSkillIcon },
 ];
 

@@ -15,7 +15,7 @@ export const SoliditySkillIcon: React.FC<IconProps> = ({ className }) => {
         className="w-full h-auto"
         fill="currentColor"
       >
-        <g transform="translate(-106 -0.2) scale(0.9)">
+        <g transform="translate(-74 24.7) scale(0.8)">
           <g opacity="0.45">
             <polygon points="377.2,71.9 320.3,173.1 206.4,173.1 263.3,71.9" />
           </g>
