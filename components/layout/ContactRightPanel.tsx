@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 
 interface ContactRightPanelProps {
   isDarkMode: boolean;
@@ -8,6 +8,8 @@ interface ContactRightPanelProps {
 
 export const ContactRightPanel = forwardRef<HTMLDivElement, ContactRightPanelProps>(
   ({ isDarkMode, relativeCursorPosition, isHoveringLink }, ref) => {
+    const [isButtonHovered, setIsButtonHovered] = useState(false);
+
     const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
     const buttonClasses = `transform -translate-y-1 px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg font-bold transition-colors duration-300 ease-in-out hover:bg-[#FF4500] ${
       isDarkMode ? 'bg-[#efeeee] text-black' : 'bg-black text-[#efeeee]'
@@ -41,10 +43,15 @@ export const ContactRightPanel = forwardRef<HTMLDivElement, ContactRightPanelPro
           <img
             src="/connect-me.png"
             alt="An abstract, glowing wireframe figure reaching out a hand."
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-500 ease-in-out ${isButtonHovered ? 'opacity-100' : 'opacity-0'}`}
           />
           <div className="absolute inset-0 flex items-center justify-center">
-              <a href="mailto:suryanshs1804@gmail.com" className={buttonClasses}>
+              <a 
+                href="mailto:suryanshs1804@gmail.com" 
+                className={buttonClasses}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
+              >
                   LET'S CONNECT
               </a>
           </div>
