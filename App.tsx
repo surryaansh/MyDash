@@ -24,8 +24,15 @@ const MemoizedFooter = memo(Footer);
  * Manages global state such as theme, cursor position, and view transitions.
  */
 export default function App() {
-  const imageContainerRef = useRef<HTMLDivElement>(null);
-  const { position: cursorPosition, relativePosition: relativeCursorPosition, isHoveringLink } = useMousePosition(imageContainerRef);
+  const mainImageContainerRef = useRef<HTMLDivElement>(null);
+  const contactImageContainerRef = useRef<HTMLDivElement>(null);
+
+  // Global cursor position and link hover state.
+  const { position: cursorPosition, isHoveringLink } = useMousePosition();
+  // Relative cursor position for the main image panel.
+  const { relativePosition: mainRelativeCursorPosition } = useMousePosition(mainImageContainerRef);
+  // Relative cursor position for the contact image panel.
+  const { relativePosition: contactRelativeCursorPosition } = useMousePosition(contactImageContainerRef);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -94,10 +101,10 @@ export default function App() {
         <section id="about" className={`flex flex-col lg:flex-row flex-1 divide-y lg:divide-y-0 lg:divide-x ${borderClasses}`}>
           <MemoizedLeftPanel isDarkMode={isDarkMode} />
           <RightPanel 
-            ref={imageContainerRef}
+            ref={mainImageContainerRef}
             isDarkMode={isDarkMode} 
             isHoveringLink={isHoveringLink}
-            relativeCursorPosition={relativeCursorPosition}
+            relativeCursorPosition={mainRelativeCursorPosition}
           />
         </section>
 
@@ -108,7 +115,13 @@ export default function App() {
         
         <MemoizedSkillsSection isDarkMode={isDarkMode} />
 
-        <ContactSection isDarkMode={isDarkMode} cursorPosition={cursorPosition} />
+        <ContactSection 
+          isDarkMode={isDarkMode} 
+          cursorPosition={cursorPosition}
+          contactPanelRef={contactImageContainerRef}
+          relativeCursorPosition={contactRelativeCursorPosition}
+          isHoveringLink={isHoveringLink}
+        />
         
         <MemoizedFooter isDarkMode={isDarkMode} />
       </main>
