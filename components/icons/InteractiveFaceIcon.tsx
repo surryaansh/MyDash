@@ -101,22 +101,33 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const x_factor = Math.max(-1, Math.min(1, dx / (W / 2)));
     const y_factor = Math.max(-1, Math.min(1, dy / (H / 1.5)));
 
-    const tilt = x_factor * 4; // Reduced rotation
+    const tilt = x_factor * 4;
     const verticalOffset = y_factor * (y_factor < 0 ? 15 : 8);
     const frownAngle = y_factor > 0 ? y_factor * 10 : 0;
-    const horizontalOffset = y_factor * -4;
     
-    // Increased vertical offset based on horizontal cursor position for a more prominent "see-saw" effect
     const horizontalVerticalOffset = x_factor * -15;
+
+    // New horizontal "squeeze" logic
+    const maxSqueeze = 25;
+    let leftSqueeze = 0;
+    let rightSqueeze = 0;
+
+    if (x_factor < 0) { // Cursor is on the left
+        // Right eyebrow moves left (negative dx)
+        rightSqueeze = x_factor * maxSqueeze; 
+    } else { // Cursor is on the right
+        // Left eyebrow moves right (positive dx)
+        leftSqueeze = x_factor * maxSqueeze;
+    }
 
     leftEyebrowTransform = {
       angle: tilt + frownAngle,
-      dx: horizontalOffset,
+      dx: leftSqueeze,
       dy: verticalOffset + horizontalVerticalOffset,
     };
     rightEyebrowTransform = {
       angle: tilt - frownAngle,
-      dx: -horizontalOffset,
+      dx: rightSqueeze,
       dy: verticalOffset - horizontalVerticalOffset,
     };
   }

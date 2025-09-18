@@ -17,22 +17,20 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
       {/* Top border */}
       <div className={`border-t ${borderClasses}`} />
 
-      <div className="py-8">
-        {/* Top line: 07 FOOTER and Copyright */}
-        <div className={`flex justify-between items-center text-[10px] ${grayTextClasses}`}>
-          <span>07 FOOTER</span>
-          <span>© SURYANSH</span>
-        </div>
+      {/* Top line: 07 FOOTER and Copyright */}
+      <div className={`flex justify-between items-center text-[10px] py-2 ${grayTextClasses}`}>
+        <span>07 FOOTER</span>
+        <span>© SURYANSH</span>
+      </div>
 
-        {/* Second line: Nav links */}
-        <div className="flex justify-between items-center mt-6">
-          <nav className="flex flex-wrap justify-start gap-x-8 gap-y-2 text-xl">
-            <a href="#" className="transition-opacity duration-200">ABOUT ME</a>
-            <a href="#" className="transition-opacity duration-200">PROJECTS</a>
-            <a href="#" className="transition-opacity duration-200">SKILLS</a>
-            <a href="#" className="transition-opacity duration-200">CONTACT</a>
-          </nav>
-        </div>
+      {/* Centered navigation section */}
+      <div className="flex justify-center items-center py-10">
+        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-xl">
+          <a href="#" className="transition-opacity duration-200">ABOUT ME</a>
+          <a href="#" className="transition-opacity duration-200">PROJECTS</a>
+          <a href="#" className="transition-opacity duration-200">SKILLS</a>
+          <a href="#" className="transition-opacity duration-200">CONTACT</a>
+        </nav>
       </div>
       
       {/* Bottom border */}
