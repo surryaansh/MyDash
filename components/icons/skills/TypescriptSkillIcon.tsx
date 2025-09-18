@@ -14,4 +14,7 @@ export const TypescriptSkillIcon: React.FC<IconProps> = ({ className }) => {
         className="w-full h-auto"
         fill="currentColor"
       >
-        <path d=
+      </svg>
+    </div>
+  );
+};
