@@ -61,9 +61,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       return { dx: 0, dy: 0 };
     }
     
-    const maxTravelX = 50;
-    const maxTravelY = 25;
-    const sensitivity = 0.25;
+    const maxTravelX = 60;
+    const maxTravelY = 30;
+    const sensitivity = 0.4;
 
     // Calculate displacement in screen pixels
     const dx_pixels = (cursorPosition.x - eyeCenter.x) * sensitivity;
@@ -141,7 +141,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#leftEyeClip)">
         <g transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}>
-          <ellipse cx="213" cy="387" rx="65" ry="50" fill="currentColor"/>
+          <ellipse cx="213" cy="387" rx="55" ry="40" fill="currentColor"/>
           <ellipse cx="235" cy="367" rx="15" ry="10" fill={pupilHighlightColor} opacity="0.8" />
         </g>
       </g>
@@ -163,7 +163,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#rightEyeClip)">
         <g transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}>
-          <ellipse cx="667" cy="387" rx="65" ry="50" fill="currentColor"/>
+          <ellipse cx="667" cy="387" rx="55" ry="40" fill="currentColor"/>
           <ellipse cx="689" cy="367" rx="15" ry="10" fill={pupilHighlightColor} opacity="0.8" />
         </g>
       </g>
