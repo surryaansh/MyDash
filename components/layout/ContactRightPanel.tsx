@@ -43,7 +43,7 @@ export const ContactRightPanel = forwardRef<HTMLDivElement, ContactRightPanelPro
           <img
             src="/connect-me.png"
             alt="An abstract, glowing wireframe figure reaching out a hand."
-            className={`w-full h-full object-cover transition-opacity duration-500 ease-in-out ${isButtonHovered ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isButtonHovered ? 'opacity-100' : 'opacity-0'}`}
           />
           <div className="absolute inset-0 flex items-center justify-center">
               <a 
