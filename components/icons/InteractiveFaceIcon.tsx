@@ -8,7 +8,7 @@ interface InteractiveFaceIconProps {
 export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode }) => {
   const faceRef = useRef<SVGSVGElement>(null);
   const [centers, setCenters] = useState({
-    face: { x: 0, y: 0, width: 0 },
+    face: { x: 0, y: 0, width: 0, height: 0 },
     leftEye: { x: 0, y: 0 },
     rightEye: { x: 0, y: 0 },
   });
@@ -30,7 +30,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         });
 
         setCenters({
-          face: { x: faceRect.left + faceRect.width / 2, y: faceRect.top + faceRect.height / 2, width: faceRect.width },
+          face: { x: faceRect.left + faceRect.width / 2, y: faceRect.top + faceRect.height / 2, width: faceRect.width, height: faceRect.height },
           leftEye: getScreenCoords(208, 386),
           rightEye: getScreenCoords(662, 386),
         });
@@ -45,6 +45,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     calculateCenters();
     window.addEventListener('resize', handleResize);
     
+    // Recalculate after a short delay to ensure layout is stable
     const timer = setTimeout(calculateCenters, 500);
 
     return () => {
@@ -59,7 +60,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const dx = cursorPosition.x - eyeCenter.x;
     const dy = cursorPosition.y - eyeCenter.y;
     const angle = Math.atan2(dy, dx);
-    const distance = Math.min(30, Math.sqrt(dx * dx + dy * dy) * 0.2);
+    // Make movement more subtle and contained
+    const distance = Math.min(15, Math.sqrt(dx * dx + dy * dy) * 0.1);
     return {
       dx: Math.cos(angle) * distance,
       dy: Math.sin(angle) * distance,
@@ -74,30 +76,39 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   if (centers.face.width > 0 && centers.face.x > 0) {
     const W = centers.face.width;
-    const H = window.innerHeight;
+    const H = centers.face.height;
 
     const dx = cursorPosition.x - centers.face.x;
     const dy = cursorPosition.y - centers.face.y;
     
-    const x_factor = Math.max(-1, Math.min(1, dx / (W / 1.8)));
-    const y_factor = Math.max(-1, Math.min(1, dy / (H / 2.5)));
+    // Normalize cursor position relative to the face, from -1 to 1
+    const x_factor = Math.max(-1, Math.min(1, dx / (W / 2)));
+    const y_factor = Math.max(-1, Math.min(1, dy / (H / 1.5)));
 
-    // Vertical offset for eyebrows
-    const y_from_vertical = y_factor > 0 ? y_factor * 15 : y_factor * 30;
-    const y_from_horizontal = Math.abs(x_factor) * -5;
-    const verticalOffset = Math.max(-30, Math.min(15, y_from_vertical + y_from_horizontal));
-    
-    // Rotation for eyebrows
-    const tilt = x_factor * -20;
-    
-    const vertical_contrib_L = y_factor > 0 ? y_factor * 20 : y_factor * -15; // Frown/Raise Left
-    const vertical_contrib_R = y_factor > 0 ? y_factor * -20 : y_factor * 20; // Frown/Raise Right
-    
-    const leftEyebrowAngle = tilt + vertical_contrib_L;
-    const rightEyebrowAngle = tilt + vertical_contrib_R;
+    // Horizontal movement tilts both eyebrows
+    const tilt = x_factor * 15;
 
-    leftEyebrowTransform = { angle: leftEyebrowAngle, dy: verticalOffset };
-    rightEyebrowTransform = { angle: rightEyebrowAngle, dy: verticalOffset };
+    let verticalOffset = 0;
+    let frownAngle = 0;
+
+    if (y_factor < 0) { // Cursor is above the face center
+      // Eyebrows go up
+      verticalOffset = y_factor * 20;
+    } else { // Cursor is below the face center
+      // Eyebrows go down and frown
+      verticalOffset = y_factor * 10;
+      frownAngle = y_factor * 15; // More rotation for a frown
+    }
+    
+    // Combine transformations
+    leftEyebrowTransform = {
+      angle: tilt + frownAngle,
+      dy: verticalOffset,
+    };
+    rightEyebrowTransform = {
+      angle: tilt - frownAngle,
+      dy: verticalOffset,
+    };
   }
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
@@ -122,7 +133,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Left Eye */}
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#leftEyeClip)">
-        <path d="M245.394 419.322C225.669 415.393 191.257 402.188 193.279 374.296C195.738 340.37 235.38 335.212 269.295 341.696C297.416 347.073 334.775 353.691 324.511 392.091C316.323 422.725 265.119 423.251 245.394 419.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${leftPupil.dx - 3.739}, ${leftPupil.dy - 5.979})`}></path>
+        <path d="M245.394 419.322C225.669 415.393 191.257 402.188 193.279 374.296C195.738 340.37 235.38 335.212 269.295 341.696C297.416 347.073 334.775 353.691 324.511 392.091C316.323 422.725 265.119 423.251 245.394 419.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}></path>
       </g>
       
       {/* Left Eyebrow */}
@@ -141,7 +152,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Right Eye */}
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#rightEyeClip)">
-        <path d="M698.394 422.322C678.669 418.393 644.257 405.188 646.279 377.296C648.738 343.37 688.38 338.212 722.295 344.696C750.416 350.073 787.775 356.691 777.511 395.091C769.323 425.725 718.119 426.251 698.394 422.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${rightPupil.dx - 3.739}, ${rightPupil.dy - 5.979})`}></path>
+        <path d="M698.394 422.322C678.669 418.393 644.257 405.188 646.279 377.296C648.738 343.37 688.38 338.212 722.295 344.696C750.416 350.073 787.775 356.691 777.511 395.091C769.323 425.725 718.119 426.251 698.394 422.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}></path>
       </g>
       
       {/* Right Eyebrow */}
