@@ -20,8 +20,8 @@ export const ContactLeftPanel: React.FC<ContactLeftPanelProps> = ({ isDarkMode, 
         <h2 className="text-4xl md:text-5xl font-light leading-tight">
           EAGER TO TAKE ON NEW CHALLENGES. FEEL FREE TO REACH OUT.
         </h2>
-        <div className="relative self-start mt-12">
-          <InteractiveFaceIcon cursorPosition={cursorPosition} />
+        <div className="relative self-start mt-12 max-w-[560px] w-full">
+          <InteractiveFaceIcon cursorPosition={cursorPosition} isDarkMode={isDarkMode} />
         </div>
       </div>
     </div>
