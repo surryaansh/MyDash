@@ -21,6 +21,17 @@
       a, button {
         cursor: none !important; /* Use !important to override defaults */
       }
+      @keyframes scroll-left {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      .animate-scroll-left {
+        animation: scroll-left 40s linear infinite;
+      }
     </style>
   <script type="importmap">
 {

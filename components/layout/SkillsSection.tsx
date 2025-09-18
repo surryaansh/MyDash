@@ -13,6 +13,18 @@ interface SkillsSectionProps {
   isDarkMode: boolean;
 }
 
+const skills = [
+  ReactSkillIcon,
+  NodeSkillIcon,
+  ExpressSkillIcon,
+  MongoSkillIcon,
+  EthereumSkillIcon,
+  SoliditySkillIcon,
+  TypescriptSkillIcon,
+  TailwindSkillIcon,
+  PythonSkillIcon,
+];
+
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${
     isDarkMode
@@ -20,7 +32,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
       : 'text-gray-600'
   }`;
   const borderClasses = isDarkMode ? 'border-[#efeeee]' : 'border-black';
-  const iconClasses = "w-16 h-16 md:w-20 md:h-20 transition-transform duration-300 ease-in-out hover:scale-110";
+  const iconClasses = "w-24 h-24 md:w-[7.5rem] md:h-[7.5rem]";
 
   return (
     <section className={`border-t ${borderClasses}`}>
@@ -28,16 +40,14 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>
-      <div className="flex-1 flex flex-wrap items-center justify-center gap-x-10 sm:gap-x-14 md:gap-x-20 gap-y-4 py-4">
-        <ReactSkillIcon className={iconClasses} />
-        <NodeSkillIcon className={iconClasses} />
-        <ExpressSkillIcon className={iconClasses} />
-        <MongoSkillIcon className={iconClasses} />
-        <EthereumSkillIcon className={iconClasses} />
-        <SoliditySkillIcon className={iconClasses} />
-        <TypescriptSkillIcon className={iconClasses} />
-        <TailwindSkillIcon className={iconClasses} />
-        <PythonSkillIcon className={iconClasses} />
+      <div className="overflow-hidden py-3">
+        <div className="flex w-max animate-scroll-left hover:[animation-play-state:paused]">
+          {[...skills, ...skills].map((SkillComponent, index) => (
+            <div key={index} className="px-5 sm:px-7 md:px-10 flex-shrink-0">
+              <SkillComponent className={iconClasses} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className={`border-t ${borderClasses}`} />
     </section>

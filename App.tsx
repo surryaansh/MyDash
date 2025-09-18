@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/layout/Header.tsx';
 import { LeftPanel } from './components/layout/LeftPanel.tsx';
@@ -101,6 +102,7 @@ export default function App() {
         isTransitioning={isTransitioning}
       />
       
+      {/* FIX: Pass handleThemeToggle to the toggleDarkMode prop. The original code was passing an undefined variable 'toggleDarkMode'. */}
       <Header isDarkMode={isDarkMode} toggleDarkMode={handleThemeToggle} />
 
       <main className="flex-1 flex flex-col">
@@ -113,7 +115,7 @@ export default function App() {
             relativeCursorPosition={relativeCursorPosition}
           />
         </section>
-        <section className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[50vh] divide-y lg:divide-y-0 ${isDarkMode ? 'border-[#efeeee] divide-[#efeeee]' : 'border-black divide-black'}`}>
+        <section className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[60vh] divide-y lg:divide-y-0 ${isDarkMode ? 'border-[#efeeee] divide-[#efeeee]' : 'border-black divide-black'}`}>
             <ProjectsLeftPanel isDarkMode={isDarkMode} />
             <ProjectsRightPanel isDarkMode={isDarkMode} />
         </section>
