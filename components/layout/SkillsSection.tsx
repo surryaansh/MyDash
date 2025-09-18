@@ -10,7 +10,6 @@ import { MetamaskSkillIcon } from '../icons/skills/MetamaskSkillIcon.tsx';
 import { PolygonSkillIcon } from '../icons/skills/PolygonSkillIcon.tsx';
 import { TypescriptSkillIcon } from '../icons/skills/TypescriptSkillIcon.tsx';
 import { PythonSkillIcon } from '../icons/skills/PythonSkillIcon.tsx';
-import { LightningIcon } from '../icons/LightningIcon.tsx';
 
 interface SkillsSectionProps {
   isDarkMode: boolean;
@@ -27,7 +26,6 @@ const skills = [
   { component: PolygonSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 md:w-[10rem]' },
   { component: TypescriptSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]' },
   { component: PythonSkillIcon },
-  { component: LightningIcon, size: 'w-48 h-48 md:w-[14rem] md:h-[14rem]' },
 ];
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
@@ -58,7 +56,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
       if (!isDragging.current) {
         if (Math.abs(velocity.current) > 0.1) {
           // Apply inertia
-          scroller.scrollLeft -= velocity.current;
+          scroller.scrollLeft += velocity.current;
           velocity.current *= friction; // Apply friction
         } else {
           // Auto-scroll when idle
@@ -116,8 +114,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
     const walk = mouseX - startX.current;
     scrollerRef.current.scrollLeft = scrollLeftStart.current - walk;
     
-    // Calculate velocity for inertia
-    velocity.current = mouseX - lastMouseX.current;
+    // Calculate velocity for inertia. The velocity is the opposite of the mouse movement direction.
+    velocity.current = lastMouseX.current - mouseX;
     lastMouseX.current = mouseX;
   };
 
