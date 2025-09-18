@@ -4,15 +4,13 @@ interface InteractiveFaceIconProps {
   /** The global mouse position provided by the parent component. */
   cursorPosition: { x: number; y: number };
   isDarkMode: boolean;
-  /** Whether the parent "LET'S CONNECT" button is being hovered. */
-  isConnectHovered: boolean;
 }
 
 /**
  * An interactive SVG face icon where the eyes and eyebrows follow the cursor's movement,
  * creating an expressive and engaging UI element.
  */
-export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode, isConnectHovered }) => {
+export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode }) => {
   const faceRef = useRef<SVGSVGElement>(null);
 
   // State to store the calculated positions and scale of the SVG elements on the screen.
@@ -117,18 +115,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   /**
    * Calculates the eyebrow transforms (rotation, translation) based on cursor position relative to the face.
-   * If `isConnectHovered` is true, it returns a fixed "angry" expression.
    * @returns An object containing the transform properties for both left and right eyebrows.
    */
   const getEyebrowTransforms = () => {
-    // Override the animation with a fixed expression when the connect button is hovered.
-    if (isConnectHovered) {
-      return {
-        left: { angle: 35, dx: 0, dy: 15 },
-        right: { angle: -35, dx: 0, dy: 15 },
-      };
-    }
-    
     const { face } = elementPositions;
     if (face.width === 0 || face.x === 0) {
       return { left: { angle: 0, dx: 0, dy: 0 }, right: { angle: 0, dx: 0, dy: 0 } };
@@ -177,9 +166,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   const rightEyebrowSVG_CX = 574;
   const rightEyebrowSVG_CY = 239;
 
-  // Mouth paths for different expressions.
   const neutralMouthPath = "M435 458 L 475 458"; // A simple, neutral line.
-  const determinedMouthPath = "M425 463 C 445 448 465 448 485 463"; // A downturned curve.
 
   return (
     <svg ref={faceRef} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="67 105 745 364">
@@ -232,7 +219,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       
       {/* Mouth */}
       <path 
-        d={isConnectHovered ? determinedMouthPath : neutralMouthPath} 
+        d={neutralMouthPath} 
         stroke="currentColor" 
         strokeWidth="3" 
         strokeLinecap="round"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ContactLeftPanel } from './ContactLeftPanel.tsx';
 import { ContactRightPanel } from './ContactRightPanel.tsx';
 
@@ -8,8 +8,6 @@ interface ContactSectionProps {
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, cursorPosition }) => {
-  const [isConnectHovered, setIsConnectHovered] = useState(false);
-
   const borderClasses = isDarkMode ? 'border-[#efeeee]' : 'border-black';
   const divideClasses = isDarkMode ? 'divide-[#efeeee]' : 'divide-black';
 
@@ -18,11 +16,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode, curs
       <ContactLeftPanel 
         isDarkMode={isDarkMode} 
         cursorPosition={cursorPosition}
-        isConnectHovered={isConnectHovered} 
       />
       <ContactRightPanel 
         isDarkMode={isDarkMode} 
-        setIsConnectHovered={setIsConnectHovered}
       />
     </section>
   );

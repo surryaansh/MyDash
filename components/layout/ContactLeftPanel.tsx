@@ -4,10 +4,9 @@ import { InteractiveFaceIcon } from '../icons/InteractiveFaceIcon.tsx';
 interface ContactLeftPanelProps {
   isDarkMode: boolean;
   cursorPosition: { x: number; y: number };
-  isConnectHovered: boolean;
 }
 
-export const ContactLeftPanel: React.FC<ContactLeftPanelProps> = ({ isDarkMode, cursorPosition, isConnectHovered }) => {
+export const ContactLeftPanel: React.FC<ContactLeftPanelProps> = ({ isDarkMode, cursorPosition }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
 
   return (
@@ -24,7 +23,6 @@ export const ContactLeftPanel: React.FC<ContactLeftPanelProps> = ({ isDarkMode, 
           <InteractiveFaceIcon 
             cursorPosition={cursorPosition} 
             isDarkMode={isDarkMode} 
-            isConnectHovered={isConnectHovered} 
           />
         </div>
       </div>
