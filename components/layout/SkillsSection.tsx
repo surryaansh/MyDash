@@ -39,11 +39,11 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
 
   return (
     <section className={`border-t ${borderClasses}`}>
-      <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
+      <div className={`flex justify-between text-[10px] py-1 ${grayTextClasses}`}>
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>
-      <div className="overflow-hidden py-1">
+      <div className="overflow-hidden">
         <div className="flex w-max animate-scroll-left hover:[animation-play-state:paused]">
           {[...skills, ...skills].map((skill, index) => (
             <div key={index} className="px-5 sm:px-7 md:px-10 flex-shrink-0 flex items-center justify-center">
