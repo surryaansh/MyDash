@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
         </div>
 
         {/* Second line: Nav links */}
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-16">
           <nav className="flex flex-wrap justify-start gap-x-8 gap-y-2 text-xl">
             <a href="#" className="transition-opacity duration-200">ABOUT ME</a>
             <a href="#" className="transition-opacity duration-200">PROJECTS</a>

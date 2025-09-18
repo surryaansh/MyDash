@@ -61,8 +61,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       return { dx: 0, dy: 0 };
     }
     
-    const maxTravelX = 60;
-    const maxTravelY = 45;
+    const maxTravelX = 45;
+    const maxTravelY = 30;
     const sensitivity = 0.4;
 
     // Calculate displacement in screen pixels
@@ -119,7 +119,6 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   }
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
-  const pupilHighlightColor = isDarkMode ? '#333333' : '#FFFFFF';
 
   const leftEyebrowSVG_CX = 286;
   const leftEyebrowSVG_CY = 238;
@@ -141,8 +140,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#leftEyeClip)">
         <g transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}>
-          <ellipse cx="213" cy="387" rx="45" ry="25" fill="currentColor"/>
-          <ellipse cx="230" cy="370" rx="11" ry="7" fill={pupilHighlightColor} opacity="0.8" />
+          <ellipse cx="213" cy="387" rx="55" ry="35" fill="currentColor"/>
         </g>
       </g>
       
@@ -163,8 +161,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#rightEyeClip)">
         <g transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}>
-          <ellipse cx="667" cy="387" rx="45" ry="25" fill="currentColor"/>
-          <ellipse cx="684" cy="370" rx="11" ry="7" fill={pupilHighlightColor} opacity="0.8" />
+          <ellipse cx="667" cy="387" rx="55" ry="35" fill="currentColor"/>
         </g>
       </g>
       
