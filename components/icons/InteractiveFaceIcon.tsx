@@ -60,8 +60,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const dx = cursorPosition.x - eyeCenter.x;
     const dy = cursorPosition.y - eyeCenter.y;
     const angle = Math.atan2(dy, dx);
-    // Make movement more subtle and contained
-    const distance = Math.min(15, Math.sqrt(dx * dx + dy * dy) * 0.1);
+    // Increased travel distance for pupils to move around the whole eye
+    const distance = Math.min(50, Math.sqrt(dx * dx + dy * dy) * 0.15);
     return {
       dx: Math.cos(angle) * distance,
       dy: Math.sin(angle) * distance,
@@ -133,7 +133,10 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Left Eye */}
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#leftEyeClip)">
-        <path d="M245.394 419.322C225.669 415.393 191.257 402.188 193.279 374.296C195.738 340.37 235.38 335.212 269.295 341.696C297.416 347.073 334.775 353.691 324.511 392.091C316.323 422.725 265.119 423.251 245.394 419.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}></path>
+        <g transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}>
+          <ellipse cx="208" cy="386" rx="55" ry="70" fill="currentColor"/>
+          <ellipse cx="225" cy="350" rx="12" ry="18" fill={eyeWhiteColor} opacity="0.8" />
+        </g>
       </g>
       
       {/* Left Eyebrow */}
@@ -144,7 +147,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           rotate(${leftEyebrowTransform.angle}, ${leftEyebrowSVG_CX}, ${leftEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(-72, -9) rotate(-25, 286, 238)">
+        <g transform="translate(-72, 15) rotate(-25, 286, 238)">
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
         </g>
       </g>
@@ -152,7 +155,10 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Right Eye */}
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#rightEyeClip)">
-        <path d="M698.394 422.322C678.669 418.393 644.257 405.188 646.279 377.296C648.738 343.37 688.38 338.212 722.295 344.696C750.416 350.073 787.775 356.691 777.511 395.091C769.323 425.725 718.119 426.251 698.394 422.322Z" fill="currentColor" stroke="currentColor" strokeWidth="21.7077" transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}></path>
+        <g transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}>
+          <ellipse cx="662" cy="386" rx="55" ry="70" fill="currentColor"/>
+          <ellipse cx="679" cy="350" rx="12" ry="18" fill={eyeWhiteColor} opacity="0.8" />
+        </g>
       </g>
       
       {/* Right Eyebrow */}
@@ -163,7 +169,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           rotate(${rightEyebrowTransform.angle}, ${rightEyebrowSVG_CX}, ${rightEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(112, -24) rotate(30, 574, 239)">
+        <g transform="translate(112, 0) rotate(30, 574, 239)">
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
         </g>
       </g>
