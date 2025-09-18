@@ -114,6 +114,7 @@ export default function App() {
         position={cursorPosition} 
         isHoveringLink={isHoveringLink} 
         isTransitioning={isTransitioning}
+        isScrolling={isScrolling}
       />
       
       <MemoizedHeader isDarkMode={isDarkMode} toggleDarkMode={handleThemeToggle} />
