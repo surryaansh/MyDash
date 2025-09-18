@@ -60,8 +60,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const dx = cursorPosition.x - eyeCenter.x;
     const dy = cursorPosition.y - eyeCenter.y;
     const angle = Math.atan2(dy, dx);
-    // Increased travel distance for pupils to move around the whole eye
-    const distance = Math.min(50, Math.sqrt(dx * dx + dy * dy) * 0.15);
+    // Reduced travel distance and sensitivity for more natural movement
+    const distance = Math.min(25, Math.sqrt(dx * dx + dy * dy) * 0.1);
     return {
       dx: Math.cos(angle) * distance,
       dy: Math.sin(angle) * distance,
@@ -71,8 +71,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   const leftPupil = getPupilTransform(centers.leftEye);
   const rightPupil = getPupilTransform(centers.rightEye);
 
-  let leftEyebrowTransform = { angle: 0, dy: 0 };
-  let rightEyebrowTransform = { angle: 0, dy: 0 };
+  let leftEyebrowTransform = { angle: 0, dx: 0, dy: 0 };
+  let rightEyebrowTransform = { angle: 0, dx: 0, dy: 0 };
 
   if (centers.face.width > 0 && centers.face.x > 0) {
     const W = centers.face.width;
@@ -81,39 +81,31 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const dx = cursorPosition.x - centers.face.x;
     const dy = cursorPosition.y - centers.face.y;
     
-    // Normalize cursor position relative to the face, from -1 to 1
     const x_factor = Math.max(-1, Math.min(1, dx / (W / 2)));
     const y_factor = Math.max(-1, Math.min(1, dy / (H / 1.5)));
 
-    // Horizontal movement tilts both eyebrows
-    const tilt = x_factor * 15;
+    // Reduced factors for more subtle animation
+    const tilt = x_factor * 8;
+    const verticalOffset = y_factor * (y_factor < 0 ? 15 : 8);
+    const frownAngle = y_factor > 0 ? y_factor * 10 : 0;
+    // Added horizontal offset for more dynamic movement (inward for frown, outward for raise)
+    const horizontalOffset = y_factor * -4;
 
-    let verticalOffset = 0;
-    let frownAngle = 0;
-
-    if (y_factor < 0) { // Cursor is above the face center
-      // Eyebrows go up
-      verticalOffset = y_factor * 20;
-    } else { // Cursor is below the face center
-      // Eyebrows go down and frown
-      verticalOffset = y_factor * 10;
-      frownAngle = y_factor * 15; // More rotation for a frown
-    }
-    
-    // Combine transformations
     leftEyebrowTransform = {
       angle: tilt + frownAngle,
+      dx: horizontalOffset,
       dy: verticalOffset,
     };
     rightEyebrowTransform = {
       angle: tilt - frownAngle,
+      dx: -horizontalOffset,
       dy: verticalOffset,
     };
   }
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
+  const pupilHighlightColor = isDarkMode ? '#333333' : '#FFFFFF';
 
-  // SVG coordinates for rotation centers of eyebrows
   const leftEyebrowSVG_CX = 286;
   const leftEyebrowSVG_CY = 238;
   const rightEyebrowSVG_CX = 574;
@@ -134,8 +126,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#leftEyeClip)">
         <g transform={`translate(${leftPupil.dx}, ${leftPupil.dy})`}>
-          <ellipse cx="208" cy="386" rx="55" ry="70" fill="currentColor"/>
-          <ellipse cx="225" cy="350" rx="12" ry="18" fill={eyeWhiteColor} opacity="0.8" />
+          <ellipse cx="208" cy="386" rx="65" ry="50" fill="currentColor"/>
+          <ellipse cx="230" cy="366" rx="15" ry="10" fill={pupilHighlightColor} opacity="0.8" />
         </g>
       </g>
       
@@ -143,11 +135,11 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <g 
         style={{ transition: 'transform 0.1s ease-out' }} 
         transform={`
-          translate(0, ${leftEyebrowTransform.dy}) 
+          translate(${leftEyebrowTransform.dx}, ${leftEyebrowTransform.dy}) 
           rotate(${leftEyebrowTransform.angle}, ${leftEyebrowSVG_CX}, ${leftEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(-72, 15) rotate(-25, 286, 238)">
+        <g transform="translate(-60, 15) rotate(-25, 286, 238)">
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
         </g>
       </g>
@@ -156,8 +148,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       <g clipPath="url(#rightEyeClip)">
         <g transform={`translate(${rightPupil.dx}, ${rightPupil.dy})`}>
-          <ellipse cx="662" cy="386" rx="55" ry="70" fill="currentColor"/>
-          <ellipse cx="679" cy="350" rx="12" ry="18" fill={eyeWhiteColor} opacity="0.8" />
+          <ellipse cx="662" cy="386" rx="65" ry="50" fill="currentColor"/>
+          <ellipse cx="684" cy="366" rx="15" ry="10" fill={pupilHighlightColor} opacity="0.8" />
         </g>
       </g>
       
@@ -165,11 +157,11 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       <g 
         style={{ transition: 'transform 0.1s ease-out' }} 
         transform={`
-          translate(0, ${rightEyebrowTransform.dy}) 
+          translate(${rightEyebrowTransform.dx}, ${rightEyebrowTransform.dy}) 
           rotate(${rightEyebrowTransform.angle}, ${rightEyebrowSVG_CX}, ${rightEyebrowSVG_CY})
         `}
       >
-        <g transform="translate(112, 0) rotate(30, 574, 239)">
+        <g transform="translate(100, 0) rotate(30, 574, 239)">
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
         </g>
       </g>
