@@ -23,7 +23,7 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
         </div>
         <div 
           ref={ref}
-          className="flex-1 relative overflow-hidden px-2 pt-0 pb-10 lg:px-0"
+          className="relative flex-1 aspect-square lg:aspect-auto overflow-hidden px-2 pt-0 pb-8 lg:px-0"
         >
           {/* This is the solid cursor, only visible when inside this container */}
           <div
@@ -46,10 +46,10 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
           <img 
               src="/vaporwave-david.png"
               alt="Vaporwave style statue of David wearing a glowing crown and glasses."
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
           />
           <FilledLightningIcon 
-            className="absolute bottom-10 right-6 md:bottom-18 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem]"
+            className="absolute bottom-8 right-6 md:bottom-16 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem]"
             style={{ mixBlendMode: 'normal' }}
           />
         </div>
