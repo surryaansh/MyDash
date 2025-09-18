@@ -148,7 +148,6 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
           ))}
         </div>
       </div>
-      <div className={`border-t ${borderClasses}`} />
     </section>
   );
 };

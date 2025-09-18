@@ -8,6 +8,7 @@ import { ProjectsLeftPanel } from './components/layout/ProjectsLeftPanel.tsx';
 import { ProjectsRightPanel } from './components/layout/ProjectsRightPanel.tsx';
 import { SkillsSection } from './components/layout/SkillsSection.tsx';
 import { ContactSection } from './components/layout/ContactSection.tsx';
+import { Footer } from './components/layout/Footer.tsx';
 
 // The ViewTransition API is not yet in standard TS libs, so we declare it here.
 declare global {
@@ -122,6 +123,7 @@ export default function App() {
         </section>
         <SkillsSection isDarkMode={isDarkMode} />
         <ContactSection isDarkMode={isDarkMode} cursorPosition={cursorPosition} />
+        <Footer isDarkMode={isDarkMode} />
       </main>
     </div>
   );
