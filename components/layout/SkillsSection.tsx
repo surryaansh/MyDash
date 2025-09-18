@@ -127,7 +127,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
 
   return (
     <section className={`border-t ${borderClasses}`}>
-      <div className={`flex justify-between text-[10px] py-1 ${grayTextClasses}`}>
+      <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>

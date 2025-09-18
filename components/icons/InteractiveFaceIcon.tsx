@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 
 interface InteractiveFaceIconProps {
@@ -58,22 +57,21 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   const getPupilTransform = (eyeCenter: { x: number; y: number }) => {
     if (!eyeCenter.x || !eyeCenter.y) return { dx: 0, dy: 0 };
-    const dx = cursorPosition.x - eyeCenter.x;
-    const dy = cursorPosition.y - eyeCenter.y;
-    const angle = Math.atan2(dy, dx);
+    
+    // Define the maximum travel distance for x and y axes to create an elliptical path
+    const maxTravelX = 65;
+    const maxTravelY = 35;
+    const sensitivity = 0.15;
 
-    // By centering the pupils vertically and using a max travel distance
-    // that fits within the eye boundaries, the pupils can now move freely
-    // without getting clipped at the top. Increased sensitivity for a more
-    // responsive feel.
-    const maxTravel = 35;
-    const sensitivity = 0.2;
+    // Calculate the raw vector from eye center to cursor
+    let dx = (cursorPosition.x - eyeCenter.x) * sensitivity;
+    let dy = (cursorPosition.y - eyeCenter.y) * sensitivity;
 
-    const distance = Math.min(maxTravel, Math.sqrt(dx * dx + dy * dy) * sensitivity);
-    return {
-      dx: Math.cos(angle) * distance,
-      dy: Math.sin(angle) * distance,
-    };
+    // Clamp the movement to the elliptical boundaries
+    dx = Math.max(-maxTravelX, Math.min(maxTravelX, dx));
+    dy = Math.max(-maxTravelY, Math.min(maxTravelY, dy));
+    
+    return { dx, dy };
   };
 
   const leftPupil = getPupilTransform(centers.leftEye);
