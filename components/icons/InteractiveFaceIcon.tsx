@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from 'react';
 
 interface InteractiveFaceIconProps {
@@ -60,8 +61,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const dx = cursorPosition.x - eyeCenter.x;
     const dy = cursorPosition.y - eyeCenter.y;
     const angle = Math.atan2(dy, dx);
-    // Reduced travel distance and sensitivity for more natural movement
-    const distance = Math.min(25, Math.sqrt(dx * dx + dy * dy) * 0.1);
+    // Increased travel distance and sensitivity for more free movement
+    const distance = Math.min(40, Math.sqrt(dx * dx + dy * dy) * 0.15);
     return {
       dx: Math.cos(angle) * distance,
       dy: Math.sin(angle) * distance,
