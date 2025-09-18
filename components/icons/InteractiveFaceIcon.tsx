@@ -11,6 +11,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     face: { x: 0, y: 0, width: 0, height: 0 },
     leftEye: { x: 0, y: 0 },
     rightEye: { x: 0, y: 0 },
+    scale: { x: 1, y: 1 },
   });
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           face: { x: faceRect.left + faceRect.width / 2, y: faceRect.top + faceRect.height / 2, width: faceRect.width, height: faceRect.height },
           leftEye: getScreenCoords(213, 387),
           rightEye: getScreenCoords(667, 387),
+          scale: { x: scaleX, y: scaleY },
         });
       }
     };
@@ -45,7 +47,6 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     calculateCenters();
     window.addEventListener('resize', handleResize);
     
-    // Recalculate after a short delay to ensure layout is stable
     const timer = setTimeout(calculateCenters, 500);
 
     return () => {
@@ -56,14 +57,21 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   }, []);
 
   const getPupilTransform = (eyeCenter: { x: number; y: number }) => {
-    if (!eyeCenter.x || !eyeCenter.y) return { dx: 0, dy: 0 };
+    if (!eyeCenter.x || !eyeCenter.y || centers.scale.x === 0 || centers.scale.y === 0) {
+      return { dx: 0, dy: 0 };
+    }
     
-    const maxTravelX = 40;
-    const maxTravelY = 15;
-    const sensitivity = 0.15;
+    const maxTravelX = 50;
+    const maxTravelY = 25;
+    const sensitivity = 0.25;
 
-    let dx = (cursorPosition.x - eyeCenter.x) * sensitivity;
-    let dy = (cursorPosition.y - eyeCenter.y) * sensitivity;
+    // Calculate displacement in screen pixels
+    const dx_pixels = (cursorPosition.x - eyeCenter.x) * sensitivity;
+    const dy_pixels = (cursorPosition.y - eyeCenter.y) * sensitivity;
+    
+    // Convert pixel displacement to SVG coordinate units
+    let dx = dx_pixels / centers.scale.x;
+    let dy = dy_pixels / centers.scale.y;
 
     // Use an elliptical constraint to ensure natural movement
     const ellipseRatio = (dx / maxTravelX) ** 2 + (dy / maxTravelY) ** 2;
@@ -93,11 +101,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const x_factor = Math.max(-1, Math.min(1, dx / (W / 2)));
     const y_factor = Math.max(-1, Math.min(1, dy / (H / 1.5)));
 
-    // Reduced factors for more subtle animation
     const tilt = x_factor * 8;
     const verticalOffset = y_factor * (y_factor < 0 ? 15 : 8);
     const frownAngle = y_factor > 0 ? y_factor * 10 : 0;
-    // Added horizontal offset for more dynamic movement (inward for frown, outward for raise)
     const horizontalOffset = y_factor * -4;
 
     leftEyebrowTransform = {
