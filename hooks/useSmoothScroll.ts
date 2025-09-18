@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Provides a handler for smooth scrolling to anchor links with a custom offset.
- * This is used to prevent the fixed header from covering the section title.
+ * This positions the scrolled-to section more centrally in the viewport.
  */
 export const useSmoothScroll = () => {
   const handleScroll = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -19,11 +19,13 @@ export const useSmoothScroll = () => {
 
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      const header = document.querySelector('header');
-      // Calculate offset to account for header height plus some visual padding.
-      const headerOffset = (header?.offsetHeight || 80) + 20; 
       const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      // Calculate an offset to position the section a bit down from the top,
+      // making it feel more centered. 20% of the viewport height is a good value.
+      const offset = window.innerHeight * 0.20; 
+
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
 
       window.scrollTo({
         top: offsetPosition,
