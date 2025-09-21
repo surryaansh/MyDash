@@ -16,7 +16,6 @@ import './types.d.ts'; // Import for global type declarations
 const MemoizedHeader = memo(Header);
 const MemoizedLeftPanel = memo(LeftPanel);
 const MemoizedProjectsLeftPanel = memo(ProjectsLeftPanel);
-const MemoizedProjectsRightPanel = memo(ProjectsRightPanel);
 const MemoizedSkillsSection = memo(SkillsSection);
 const MemoizedFooter = memo(Footer);
 
@@ -27,6 +26,7 @@ const MemoizedFooter = memo(Footer);
 export default function App() {
   const mainImageContainerRef = useRef<HTMLDivElement>(null);
   const contactImageContainerRef = useRef<HTMLDivElement>(null);
+  const projectsImageContainerRef = useRef<HTMLDivElement>(null);
 
   // Global cursor position and link hover state.
   const { position: cursorPosition, isHoveringLink } = useMousePosition();
@@ -34,12 +34,15 @@ export default function App() {
   const { relativePosition: mainRelativeCursorPosition } = useMousePosition(mainImageContainerRef);
   // Relative cursor position for the contact image panel.
   const { relativePosition: contactRelativeCursorPosition } = useMousePosition(contactImageContainerRef);
+  // Relative cursor position for the projects image panel.
+  const { relativePosition: projectsRelativeCursorPosition } = useMousePosition(projectsImageContainerRef);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isHoveringMainImage, setIsHoveringMainImage] = useState(false);
   const [isHoveringContactImage, setIsHoveringContactImage] = useState(false);
+  const [isHoveringProjectsImage, setIsHoveringProjectsImage] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string>(PROJECTS_DATA[0].name);
   
   /**
@@ -108,7 +111,7 @@ export default function App() {
 
   const themeClasses = isDarkMode ? 'bg-black text-[#efeeee]' : 'bg-[#efeeee] text-black';
   const borderClasses = isDarkMode ? 'divide-[#efeeee] border-[#efeeee]' : 'divide-black border-black';
-  const shouldHideGlobalCursorOnScroll = isScrolling && (isHoveringMainImage || isHoveringContactImage);
+  const shouldHideGlobalCursorOnScroll = isScrolling && (isHoveringMainImage || isHoveringContactImage || isHoveringProjectsImage);
   
   return (
     <div 
@@ -143,9 +146,14 @@ export default function App() {
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
             />
-            <MemoizedProjectsRightPanel 
+            <ProjectsRightPanel
+              ref={projectsImageContainerRef}
               isDarkMode={isDarkMode} 
               selectedProject={selectedProject}
+              isHoveringLink={isHoveringLink}
+              relativeCursorPosition={projectsRelativeCursorPosition}
+              isScrolling={isScrolling}
+              setIsHovering={setIsHoveringProjectsImage}
             />
         </section>
         
