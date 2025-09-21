@@ -13,33 +13,56 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>();
-  const brushRef = useRef<HTMLImageElement>();
+  const maskCanvasRef = useRef<HTMLCanvasElement>(); // Holds the processed brush mask
   const [isReady, setIsReady] = useState(false);
 
-  // 1. Load images and update readiness state when both are loaded.
+  // 1. Load images, process brush into a mask, and update readiness.
   useEffect(() => {
     const img = new Image();
-    const brush = new Image();
+    const brushImg = new Image();
+    img.crossOrigin = "anonymous";
+    brushImg.crossOrigin = "anonymous";
 
-    const imagePromise = new Promise<void>(resolve => {
-      img.onload = () => resolve();
-      img.onerror = () => resolve(); // Resolve even on error to not block forever
+    const imagePromise = new Promise<HTMLImageElement>((resolve, reject) => {
+      img.onload = () => resolve(img);
+      // FIX: The onerror handler expects an argument.
+      img.onerror = (err) => reject(new Error(`Failed to load image at ${imageUrl}`));
     });
-    const brushPromise = new Promise<void>(resolve => {
-      brush.onload = () => resolve();
-      brush.onerror = () => resolve();
+    const brushPromise = new Promise<HTMLImageElement>((resolve, reject) => {
+      brushImg.onload = () => resolve(brushImg);
+      // FIX: The onerror handler expects an argument.
+      brushImg.onerror = (err) => reject(new Error(`Failed to load brush at ${brushUrl}`));
     });
 
     img.src = imageUrl;
-    brush.src = brushUrl;
+    brushImg.src = brushUrl;
 
-    Promise.all([imagePromise, brushPromise]).then(() => {
-      if (img.complete && img.naturalHeight !== 0 && brush.complete && brush.naturalHeight !== 0) {
-        imageRef.current = img;
-        brushRef.current = brush;
+    Promise.all([imagePromise, brushPromise])
+      .then(([loadedImage, loadedBrush]) => {
+        imageRef.current = loadedImage;
+
+        // Process the user's brush image into a usable alpha mask.
+        // This makes the effect work regardless of the brush's original color.
+        const maskCanvas = document.createElement('canvas');
+        maskCanvas.width = loadedBrush.naturalWidth;
+        maskCanvas.height = loadedBrush.naturalHeight;
+        const maskCtx = maskCanvas.getContext('2d');
+        if (maskCtx) {
+          maskCtx.drawImage(loadedBrush, 0, 0);
+          // Use 'source-in' to combine the brush shape with a solid color,
+          // creating a perfect mask from the brush's non-transparent pixels.
+          maskCtx.globalCompositeOperation = 'source-in';
+          maskCtx.fillStyle = '#000'; // Color doesn't matter, just needs to be opaque
+          maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+        }
+        maskCanvasRef.current = maskCanvas;
+
         setIsReady(true);
-      }
-    });
+      })
+      .catch(error => {
+        console.error("BrushRevealCanvas Error:", error);
+        // If images fail, we don't set isReady, and the canvas remains hidden.
+      });
   }, [imageUrl, brushUrl]);
 
   // 2. Setup canvas and handle resizing robustly with ResizeObserver.
@@ -52,46 +75,32 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
     
     if (!ctx || !image) return;
 
-    let animationFrameId: number;
+    const redrawCanvas = () => {
+        const { width, height } = canvas.getBoundingClientRect();
+        if (canvas.width !== width || canvas.height !== height) {
+            canvas.width = width;
+            canvas.height = height;
+        }
 
-    const redrawCanvas = (width: number, height: number) => {
-        // Set canvas physical dimensions
-        canvas.width = width;
-        canvas.height = height;
-
-        // Draw the image to fit the canvas
         ctx.globalCompositeOperation = 'source-over';
-        ctx.drawImage(image, 0, 0, width, height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-        // Draw the overlay
         ctx.fillStyle = isDarkMode ? '#000000' : '#efeeee';
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    const handleResize = (entries: ResizeObserverEntry[]) => {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      
-      animationFrameId = requestAnimationFrame(() => {
-        const entry = entries[0];
-        if (!entry) return;
-        const { width, height } = entry.contentRect;
-        redrawCanvas(width, height);
-      });
-    };
-
-    const resizeObserver = new ResizeObserver(handleResize);
-    resizeObserver.observe(canvas);
+    const resizeObserver = new ResizeObserver(() => {
+        // Debounce redraw with requestAnimationFrame
+        requestAnimationFrame(redrawCanvas);
+    });
+    
+    resizeObserver.observe(canvas.parentElement!);
 
     // Initial draw
-    const initialRect = canvas.getBoundingClientRect();
-    if (initialRect.width > 0 && initialRect.height > 0) {
-        redrawCanvas(initialRect.width, initialRect.height);
-    }
+    redrawCanvas();
 
-    // Cleanup
     return () => {
       resizeObserver.disconnect();
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [isReady, isDarkMode]);
 
@@ -100,19 +109,21 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
     if (!isReady) return;
 
     const canvas = canvasRef.current;
-    const brush = brushRef.current;
+    const brush = maskCanvasRef.current; // Use the processed mask canvas
     const ctx = canvas?.getContext('2d');
     
     if (!canvas || !brush || !ctx) return;
 
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const brushSize = Math.max(brush.width, brush.height) * 1.5;
+    requestAnimationFrame(() => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const brushSize = Math.max(canvas.width, canvas.height) / 10;
 
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.drawImage(brush, x - brushSize / 2, y - brushSize / 2, brushSize, brushSize);
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.drawImage(brush, x - brushSize / 2, y - brushSize / 2, brushSize, brushSize);
+    });
   }, [isReady]);
 
   return (
@@ -122,10 +133,10 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
       style={{
         width: '100%',
         height: '100%',
-        display: 'block', // To avoid extra space under canvas
+        display: 'block',
         touchAction: 'none',
         cursor: 'none',
-        visibility: isReady ? 'visible' : 'hidden', // Hide until ready
+        visibility: isReady ? 'visible' : 'hidden',
       }}
     />
   );
