@@ -25,8 +25,8 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     );
   }
 
-  // Updated classes: removed shadows, kept thin black border and no rounded corners.
-  const imageBaseClasses = `absolute object-cover border border-black transition-all duration-300 ease-in-out hover:scale-105`;
+  // Updated classes: removed rounded corners, added a thin black border.
+  const imageBaseClasses = `absolute object-cover border border-black shadow-lg transition-all duration-300 hover:scale-105 hover:z-40`;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
@@ -38,39 +38,41 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <div className="w-full md:w-1/3 flex flex-col">
           <p className="text-base leading-relaxed">{project.description}</p>
         </div>
-        
-        {/* New Curated Collage Layout inspired by user's BARKCHAIN image */}
-        <div className="w-full md:w-2/3 min-h-[500px] md:min-h-full relative">
-          
-          {/* Image 3: Bottom-right, furthest back */}
-          <img
-            src={project.images[2]}
-            alt={`${project.name} screenshot 3`}
-            className={`${imageBaseClasses} w-[45%] h-auto bottom-[5%] right-0 hover:z-30`}
-            aria-hidden="true"
-          />
-
-          {/* Image 4: Left, behind */}
-          <img
-            src={project.images[3]}
-            alt={`${project.name} screenshot 4`}
-            className={`${imageBaseClasses} w-[48%] h-auto top-[8%] left-0 z-10 hover:z-30`}
-            aria-hidden="true"
-          />
-
-          {/* Image 2: Right, behind */}
-          <img
-            src={project.images[1]}
-            alt={`${project.name} screenshot 2`}
-            className={`${imageBaseClasses} w-[45%] h-auto top-[15%] right-[5%] z-10 hover:z-30`}
-            aria-hidden="true"
-          />
-
-          {/* Image 1: Central, top */}
+        {/* New Organized & Balanced Collage Layout */}
+        <div className="w-full md:w-2/3 min-h-[400px] md:min-h-[500px] relative">
+          {/* Image 1: Main background image, top-left */}
           <img
             src={project.images[0]}
             alt={`${project.name} screenshot 1`}
-            className={`${imageBaseClasses} w-[55%] h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hover:z-30`}
+            className={`${imageBaseClasses} w-2/3 h-auto top-0 left-0`}
+            style={{ zIndex: 10 }}
+            aria-hidden="true"
+          />
+
+          {/* Image 2: Tall portrait image, right side */}
+          <img
+            src={project.images[1]}
+            alt={`${project.name} screenshot 2`}
+            className={`${imageBaseClasses} w-2/5 h-auto top-[10%] right-0`}
+            style={{ zIndex: 20, maxHeight: '80%' }}
+            aria-hidden="true"
+          />
+
+          {/* Image 4: The 'too big' one, now smaller and at the bottom */}
+          <img
+            src={project.images[3]}
+            alt={`${project.name} screenshot 4`}
+            className={`${imageBaseClasses} w-1/2 h-auto bottom-0 left-[5%]`}
+            style={{ zIndex: 30 }}
+            aria-hidden="true"
+          />
+
+          {/* Image 3: Small accent image, overlapping with a stronger shadow */}
+          <img
+            src={project.images[2]}
+            alt={`${project.name} screenshot 3`}
+            className={`${imageBaseClasses} w-1/3 h-auto bottom-[20%] right-[10%] shadow-2xl`}
+            style={{ zIndex: 40 }}
             aria-hidden="true"
           />
         </div>
