@@ -38,41 +38,42 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <div className="w-full md:w-1/2 flex flex-col">
           <p className="text-base leading-relaxed">{project.description}</p>
         </div>
-        {/* New Collage Layout based on user's new reference image */}
-        <div className="w-full md:w-2/3 relative mt-8 md:mt-0" style={{ minHeight: '450px' }}>
-          {/* Image 1 ('SUPPORT A PUP') - Background layer */}
+        
+        {/* New Collage Layout based on user's sketch */}
+        <div className="w-full md:w-1/2 relative mt-8 md:mt-0" style={{ minHeight: '450px' }}>
+          {/* Image 1 (Bottom Left, Horizontal) */}
           <img
             src={project.images[0]}
             alt={`${project.name} screenshot 1`}
-            className={`${imageBaseClasses} w-[60%] h-auto top-0 right-0`}
+            className={`${imageBaseClasses} w-3/5 h-auto bottom-0 left-0`}
             style={{ zIndex: 10 }}
             aria-hidden="true"
           />
 
-          {/* Image 3 ('SOS FEED') - Middle layer, left */}
+          {/* Image 2 (Top Center, Vertical) */}
           <img
-            src={project.images[2]}
-            alt={`${project.name} screenshot 3`}
-            className={`${imageBaseClasses} w-[45%] h-auto top-[15%] left-[5%]`}
+            src={project.images[1]}
+            alt={`${project.name} screenshot 2`}
+            className={`${imageBaseClasses} w-2/5 h-auto top-[10%] left-[20%]`}
             style={{ zIndex: 20 }}
             aria-hidden="true"
           />
 
-          {/* Image 4 ('FIND A FRIEND') - Middle layer, bottom-left */}
+          {/* Image 4 (Top Right, Tall Vertical) */}
           <img
             src={project.images[3]}
             alt={`${project.name} screenshot 4`}
-            className={`${imageBaseClasses} w-[40%] h-auto bottom-0 left-0`}
-            style={{ zIndex: 20 }}
+            className={`${imageBaseClasses} w-1/3 h-5/6 top-0 right-0 object-top`}
+            style={{ zIndex: 30 }}
             aria-hidden="true"
           />
-          
-          {/* Image 2 ('bark chain.') - Top layer, center-ish */}
+
+          {/* Image 3 (Middle Right, Horizontal) */}
           <img
-            src={project.images[1]}
-            alt={`${project.name} screenshot 2`}
-            className={`${imageBaseClasses} w-[38%] h-auto top-[28%] left-[28%]`}
-            style={{ zIndex: 30 }}
+            src={project.images[2]}
+            alt={`${project.name} screenshot 3`}
+            className={`${imageBaseClasses} w-1/2 h-auto top-1/3 left-1/2 -translate-x-1/4`}
+            style={{ zIndex: 40 }}
             aria-hidden="true"
           />
         </div>
