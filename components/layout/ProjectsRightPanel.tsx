@@ -25,7 +25,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     );
   }
 
-  const imageBaseClasses = `absolute object-cover rounded-xl border shadow-lg transition-transform duration-300 hover:scale-105 hover:z-40 ${
+  const imageBaseClasses = `absolute object-cover rounded-xl border shadow-lg transition-all duration-300 hover:scale-105 hover:z-40 ${
     isDarkMode ? 'border-gray-700/50' : 'border-gray-200'
   }`;
 
@@ -39,42 +39,41 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <div className="w-full md:w-1/3 flex flex-col">
           <p className="text-base leading-relaxed">{project.description}</p>
         </div>
-        <div className="w-full md:w-2/3 min-h-[400px] md:min-h-0 relative">
-          {/* New Image Collage Layout based on user feedback */}
-          
-          {/* Image 1 (barkchain-1.png) -> Top Right */}
+        {/* New Creative Collage Layout */}
+        <div className="w-full md:w-2/3 min-h-[400px] md:min-h-[500px] relative">
+          {/* Image 1 (Main Landscape) -> Top-left foundation */}
           <img
             src={project.images[0]}
             alt={`${project.name} screenshot 1`}
-            className={`${imageBaseClasses} w-[60%] h-[55%] top-0 right-0`}
-            style={{ zIndex: 20 }}
-            aria-hidden="true"
-          />
-
-          {/* Image 4 (barkchain-4.png) -> Bottom Left */}
-          <img
-            src={project.images[3]}
-            alt={`${project.name} screenshot 4`}
-            className={`${imageBaseClasses} w-[65%] h-[60%] bottom-0 left-0`}
+            className={`${imageBaseClasses} w-3/4 h-auto top-0 left-0`}
             style={{ zIndex: 10 }}
             aria-hidden="true"
           />
 
-          {/* Image 2 (barkchain-2.png) -> Center, slightly left */}
+          {/* Image 3 (Square/Component) -> Middle-left, connecting element with higher elevation */}
           <img
-            src={project.images[1]}
-            alt={`${project.name} screenshot 2`}
-            className={`${imageBaseClasses} w-[45%] h-[40%] top-1/2 left-[5%] transform -translate-y-1/2`}
+            src={project.images[2]}
+            alt={`${project.name} screenshot 3`}
+            className={`${imageBaseClasses} w-2/5 h-auto top-1/2 left-[5%] shadow-2xl`}
             style={{ zIndex: 30 }}
             aria-hidden="true"
           />
 
-          {/* Image 3 (barkchain-3.png) -> Center, slightly right, connecting the others */}
+          {/* Image 2 (Tall Portrait) -> Right side, vertical element */}
           <img
-            src={project.images[2]}
-            alt={`${project.name} screenshot 3`}
-            className={`${imageBaseClasses} w-[40%] h-[50%] bottom-[5%] right-[20%]`}
-            style={{ zIndex: 40 }}
+            src={project.images[1]}
+            alt={`${project.name} screenshot 2`}
+            className={`${imageBaseClasses} w-[30%] h-auto top-[5%] right-[5%]`}
+            style={{ zIndex: 20 }}
+            aria-hidden="true"
+          />
+
+          {/* Image 4 (Second Landscape) -> Bottom-right anchor */}
+          <img
+            src={project.images[3]}
+            alt={`${project.name} screenshot 4`}
+            className={`${imageBaseClasses} w-7/12 h-auto bottom-0 right-0`}
+            style={{ zIndex: 20 }}
             aria-hidden="true"
           />
         </div>
