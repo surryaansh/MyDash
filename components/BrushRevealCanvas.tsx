@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, memo } from 'react';
 
 interface BrushRevealCanvasProps {
   imageUrl: string;
@@ -14,8 +14,8 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
   isDarkMode,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imageRef = useRef<HTMLImageElement>();
-  const brushImageRef = useRef<HTMLImageElement>();
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const brushImageRef = useRef<HTMLImageElement | null>(null);
   const [loadingState, setLoadingState] = useState<LoadingState>('loading');
 
   // 1. Load images and update the component's state accordingly.
@@ -26,7 +26,7 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error(`Failed to load image at ${imageUrl}`));
+      img.onerror = (e) => reject(new Error(`Failed to load image at ${imageUrl}: ${e}`));
       img.src = imageUrl;
     });
 
@@ -34,7 +34,7 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
       const brushImg = new Image();
       brushImg.crossOrigin = "anonymous";
       brushImg.onload = () => resolve(brushImg);
-      brushImg.onerror = () => reject(new Error(`Failed to load brush at ${brushUrl}`));
+      brushImg.onerror = (e) => reject(new Error(`Failed to load brush at ${brushUrl}: ${e}`));
       brushImg.src = brushUrl;
     });
 
@@ -151,4 +151,4 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
   );
 };
 
-export default BrushRevealCanvas;
+export default memo(BrushRevealCanvas);
