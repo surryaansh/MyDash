@@ -34,7 +34,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
 
   // Conditionally set the classes for the second image to adjust its position for 'MYDASH'.
   const secondImagePositionClasses = project.name === 'MYDASH'
-    ? 'top-[31%] right-[24%]' // Adjusted 7% further down
+    ? 'top-[38%] right-[24%]' // Adjusted 7% further down
     : 'top-[8%] right-[44%]'; // Default position
 
   const secondImageZIndex = project.name === 'MYDASH' ? 40 : 20;
