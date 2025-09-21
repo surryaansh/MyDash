@@ -16,7 +16,6 @@ import './types.d.ts'; // Import for global type declarations
 const MemoizedHeader = memo(Header);
 const MemoizedLeftPanel = memo(LeftPanel);
 const MemoizedProjectsLeftPanel = memo(ProjectsLeftPanel);
-const MemoizedProjectsRightPanel = memo(ProjectsRightPanel);
 const MemoizedSkillsSection = memo(SkillsSection);
 const MemoizedFooter = memo(Footer);
 
@@ -148,7 +147,7 @@ export default function App() {
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
             />
-            <MemoizedProjectsRightPanel 
+            <ProjectsRightPanel 
               ref={projectsImageContainerRef}
               isDarkMode={isDarkMode} 
               selectedProject={selectedProject}
