@@ -15,7 +15,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     return (
       <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
         <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
-          <span>03 WORK</span>
+          <span>03 PROJECT</span>
           <span>/03</span>
         </div>
         <div className="flex-1 flex items-center justify-center">
@@ -50,7 +50,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <img
           src={project.images[1]}
           alt={`${project.name} screenshot 2`}
-          className={`${imageBaseClasses} w-[28%] h-auto top-0 right-[35%]`}
+          className={`${imageBaseClasses} w-[28%] h-auto top-[3%] right-[45%]`}
           style={{ zIndex: 20 }}
           aria-hidden="true"
         />
