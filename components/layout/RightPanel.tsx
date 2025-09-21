@@ -1,6 +1,28 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
 import { FilledLightningIcon } from '../icons/FilledLightningIcon.tsx';
 import BrushRevealCanvas from '../BrushRevealCanvas.tsx';
+import { SolidCursor } from '../SolidCursor.tsx';
+
+// Memoize the static parts of the panel to prevent re-renders on mouse move.
+// This is crucial for the canvas to load its images without being unmounted.
+const MemoizedMainImage = memo(({ isDarkMode }: { isDarkMode: boolean }) => {
+  return (
+    <>
+      <div className="absolute top-0 left-0 right-0 bottom-6">
+        <BrushRevealCanvas
+            imageUrl="/vaporwave-david.png"
+            brushUrl="/brush-texture.png"
+            isDarkMode={isDarkMode}
+        />
+      </div>
+      <FilledLightningIcon 
+        className="absolute bottom-6 right-6 md:bottom-14 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem] pointer-events-none"
+        style={{ mixBlendMode: 'normal' }}
+      />
+    </>
+  );
+});
+
 
 interface RightPanelProps {
   isDarkMode: boolean;
@@ -32,36 +54,15 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
           ref={ref}
           className="relative w-full aspect-square overflow-hidden px-2 pt-0 lg:px-0"
         >
-          {/* This is the solid cursor, only visible when inside this container */}
-          <div
-            className="hidden lg:block"
-            style={{
-              position: 'absolute',
-              top: relativeCursorPosition.y,
-              left: relativeCursorPosition.x,
-              width: `${isHoveringLink ? 60 : 40}px`,
-              height: `${isHoveringLink ? 60 : 40}px`,
-              backgroundColor: isDarkMode ? 'white' : 'black',
-              borderRadius: '50%',
-              pointerEvents: 'none', // This allows events to pass through to the canvas
-              transform: 'translate(-50%, -50%)',
-              zIndex: 10000,
-              transition: 'width 0.2s ease, height 0.2s ease, opacity 0.2s ease-out',
-              opacity: isScrolling ? 0 : 1,
-            }}
-            aria-hidden="true"
+          {/* The solid cursor is its own component and will re-render on its own. */}
+          <SolidCursor 
+            relativeCursorPosition={relativeCursorPosition}
+            isHoveringLink={isHoveringLink}
+            isDarkMode={isDarkMode}
+            isScrolling={isScrolling}
           />
-          <div className="absolute top-0 left-0 right-0 bottom-6">
-            <BrushRevealCanvas
-                imageUrl="/vaporwave-david.png"
-                brushUrl="/brush-texture.png"
-                isDarkMode={isDarkMode}
-            />
-          </div>
-          <FilledLightningIcon 
-            className="absolute bottom-6 right-6 md:bottom-14 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem] pointer-events-none"
-            style={{ mixBlendMode: 'normal' }}
-          />
+          {/* The main image content is memoized and will NOT re-render on mouse move. */}
+          <MemoizedMainImage isDarkMode={isDarkMode} />
         </div>
       </div>
     );

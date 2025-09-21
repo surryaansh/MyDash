@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from 'react';
+import { SolidCursor } from '../SolidCursor.tsx';
 
 interface ContactRightPanelProps {
   isDarkMode: boolean;
@@ -28,24 +29,11 @@ export const ContactRightPanel = forwardRef<HTMLDivElement, ContactRightPanelPro
           <span>/06</span>
         </div>
         <div ref={ref} className="flex-1 relative overflow-hidden px-2 pt-0 pb-6 lg:px-0">
-          {/* This is the solid cursor, only visible when inside this container to prevent color inversion */}
-          <div
-            className="hidden lg:block"
-            style={{
-              position: 'absolute',
-              top: relativeCursorPosition.y,
-              left: relativeCursorPosition.x,
-              width: `${isHoveringLink ? 60 : 40}px`,
-              height: `${isHoveringLink ? 60 : 40}px`,
-              backgroundColor: isDarkMode ? 'white' : 'black',
-              borderRadius: '50%',
-              pointerEvents: 'none',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 10000,
-              transition: 'width 0.2s ease, height 0.2s ease, opacity 0.2s ease-out',
-              opacity: isScrolling ? 0 : 1,
-            }}
-            aria-hidden="true"
+          <SolidCursor
+            relativeCursorPosition={relativeCursorPosition}
+            isHoveringLink={isHoveringLink}
+            isDarkMode={isDarkMode}
+            isScrolling={isScrolling}
           />
           <img
             src="/connect-me.png"
