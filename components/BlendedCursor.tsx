@@ -1,30 +1,38 @@
 import React from 'react';
+import { SunIcon } from './icons/SunIcon.tsx';
+import { MoonIcon } from './icons/MoonIcon.tsx';
 
-interface CustomCursorProps {
-  position: { x: number; y: number };
-  isHoveringLink: boolean;
+interface DarkModeToggleProps {
+  isDarkMode: boolean;
+  toggleDarkMode: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const BlendedCursor: React.FC<CustomCursorProps> = ({ position, isHoveringLink }) => {
+export const DarkModeToggle: React.FC<DarkModeToggleProps> = ({ isDarkMode, toggleDarkMode }) => {
   return (
-    <div className="hidden lg:block">
-      <div
-        style={{
-          position: 'fixed',
-          top: position.y,
-          left: position.x,
-          width: `${isHoveringLink ? 60 : 40}px`,
-          height: `${isHoveringLink ? 60 : 40}px`,
-          backgroundColor: 'white',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 9999,
-          transition: 'width 0.2s ease, height 0.2s ease',
-          opacity: 1,
-        }}
+    <button
+      onClick={toggleDarkMode}
+      aria-label={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
+      className={`group relative inline-flex items-center h-7 w-14 rounded-full transition-colors duration-300 focus:outline-none ${
+        isDarkMode 
+          ? 'bg-gray-700' 
+          : 'bg-gray-300 hover:bg-black'
+      }`}
+    >
+      {/* Moon icon is on the left, visible in dark mode */}
+      <MoonIcon className={`absolute left-2 w-4 h-4 text-blue-300 transition-opacity duration-300 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`} />
+      
+      {/* Sun icon is on the right, visible in light mode */}
+      <SunIcon className={`absolute right-2 w-4 h-4 text-white transition-opacity duration-300 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`} />
+      
+      {/* Sliding thumb */}
+      <span
         aria-hidden="true"
+        className={`inline-block w-6 h-6 transform rounded-full transition-colors duration-300 ease-in-out ${
+          isDarkMode 
+            ? 'bg-white translate-x-[26px]' 
+            : 'bg-black group-hover:bg-white translate-x-0.5'
+        }`}
       />
-    </div>
+    </button>
   );
 };
