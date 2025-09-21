@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PROJECTS } from '../../constants/projects.ts';
 
 interface ProjectsLeftPanelProps {
   isDarkMode: boolean;
+  selectedProject: string;
+  setSelectedProject: (project: string) => void;
 }
 
 /**
  * Displays a selectable list of projects.
  */
-export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode }) => {
-  const [selectedProject, setSelectedProject] = useState<string>(PROJECTS[0]);
+export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode, selectedProject, setSelectedProject }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
 
   return (

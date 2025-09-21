@@ -9,6 +9,7 @@ import { SkillsSection } from './components/layout/SkillsSection.tsx';
 import { ContactSection } from './components/layout/ContactSection.tsx';
 import { Footer } from './components/layout/Footer.tsx';
 import { useMousePosition } from './hooks/useMousePosition.ts';
+import { PROJECTS_DATA } from './constants/projects.ts';
 import './types.d.ts'; // Import for global type declarations
 
 // Memoize components that do not need to re-render on every state change (e.g., cursor move).
@@ -39,6 +40,7 @@ export default function App() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [isHoveringMainImage, setIsHoveringMainImage] = useState(false);
   const [isHoveringContactImage, setIsHoveringContactImage] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<string>(PROJECTS_DATA[0].name);
   
   /**
    * Handles the theme toggle with a smooth circular reveal animation
@@ -136,8 +138,15 @@ export default function App() {
         </section>
 
         <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[60vh] divide-y lg:divide-y-0 ${borderClasses}`}>
-            <MemoizedProjectsLeftPanel isDarkMode={isDarkMode} />
-            <MemoizedProjectsRightPanel isDarkMode={isDarkMode} />
+            <MemoizedProjectsLeftPanel 
+              isDarkMode={isDarkMode}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+            />
+            <MemoizedProjectsRightPanel 
+              isDarkMode={isDarkMode} 
+              selectedProject={selectedProject}
+            />
         </section>
         
         <MemoizedSkillsSection isDarkMode={isDarkMode} />
