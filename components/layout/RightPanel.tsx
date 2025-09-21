@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 import { FilledLightningIcon } from '../icons/FilledLightningIcon.tsx';
-import BrushRevealCanvas from '../BrushRevealCanvas.tsx';
 
 interface RightPanelProps {
   isDarkMode: boolean;
@@ -52,14 +51,14 @@ export const RightPanel = forwardRef<HTMLDivElement, RightPanelProps>(
             aria-hidden="true"
           />
           <div className="absolute top-0 left-0 right-0 bottom-6">
-            <BrushRevealCanvas
-                imageUrl="/vaporwave-david.png"
-                brushUrl="/brush-texture.png"
-                isDarkMode={isDarkMode}
+            <img 
+                src="/vaporwave-david.png"
+                alt="Vaporwave style statue of David wearing a glowing crown and glasses."
+                className="w-full h-full object-cover"
             />
           </div>
           <FilledLightningIcon 
-            className="absolute bottom-6 right-6 md:bottom-14 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem] pointer-events-none"
+            className="absolute bottom-6 right-6 md:bottom-14 md:right-[5%] text-[#FF4500] w-28 h-28 md:w-[9.409rem] md:h-[9.409rem]"
             style={{ mixBlendMode: 'normal' }}
           />
         </div>
