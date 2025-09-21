@@ -25,11 +25,11 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     );
   }
 
-  const imageBaseClasses = `absolute object-cover border ${isDarkMode ? 'border-neutral-800' : 'border-black'} transition-transform duration-300 hover:scale-[1.02]`;
+  const imageBaseClasses = `absolute object-cover border border-black transition-transform duration-300 hover:scale-[1.02]`;
 
   // Conditionally set the classes for the third image to adjust its position for 'SURU GPT'.
   const thirdImagePositionClasses = project.name === 'SURU GPT'
-    ? 'bottom-[14%] right-[31%]' // New position: 4% down, 7% left
+    ? 'bottom-[12%] right-[29%]' // Adjusted position: 2% more down, 2% to the right
     : 'bottom-[18%] right-[24%]'; // Default position
 
   return (
