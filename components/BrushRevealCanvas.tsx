@@ -12,12 +12,8 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
   isDarkMode,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const isPointerDown = useRef(false);
-  // FIX: Initialize useRef with null to fix "Expected 1 arguments, but got 0" error.
   const imageRef = useRef<HTMLImageElement | null>(null);
-  // FIX: Initialize useRef with null to fix "Expected 1 arguments, but got 0" error.
   const brushRef = useRef<HTMLImageElement | null>(null);
-  // FIX: Initialize useRef with null to fix "Expected 1 arguments, but got 0" error.
   const animationFrameId = useRef<number | null>(null);
 
   // This function sets up the canvas layers: image below, cover color on top.
@@ -105,31 +101,15 @@ const BrushRevealCanvas: React.FC<BrushRevealCanvasProps> = ({
     ctx.globalCompositeOperation = 'destination-out';
     ctx.drawImage(brush, x - brushSize / 2, y - brushSize / 2, brushSize, brushSize);
   }, []);
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    // Set the capture to ensure pointerup/leave events are fired even if the cursor leaves the element.
-    e.currentTarget.setPointerCapture(e.pointerId);
-    isPointerDown.current = true;
-    draw(e);
-  };
   
-  const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    e.currentTarget.releasePointerCapture(e.pointerId);
-    isPointerDown.current = false;
-  };
-
+  // This handler now draws whenever the pointer moves over the canvas.
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (isPointerDown.current) {
-      draw(e);
-    }
+    draw(e);
   };
 
   return (
     <canvas
       ref={canvasRef}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerUp}
       onPointerMove={handlePointerMove}
       style={{ 
         width: '100%', 
