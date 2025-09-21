@@ -25,7 +25,8 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     );
   }
 
-  const borderClass = isDarkMode ? 'border-[#efeeee]' : 'border-black';
+  // Base classes for images: no rounded corners, thin black border, no shadow.
+  const imageBaseClasses = `absolute object-cover border border-black transition-transform duration-300 hover:scale-105 hover:z-40`;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
@@ -33,18 +34,18 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <span>03 WORK</span>
         <span>/03</span>
       </div>
-      <div key={project.name} className="flex-1 flex flex-col pt-8 pb-4 animate-fade-in">
-        {/* Project Description (more compact) */}
-        <div className="w-full md:w-1/2 mb-12">
+      <div key={project.name} className="flex-1 flex flex-col md:flex-row gap-8 py-8 animate-fade-in">
+        <div className="w-full md:w-1/3 flex flex-col">
           <p className="text-base leading-relaxed">{project.description}</p>
         </div>
-        
-        {/* Single Left-Aligned and Resized Image Layout */}
-        <div className="flex-1 flex justify-start items-start">
+        {/* Step-by-step collage layout */}
+        <div className="w-full md:w-2/3 min-h-[400px] md:min-h-[500px] relative">
+          {/* Image 1: barkchain-1.png, positioned as requested */}
           <img
             src={project.images[0]}
             alt={`${project.name} screenshot 1`}
-            className={`object-contain border ${borderClass} max-w-full md:max-w-lg`}
+            className={`${imageBaseClasses} bottom-0 left-8 w-2/3 h-auto`}
+            style={{ zIndex: 10 }}
             aria-hidden="true"
           />
         </div>
