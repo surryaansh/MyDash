@@ -12,7 +12,7 @@ import { useMousePosition } from './hooks/useMousePosition.ts';
 import { PROJECTS_DATA } from './constants/projects.ts';
 import './types.d.ts'; // Import for global type declarations
 
-// Memoize components that do not need to re-render on every state change (e.g., cursor move).
+// Memoize components that do not need to re-render on every state change.
 const MemoizedHeader = memo(Header);
 const MemoizedLeftPanel = memo(LeftPanel);
 const MemoizedProjectsLeftPanel = memo(ProjectsLeftPanel);
@@ -24,25 +24,11 @@ const MemoizedFooter = memo(Footer);
  * Manages global state such as theme, cursor position, and view transitions.
  */
 export default function App() {
-  const mainImageContainerRef = useRef<HTMLDivElement>(null);
-  const contactImageContainerRef = useRef<HTMLDivElement>(null);
-  const projectsImageContainerRef = useRef<HTMLDivElement>(null);
-
   // Global cursor position and link hover state.
   const { position: cursorPosition, isHoveringLink } = useMousePosition();
-  // Relative cursor position for the main image panel.
-  const { relativePosition: mainRelativeCursorPosition } = useMousePosition(mainImageContainerRef);
-  // Relative cursor position for the contact image panel.
-  const { relativePosition: contactRelativeCursorPosition } = useMousePosition(contactImageContainerRef);
-  // Relative cursor position for the projects image panel.
-  const { relativePosition: projectsRelativeCursorPosition } = useMousePosition(projectsImageContainerRef);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [isHoveringMainImage, setIsHoveringMainImage] = useState(false);
-  const [isHoveringContactImage, setIsHoveringContactImage] = useState(false);
-  const [isHoveringProjectsImage, setIsHoveringProjectsImage] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string>(PROJECTS_DATA[0].name);
   
   /**
@@ -89,29 +75,8 @@ export default function App() {
     });
   };
 
-  // Effect to detect when the user is scrolling to hide elements
-  // that might glitch due to position calculations during scroll.
-  useEffect(() => {
-    let scrollTimeout: ReturnType<typeof setTimeout>;
-
-    const handleScroll = () => {
-      setIsScrolling(true);
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
-      }, 100); // A short delay to determine when scrolling has stopped
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, []);
-
   const themeClasses = isDarkMode ? 'bg-black text-[#efeeee]' : 'bg-[#efeeee] text-black';
   const borderClasses = isDarkMode ? 'divide-[#efeeee] border-[#efeeee]' : 'divide-black border-black';
-  const shouldHideGlobalCursorOnScroll = isScrolling && (isHoveringMainImage || isHoveringContactImage || isHoveringProjectsImage);
   
   return (
     <div 
@@ -121,8 +86,6 @@ export default function App() {
       <BlendedCursor 
         position={cursorPosition} 
         isHoveringLink={isHoveringLink} 
-        isTransitioning={isTransitioning}
-        isScrolling={shouldHideGlobalCursorOnScroll}
       />
       
       <MemoizedHeader isDarkMode={isDarkMode} toggleDarkMode={handleThemeToggle} />
@@ -130,14 +93,7 @@ export default function App() {
       <main className="flex-1 flex flex-col">
         <section id="about" className={`flex flex-col lg:flex-row flex-1 divide-y lg:divide-y-0 lg:divide-x ${borderClasses}`}>
           <MemoizedLeftPanel isDarkMode={isDarkMode} />
-          <RightPanel 
-            ref={mainImageContainerRef}
-            isDarkMode={isDarkMode} 
-            isHoveringLink={isHoveringLink}
-            relativeCursorPosition={mainRelativeCursorPosition}
-            isScrolling={isScrolling}
-            setIsHovering={setIsHoveringMainImage}
-          />
+          <RightPanel isDarkMode={isDarkMode} />
         </section>
 
         <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[60vh] divide-y lg:divide-y-0 ${borderClasses}`}>
@@ -147,13 +103,8 @@ export default function App() {
               setSelectedProject={setSelectedProject}
             />
             <ProjectsRightPanel
-              ref={projectsImageContainerRef}
               isDarkMode={isDarkMode} 
               selectedProject={selectedProject}
-              isHoveringLink={isHoveringLink}
-              relativeCursorPosition={projectsRelativeCursorPosition}
-              isScrolling={isScrolling}
-              setIsHovering={setIsHoveringProjectsImage}
             />
         </section>
         
@@ -162,11 +113,6 @@ export default function App() {
         <ContactSection 
           isDarkMode={isDarkMode} 
           cursorPosition={cursorPosition}
-          contactPanelRef={contactImageContainerRef}
-          relativeCursorPosition={contactRelativeCursorPosition}
-          isHoveringLink={isHoveringLink}
-          isScrolling={isScrolling}
-          setIsHovering={setIsHoveringContactImage}
         />
         
         <MemoizedFooter isDarkMode={isDarkMode} />

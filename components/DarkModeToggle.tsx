@@ -30,7 +30,7 @@ export const DarkModeToggle: React.FC<DarkModeToggleProps> = ({ isDarkMode, togg
         className={`inline-block w-6 h-6 transform rounded-full transition-colors duration-300 ease-in-out ${
           isDarkMode 
             ? 'bg-white translate-x-[26px]' 
-            : 'bg-white group-hover:bg-gray-300 translate-x-0.5'
+            : 'bg-black group-hover:bg-white translate-x-0.5'
         }`}
       />
     </button>
