@@ -27,17 +27,23 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
 
   const imageBaseClasses = `absolute object-cover border-[0.5px] border-black transition-transform duration-300 hover:scale-[1.02]`;
 
+  // --- Conditional classes for specific projects ---
+  const isMydash = project.name === 'MYDASH';
+
+  const firstImageClasses = isMydash
+    ? 'w-[42%] h-auto max-h-[42%] bottom-4 left-[16%]' // size reduced by ~7%, moved right 3%
+    : 'w-[45%] h-auto max-h-[45%] bottom-4 left-[13%]';
+
+  const secondImageClasses = isMydash
+    ? 'w-[28%] h-auto top-[42%] right-[27%]' // size increased by 10%, moved left 3%, down 4%
+    : 'w-[25%] h-auto top-[8%] right-[44%]';
+
+  const secondImageZIndex = isMydash ? 40 : 20;
+
   // Conditionally set the classes for the third image to adjust its position for 'SURU GPT'.
   const thirdImagePositionClasses = project.name === 'SURU GPT'
     ? 'bottom-[12%] right-[28%]'
     : 'bottom-[18%] right-[24%]';
-
-  // Conditionally set the classes for the second image to adjust its position for 'MYDASH'.
-  const secondImagePositionClasses = project.name === 'MYDASH'
-    ? 'top-[38%] right-[24%]' // Adjusted 7% further down
-    : 'top-[8%] right-[44%]'; // Default position
-
-  const secondImageZIndex = project.name === 'MYDASH' ? 40 : 20;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
@@ -51,20 +57,20 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         key={project.name} 
         className="flex-1 relative w-full h-full animate-fade-in"
       >
-        {/* Image 1 (barkchain-1.png) */}
+        {/* Image 1 */}
         <img
           src={project.images[0]}
           alt={`${project.name} screenshot 1`}
-          className={`${imageBaseClasses} w-[45%] h-auto max-h-[45%] bottom-4 left-[13%]`}
+          className={`${imageBaseClasses} ${firstImageClasses}`}
           style={{ zIndex: 10 }}
           aria-hidden="true"
         />
 
-        {/* Image 2 (barkchain-2.png) */}
+        {/* Image 2 */}
         <img
           src={project.images[1]}
           alt={`${project.name} screenshot 2`}
-          className={`${imageBaseClasses} w-[25%] h-auto ${secondImagePositionClasses}`}
+          className={`${imageBaseClasses} ${secondImageClasses}`}
           style={{ zIndex: secondImageZIndex }}
           aria-hidden="true"
         />
