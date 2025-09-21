@@ -37,12 +37,21 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
       {/* Container for the step-by-step image layout */}
       <div key={project.name} className="flex-1 relative w-full h-full animate-fade-in">
         
-        {/* Image 1 (barkchain-1.png) - Positioned per user request */}
+        {/* Image 1 (barkchain-1.png) - Positioned per user request, bottom padding reduced */}
         <img
           src={project.images[0]}
           alt={`${project.name} screenshot 1`}
-          className={`${imageBaseClasses} w-[45%] h-auto max-h-[45%] bottom-8 left-[10%]`}
+          className={`${imageBaseClasses} w-[45%] h-auto max-h-[45%] bottom-4 left-[10%]`}
           style={{ zIndex: 10 }}
+          aria-hidden="true"
+        />
+
+        {/* Image 2 (barkchain-2.png) - Added to the top right with a slight overlap */}
+        <img
+          src={project.images[1]}
+          alt={`${project.name} screenshot 2`}
+          className={`${imageBaseClasses} w-[40%] h-auto max-h-[50%] top-4 right-[15%]`}
+          style={{ zIndex: 20 }}
           aria-hidden="true"
         />
 
