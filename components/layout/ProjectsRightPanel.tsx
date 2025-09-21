@@ -42,7 +42,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <div className="w-full md:w-2/3 min-h-[400px] md:min-h-[500px] relative">
           {/* Image 1: barkchain-1.png, positioned as requested */}
           <img
-            src={project.images[0]}
+            src={project.images[]}
             alt={`${project.name} screenshot 1`}
             className={`${imageBaseClasses} bottom-0 left-8 w-2/3 h-auto`}
             style={{ zIndex: 10 }}
