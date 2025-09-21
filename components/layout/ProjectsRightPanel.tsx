@@ -32,19 +32,20 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     ? 'bottom-[12%] right-[28%]'
     : 'bottom-[18%] right-[24%]';
 
-  // Conditionally adjust the first image for 'MYDASH'.
-  const firstImageSizeClasses = project.name === 'MYDASH' ? 'w-[42%]' : 'w-[45%]';
-  const firstImagePositionClasses = project.name === 'MYDASH' ? 'left-[16%]' : 'left-[13%]';
+  // --- MYDASH specific adjustments ---
+  const isMydash = project.name === 'MYDASH';
 
-  // Conditionally set the classes for the second image to adjust its position for 'MYDASH'.
-  const secondImagePositionClasses = project.name === 'MYDASH'
-    ? 'top-[46%] right-[30%]'
-    : 'top-[8%] right-[44%]'; // Default position
+  // Image 1 (mydash-1.png) adjustments
+  const firstImageSizeClasses = isMydash ? 'w-[42%]' : 'w-[45%]';
+  const firstImagePositionClasses = isMydash ? 'left-[16%]' : 'left-[13%]';
+
+  // Image 2 (mydash-2.png) adjustments
+  const secondImagePositionClasses = isMydash
+    ? 'top-[46%] right-[24%]'
+    : 'top-[8%] right-[44%]';
     
-  // Conditionally set the size for the second 'MYDASH' image.
-  const secondImageSizeClasses = project.name === 'MYDASH' ? 'w-[38.5%]' : 'w-[25%]';
-
-  const secondImageZIndex = project.name === 'MYDASH' ? 40 : 20;
+  const secondImageSizeClasses = isMydash ? 'w-[39%]' : 'w-[25%]';
+  const secondImageZIndex = isMydash ? 40 : 20;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
@@ -86,13 +87,13 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
             aria-hidden="true"
           />
         )}
-        
+
         {/* Image 4 (barkchain-4.png) */}
         <img
           src={project.images.length > 3 ? project.images[3] : project.images[2]}
           alt={`${project.name} screenshot 4`}
-          className={`${imageBaseClasses} w-[60%] h-auto max-h-[85%] top-4 right-0`}
-          style={{ zIndex: 20 }}
+          className={`${imageBaseClasses} w-[50%] h-auto max-h-[50%] top-4 right-0`}
+          style={{ zIndex: project.name === 'MYDASH' ? 15 : 35 }}
           aria-hidden="true"
         />
       </div>
