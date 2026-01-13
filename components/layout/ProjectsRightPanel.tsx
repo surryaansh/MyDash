@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { PROJECTS_DATA } from '../../constants/projects.ts';
 
@@ -27,24 +26,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
   }
 
   const imageBaseClasses = `absolute object-cover border-[0.5px] border-black transition-transform duration-300 hover:scale-[1.02]`;
-
-  // --- Conditional classes for specific projects ---
-  const isMydash = project.name === 'MYDASH';
-
-  const firstImageClasses = isMydash
-    ? 'w-[38%] h-auto max-h-[38%] bottom-4 left-[21%]'
-    : 'w-[45%] h-auto max-h-[45%] bottom-4 left-[13%]';
-
-  const secondImageClasses = isMydash
-    ? 'w-[30%] h-auto top-[42%] right-[22%]'
-    : 'w-[25%] h-auto top-[8%] right-[44%]';
-
-  const secondImageZIndex = isMydash ? 40 : 20;
-
-  // Conditionally set the classes for the third image to adjust its position for 'SURU GPT'.
-  const thirdImagePositionClasses = project.name === 'SURU GPT'
-    ? 'bottom-[12%] right-[28%]'
-    : 'bottom-[18%] right-[24%]';
+  const { layout } = project;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
@@ -53,7 +35,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <span>/03</span>
       </div>
       
-      {/* Container for the step-by-step image layout */}
+      {/* Container for the dynamic image layout driven by data */}
       <div 
         key={project.name} 
         className="flex-1 relative w-full h-full animate-fade-in"
@@ -62,8 +44,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <img
           src={project.images[0]}
           alt={`${project.name} screenshot 1`}
-          className={`${imageBaseClasses} ${firstImageClasses}`}
-          style={{ zIndex: 10 }}
+          className={`${imageBaseClasses} ${layout.img1}`}
           aria-hidden="true"
         />
 
@@ -71,31 +52,27 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <img
           src={project.images[1]}
           alt={`${project.name} screenshot 2`}
-          className={`${imageBaseClasses} ${secondImageClasses}`}
-          style={{ zIndex: secondImageZIndex }}
+          className={`${imageBaseClasses} ${layout.img2}`}
           aria-hidden="true"
         />
 
-        {/* Image 3 (barkchain-3.png) - Conditionally render for projects with 4 images */}
-        {project.images.length > 3 && (
+        {/* Image 3 - Render only if exists and layout is provided */}
+        {project.images.length > 3 && layout.img3 && (
           <img
             src={project.images[2]}
             alt={`${project.name} screenshot 3`}
-            className={`${imageBaseClasses} w-[22.5%] h-auto ${thirdImagePositionClasses}`}
-            style={{ zIndex: 30 }}
+            className={`${imageBaseClasses} ${layout.img3}`}
             aria-hidden="true"
           />
         )}
 
-        {/* Image 4 (barkchain-4.png) - Use last image in array */}
+        {/* Image 4 - Use last image in array */}
         <img
           src={project.images.length > 3 ? project.images[3] : project.images[2]}
           alt={`${project.name} screenshot 4`}
-          className={`${imageBaseClasses} h-[92%] w-auto bottom-4 right-0`}
-          style={{ zIndex: 25 }}
+          className={`${imageBaseClasses} ${layout.img4}`}
           aria-hidden="true"
         />
-
       </div>
     </div>
   );
