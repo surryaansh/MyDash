@@ -10,7 +10,7 @@ import { ContactSection } from './components/layout/ContactSection.tsx';
 import { Footer } from './components/layout/Footer.tsx';
 import { useMousePosition } from './hooks/useMousePosition.ts';
 import { PROJECTS_DATA } from './constants/projects.ts';
-import './types.d.ts'; // Import for global type declarations
+import './types.d.ts'; // Import for global type declaration
 
 // Memoize components that do not need to re-render on every state change.
 const MemoizedHeader = memo(Header);
