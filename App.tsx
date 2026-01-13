@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo, useEffect } from 'react';
+import React, { useState, memo } from 'react';
 import { Header } from './components/layout/Header.tsx';
 import { LeftPanel } from './components/layout/LeftPanel.tsx';
 import { RightPanel } from './components/layout/RightPanel.tsx';
@@ -10,35 +10,25 @@ import { ContactSection } from './components/layout/ContactSection.tsx';
 import { Footer } from './components/layout/Footer.tsx';
 import { useMousePosition } from './hooks/useMousePosition.ts';
 import { PROJECTS_DATA } from './constants/projects.ts';
-import './types.d.ts'; // Import for global type declaration
 
-// Memoize components that do not need to re-render on every state change.
 const MemoizedHeader = memo(Header);
 const MemoizedLeftPanel = memo(LeftPanel);
 const MemoizedProjectsLeftPanel = memo(ProjectsLeftPanel);
 const MemoizedSkillsSection = memo(SkillsSection);
 const MemoizedFooter = memo(Footer);
 
-/**
- * The main application component.
- * Manages global state such as theme, cursor position, and view transitions.
- */
 export default function App() {
-  // Global cursor position and link hover state.
   const { position: cursorPosition, isHoveringLink } = useMousePosition();
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string>(PROJECTS_DATA[0].name);
   
-  /**
-   * Handles the theme toggle with a smooth circular reveal animation
-   * using the View Transition API.
-   * @param event - The mouse event from the button click.
-   */
   const handleThemeToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // Fallback for browsers that do not support the View Transition API.
-    if (!document.startViewTransition) {
+    // Local type cast to avoid needing types.d.ts
+    const doc = document as any;
+
+    if (!doc.startViewTransition) {
       setIsDarkMode(!isDarkMode);
       return;
     }
@@ -53,7 +43,7 @@ export default function App() {
     );
 
     setIsTransitioning(true);
-    const transition = document.startViewTransition(() => {
+    const transition = doc.startViewTransition(() => {
       setIsDarkMode(prev => !prev);
     });
 
