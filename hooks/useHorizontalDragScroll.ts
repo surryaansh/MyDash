@@ -8,10 +8,8 @@ interface DragScrollOptions {
 }
 
 /**
- * Custom hook to enable horizontal drag-to-scroll and continuous auto-scrolling
- * for an element, creating an infinite carousel effect.
- * @param options - Configuration for scroll speed and friction.
- * @returns An object with a ref for the scrollable element and event handlers to spread onto it.
+ * Custom hook to enable horizontal drag-to-scroll and continuous auto-scrolling.
+ * Uses a virtual coordinate system to ensure smoothness and infinite looping.
  */
 export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const { autoScrollSpeed = 1.02, friction = 0.95 } = options;
@@ -32,28 +30,22 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     startX.current = e.pageX;
     lastMouseX.current = e.pageX;
     scrollLeftStart.current = virtualScrollLeft.current;
-    scrollerRef.current.style.cursor = 'grabbing';
-    scrollerRef.current.style.userSelect = 'none';
   }, []);
 
   const handleMouseUpOrLeave = useCallback(() => {
-    if (!isDragging.current) return;
     isDragging.current = false;
-    if (scrollerRef.current) {
-      scrollerRef.current.style.cursor = 'grab';
-      scrollerRef.current.style.removeProperty('user-select');
-    }
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging.current || !scrollerRef.current) return;
-    e.preventDefault();
-    const mouseX = e.pageX;
     
+    const mouseX = e.pageX;
     const walk = mouseX - startX.current;
+    
+    // Update the virtual scroll position based on drag distance
     virtualScrollLeft.current = scrollLeftStart.current - walk;
     
-    // Update velocity for a smooth release animation
+    // Calculate velocity for momentum after release
     velocity.current = lastMouseX.current - mouseX;
     lastMouseX.current = mouseX;
   }, []);
@@ -66,30 +58,31 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
       if (!scroller) return;
 
       if (!isDragging.current) {
-        // Apply friction to velocity for a coasting effect after drag
+        // Apply friction to the drag velocity (momentum)
         if (Math.abs(velocity.current) > 0.1) {
           virtualScrollLeft.current += velocity.current;
           velocity.current *= friction;
         } else {
-          // If not coasting, apply the constant auto-scroll
+          // Default to steady auto-scroll when idle
           velocity.current = 0;
           virtualScrollLeft.current += autoScrollSpeed;
         }
       }
       
-      // The content is duplicated, so we only need to scroll half the width
-      // to create a seamless, infinite loop effect.
+      // Handle infinite loop reset
       const scrollableWidth = scroller.scrollWidth / 2;
       if (scrollableWidth > 0) {
         if (virtualScrollLeft.current >= scrollableWidth) {
           virtualScrollLeft.current -= scrollableWidth;
+          // Synchronize start point if we loop mid-drag
+          if (isDragging.current) scrollLeftStart.current -= scrollableWidth;
         } else if (virtualScrollLeft.current < 0) {
           virtualScrollLeft.current += scrollableWidth;
+          if (isDragging.current) scrollLeftStart.current += scrollableWidth;
         }
       }
       
       scroller.scrollLeft = virtualScrollLeft.current;
-
       animationFrameId.current = requestAnimationFrame(animate);
     };
 

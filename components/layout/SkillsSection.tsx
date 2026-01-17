@@ -32,13 +32,12 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
       </div>
       <div
         ref={scrollerRef}
-        className="overflow-x-auto no-scrollbar px-5 sm:px-7 md:px-10"
-        style={{ cursor: 'grab' }}
+        className="overflow-x-auto no-scrollbar px-5 sm:px-7 md:px-10 cursor-none select-none"
         role="region"
         aria-label="Technology Skills Carousel"
         {...eventHandlers}
       >
-        <div className="flex w-max items-center transform -translate-y-2" role="list">
+        <div className="flex w-max items-center transform -translate-y-2 pointer-events-none" role="list">
           {duplicatedSkills.map((skill, index) => (
             <div 
               key={index} 
