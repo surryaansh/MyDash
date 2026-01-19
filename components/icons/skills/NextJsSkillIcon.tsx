@@ -10,7 +10,7 @@ interface IconProps {
  */
 export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
   return (
-    <div className={`${className} flex items-center justify-center gap-1.5 md:gap-2`}>
+    <div className={`${className} flex items-center justify-center gap-1 md:gap-1.5`}>
       {/* Logo Part */}
       <svg
         viewBox="0 0 512 512"
@@ -21,14 +21,14 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
           <circle cx="40" cy="40" r="40" fill="currentColor" />
           <path
             d="M66.448 70.009L30.73 24H24v31.987h5.384v-25.15l32.838 42.427a40.116 40.116 0 004.226-3.255z"
-            fill="url(#nextjs-gradient-1)"
+            fill="url(#nextjs-gradient-1-updated)"
             fillRule="nonzero"
           />
-          <path fill="url(#nextjs-gradient-2)" d="M51.111 24h5.333v32h-5.333z" />
+          <path fill="url(#nextjs-gradient-2-updated)" d="M51.111 24h5.333v32h-5.333z" />
         </g>
         <defs>
           <linearGradient
-            id="nextjs-gradient-1"
+            id="nextjs-gradient-1-updated"
             x1="0"
             y1="0"
             x2="1"
@@ -40,7 +40,7 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
           <linearGradient
-            id="nextjs-gradient-2"
+            id="nextjs-gradient-2-updated"
             x1="0"
             y1="0"
             x2="1"
@@ -57,7 +57,7 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
       {/* New Text Part */}
       <svg
         viewBox="0 0 394.06368496349046 79.4"
-        className="h-[55%] w-auto flex-shrink-0 mt-0.5"
+        className="h-[52%] w-auto flex-shrink-0 mt-0.5"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
       >
