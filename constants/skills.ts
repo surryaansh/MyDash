@@ -25,7 +25,7 @@ export const SKILLS = [
     component: EthereumSkillIcon,
     transform: 'transform -translate-y-px',
     size: 'w-40 h-40 md:w-[10.5rem] md:h-[10.5rem]',
-    margin: 'mr-8 sm:mr-10 md:mr-12' // Custom smaller margin
+    margin: 'mr-8 sm:mr-10 md:mr-12'
   },
   { component: SoliditySkillIcon, transform: 'transform -translate-y-px' },
   { component: MetamaskSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 md:w-[10rem]' },
@@ -33,14 +33,14 @@ export const SKILLS = [
   { component: PythonSkillIcon, transform: 'transform -translate-y-px', size: 'w-[8.5rem] md:w-[8.5rem]' },
   { 
     component: TypescriptSkillIcon, 
-    transform: 'transform -translate-y-px', 
+    transform: 'transform translate-y-[1%]', 
     size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]', 
-    margin: 'mr-7 sm:mr-9 md:mr-12' 
+    margin: 'mr-12 sm:mr-16 md:mr-24' 
   },
   { 
     component: NextJsSkillIcon, 
-    transform: 'transform translate-y-px', 
-    size: 'w-14 md:w-[4.1rem] h-8 md:h-[2.3rem]',
-    margin: 'mr-11 sm:mr-15 md:mr-22'
+    transform: '', 
+    size: 'w-13 md:w-[3.7rem] h-7 md:h-[2.1rem]',
+    margin: 'mr-16 sm:mr-24 md:mr-36'
   },
 ];
