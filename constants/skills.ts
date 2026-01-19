@@ -32,5 +32,5 @@ export const SKILLS = [
   { component: PolygonSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 md:w-[10rem]' },
   { component: PythonSkillIcon, transform: 'transform -translate-y-px', size: 'w-[8.5rem] md:w-[8.5rem]' },
   { component: TypescriptSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]', margin: 'mr-6 sm:mr-8 md:mr-10' },
-  { component: NextJsSkillIcon, transform: 'transform translate-y-px', size: 'w-22 md:w-[6.5rem] h-12 md:h-[3.75rem]' },
+  { component: NextJsSkillIcon, transform: 'transform translate-y-px', size: 'w-16 md:w-[4.6rem] h-9 md:h-[2.6rem]' },
 ];

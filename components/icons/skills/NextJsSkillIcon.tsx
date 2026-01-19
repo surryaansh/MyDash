@@ -6,11 +6,11 @@ interface IconProps {
 
 /**
  * Next.js skill icon component.
- * Combines the Next.js logo and text side-by-side.
+ * Combines the Next.js logo and text side-by-side using the latest branding.
  */
 export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
   return (
-    <div className={`${className} flex items-center justify-center gap-1.5 md:gap-2`}>
+    <div className={`${className} flex items-center justify-center gap-1 md:gap-1.5`}>
       {/* Logo Part */}
       <svg
         viewBox="0 0 512 512"
@@ -21,14 +21,14 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
           <circle cx="40" cy="40" r="40" fill="currentColor" />
           <path
             d="M66.448 70.009L30.73 24H24v31.987h5.384v-25.15l32.838 42.427a40.116 40.116 0 004.226-3.255z"
-            fill="url(#nextjs-gradient-1)"
+            fill="url(#nextjs-gradient-1-updated)"
             fillRule="nonzero"
           />
-          <path fill="url(#nextjs-gradient-2)" d="M51.111 24h5.333v32h-5.333z" />
+          <path fill="url(#nextjs-gradient-2-updated)" d="M51.111 24h5.333v32h-5.333z" />
         </g>
         <defs>
           <linearGradient
-            id="nextjs-gradient-1"
+            id="nextjs-gradient-1-updated"
             x1="0"
             y1="0"
             x2="1"
@@ -40,7 +40,7 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
           <linearGradient
-            id="nextjs-gradient-2"
+            id="nextjs-gradient-2-updated"
             x1="0"
             y1="0"
             x2="1"
@@ -54,14 +54,17 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
         </defs>
       </svg>
 
-      {/* Text Part */}
+      {/* New Text Part */}
       <svg
-        viewBox="0 0 257.95 155.96"
-        className="h-[55%] w-auto flex-shrink-0 mt-0.5"
+        viewBox="0 0 394.06368496349046 79.4"
+        className="h-[52%] w-auto flex-shrink-0 mt-0.5"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
       >
-        <path d="M443.89,474.7h48.65v3.88H448.35v29.17h41.56v3.88H448.35v32H493v3.88H443.89Zm53,0h5.17l22.91,32,23.41-32L580.24,434l-52.32,76.06,27,37.43H549.5L525,513.45l-24.63,34.06h-5.27l27.16-37.43L496.9,474.7Zm59.9,3.88V474.7h55.44v3.88H586.7v68.94h-4.46V478.57H556.8ZM383,474.7h5.58L465.47,590,433.7,547.51l-46-67.31-.2,67.31H383ZM611.8,542.47a1.62,1.62,0,1,1,1.59-1.62,1.58,0,0,1-1.59,1.62Zm4.38-4.27h2.39a2.18,2.18,0,0,0,2.36,2.17c1.55,0,2.43-.93,2.43-2.69v-11.1h2.43v11.11c0,3.16-1.82,5-4.84,5-2.83,0-4.77-1.76-4.77-4.46Zm12.79-.14h2.41c.21,1.49,1.66,2.44,3.75,2.44s3.38-1,3.38-2.41c0-1.2-.91-1.92-3-2.41l-2-.49c-2.83-.66-4.12-2-4.12-4.34,0-2.8,2.28-4.66,5.69-4.66,3.18,0,5.5,1.86,5.64,4.51h-2.36c-.23-1.45-1.48-2.35-3.31-2.35s-3.2.93-3.2,2.34c0,1.12.82,1.76,2.86,2.24l1.72.42c3.21.75,4.53,2.06,4.53,4.42,0,3-2.32,4.89-6,4.89-3.47,0-5.8-1.8-6-4.61Z" transform="translate(-383.02 -434.02)" />
+        <g>
+          <path d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262zM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7l-9-11-27.1 33.7h17.8z" />
+          <path d="M81 79.3L17 0H0v79.3h13.6V17l50.2 62.3zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6s1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2s3.2 2 4.3 3.4c1 1.4 1.5 3 1.5 5h-5.8z" />
+        </g>
       </svg>
     </div>
   );
