@@ -12,6 +12,7 @@ import { SoliditySkillIcon } from '@/components/icons/skills/SoliditySkillIcon.t
 import { MetamaskSkillIcon } from '@/components/icons/skills/MetamaskSkillIcon.tsx';
 import { GitSkillIcon } from '@/components/icons/skills/GitSkillIcon.tsx';
 import { AwsSkillIcon } from '@/components/icons/skills/AwsSkillIcon.tsx';
+import { DockerSkillIcon } from '@/components/icons/skills/DockerSkillIcon.tsx';
 import { PythonSkillIcon } from '@/components/icons/skills/PythonSkillIcon.tsx';
 import { TypescriptSkillIcon } from '@/components/icons/skills/TypescriptSkillIcon.tsx';
 import { NextJsSkillIcon } from '@/components/icons/skills/NextJsSkillIcon.tsx';
@@ -58,7 +59,13 @@ export const SKILLS = [
   { 
     component: AwsSkillIcon, 
     transform: 'transform translate-y-[1%]', 
-    size: 'w-24 md:w-[7.5rem]',
+    size: 'w-[3.6rem] md:w-[4.5rem]',
+    margin: 'mr-[2.9rem] sm:mr-[4.1rem] md:mr-[5.8rem]'
+  },
+  { 
+    component: DockerSkillIcon, 
+    transform: 'transform translate-y-[1%]', 
+    size: 'w-32 md:w-[10rem]',
     margin: 'mr-[3.1rem] sm:mr-[4.3rem] md:mr-[6.1rem]'
   },
   { 
