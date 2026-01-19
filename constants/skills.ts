@@ -10,6 +10,7 @@ import { MetamaskSkillIcon } from '../components/icons/skills/MetamaskSkillIcon.
 import { PolygonSkillIcon } from '../components/icons/skills/PolygonSkillIcon.tsx';
 import { PythonSkillIcon } from '../components/icons/skills/PythonSkillIcon.tsx';
 import { TypescriptSkillIcon } from '../components/icons/skills/TypescriptSkillIcon.tsx';
+import { NextJsSkillIcon } from '../components/icons/skills/NextJsSkillIcon.tsx';
 
 /**
  * Defines the list of skills to be displayed in the infinite scrolling section.
@@ -31,4 +32,5 @@ export const SKILLS = [
   { component: PolygonSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 md:w-[10rem]' },
   { component: PythonSkillIcon, transform: 'transform -translate-y-px', size: 'w-[8.5rem] md:w-[8.5rem]' },
   { component: TypescriptSkillIcon, transform: 'transform -translate-y-px', size: 'w-40 h-40 md:w-[11rem] md:h-[11rem]', margin: 'mr-6 sm:mr-8 md:mr-10' },
+  { component: NextJsSkillIcon, transform: 'transform translate-y-px', size: 'w-44 md:w-[13rem] h-24 md:h-[7.5rem]' },
 ];
