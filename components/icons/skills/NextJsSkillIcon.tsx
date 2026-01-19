@@ -10,7 +10,7 @@ interface IconProps {
  */
 export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
   return (
-    <div className={`${className} flex items-center justify-center gap-3`}>
+    <div className={`${className} flex items-center justify-center gap-1.5 md:gap-2`}>
       {/* Logo Part */}
       <svg
         viewBox="0 0 512 512"
@@ -57,7 +57,7 @@ export const NextJsSkillIcon: React.FC<IconProps> = ({ className }) => {
       {/* Text Part */}
       <svg
         viewBox="0 0 257.95 155.96"
-        className="h-[60%] w-auto flex-shrink-0 mt-1"
+        className="h-[55%] w-auto flex-shrink-0 mt-0.5"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
       >
