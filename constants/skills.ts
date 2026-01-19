@@ -58,14 +58,16 @@ export const SKILLS = [
   },
   { 
     component: AwsSkillIcon, 
-    transform: 'transform translate-y-[1%]', 
-    size: 'w-[3.6rem] md:w-[4.5rem]',
+    // Shifted downwards 3% more and reduced size by 5%
+    transform: 'transform translate-y-[4%]', 
+    size: 'w-[3.42rem] md:w-[4.275rem]',
     margin: 'mr-[2.9rem] sm:mr-[4.1rem] md:mr-[5.8rem]'
   },
   { 
     component: DockerSkillIcon, 
     transform: 'transform translate-y-[1%]', 
-    size: 'w-32 md:w-[10rem]',
+    // Reduced size by 10%
+    size: 'w-[7.2rem] md:w-[9rem]',
     margin: 'mr-[3.1rem] sm:mr-[4.3rem] md:mr-[6.1rem]'
   },
   { 
