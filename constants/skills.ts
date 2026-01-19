@@ -56,7 +56,12 @@ export const SKILLS = [
     size: 'w-[4.374rem] md:w-[5.103rem]',
     margin: 'mr-[2.85rem] sm:mr-[3.95rem] md:mr-[5.6rem]'
   },
-  { component: PythonSkillIcon, transform: 'transform -translate-y-px', size: 'w-[8.5rem] md:w-[8.5rem]' },
+  { 
+    component: PythonSkillIcon, 
+    transform: 'transform -translate-y-px', 
+    // Reduced from 8.5rem to 7.82rem (8% smaller)
+    size: 'w-[7.82rem] md:w-[7.82rem]' 
+  },
   { 
     component: TypescriptSkillIcon, 
     transform: 'transform translate-y-[1%]', 
