@@ -9,8 +9,9 @@ interface ProjectsRightPanelProps {
 export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMode, selectedProject }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
   
-  // Base classes for the images. Transitions are now controlled dynamically per-state.
-  const imageBaseClasses = `absolute object-cover border-[0.5px] border-black transition-all hover:scale-[1.02]`;
+  // Base classes for the images. 
+  // Added hover:delay-0 to ensure the scale transition isn't held back by the entrance stagger.
+  const imageBaseClasses = `absolute object-cover border-[0.5px] border-black transition-all hover:scale-[1.02] hover:delay-0`;
 
   return (
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
