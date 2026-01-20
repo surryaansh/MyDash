@@ -31,8 +31,8 @@ export const PROJECTS_DATA = [
       '/mydash-4.png',
     ],
     layout: {
-      img1: "",
-      img2: "w-[22.5%] h-auto bottom-[12%] right-[28%] z-[30]", 
+      img1: "w-[24.75%] h-auto bottom-[10.875%] right-[26.875%] z-[30]",
+      img2: "", 
       img3: "", 
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
