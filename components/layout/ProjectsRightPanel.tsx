@@ -47,7 +47,18 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
               key={project.name} 
               className={`absolute inset-0 w-full h-full ${isSelected ? 'z-10' : 'z-0'} pointer-events-none`}
             >
-              {/* Image 1 - Rendered first (lowest) */}
+              {/* Highlight Image (Image 4) - Rendered first to ensure it's ALWAYS the background layer */}
+              {layout.img4 && project.images.length > 0 && (
+                <div className={`absolute inset-0 transition-all ${getEntranceClasses(isSelected, 3)}`}>
+                  <img
+                    src={project.images[project.images.length - 1]}
+                    alt={`${project.name} main showcase`}
+                    className={`absolute ${layout.img4} ${imageInteractionClasses}`}
+                  />
+                </div>
+              )}
+
+              {/* Image 1 - Rendered after 4 to overlap it (Fixes MyDash) */}
               {layout.img1 && project.images[0] && (
                 <div className={`absolute inset-0 transition-all ${getEntranceClasses(isSelected, 0)}`}>
                   <img
@@ -69,18 +80,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
                 </div>
               )}
 
-              {/* Highlight Image (Image 4) - Swapped to render BEFORE Image 3 for correct overlap */}
-              {layout.img4 && project.images.length > 0 && (
-                <div className={`absolute inset-0 transition-all ${getEntranceClasses(isSelected, 3)}`}>
-                  <img
-                    src={project.images[project.images.length - 1]}
-                    alt={`${project.name} main showcase`}
-                    className={`absolute ${layout.img4} ${imageInteractionClasses}`}
-                  />
-                </div>
-              )}
-
-              {/* Image 3 - Rendered last (highest) to ensure it overlaps the Highlight Image */}
+              {/* Image 3 - Rendered last to overlap everything else (Barkchain/SuruGPT) */}
               {layout.img3 && project.images[2] && (
                 <div className={`absolute inset-0 transition-all ${getEntranceClasses(isSelected, 2)}`}>
                   <img
