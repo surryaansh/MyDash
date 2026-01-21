@@ -10,7 +10,7 @@ interface InteractiveFaceIconProps {
 
 /**
  * An interactive SVG face icon where the eyes and eyebrows follow the cursor's movement.
- * Features unified transforms for "flinching" eyebrows and "stroking" mouth animations.
+ * Features simplified unified transforms to ensure fluid muscular movement.
  */
 export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode, isConnectHovered = false }) => {
   const faceRef = useRef<SVGSVGElement>(null);
@@ -86,19 +86,13 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const maxTravelX = 60;
     const maxTravelY = 30;
     const sensitivity = 0.42; 
-    const freeness = 0.12; 
 
     const calculateEye = (eyeCenter: { x: number, y: number }) => {
       const udx = (cursorPosition.x - face.x) * sensitivity;
       const udy = (cursorPosition.y - face.y) * sensitivity;
-      const ldx = (cursorPosition.x - eyeCenter.x) * sensitivity;
-      const ldy = (cursorPosition.y - eyeCenter.y) * sensitivity;
-
-      let dx_raw = (udx * (1 - freeness)) + (ldx * freeness);
-      let dy_raw = (udy * (1 - freeness)) + (ldy * freeness);
       
-      let dx = dx_raw / scale.x;
-      let dy = dy_raw / scale.y;
+      let dx = udx / scale.x;
+      let dy = udy / scale.y;
 
       const ellipseRatio = (dx / maxTravelX) ** 2 + (dy / maxTravelY) ** 2;
       if (ellipseRatio > 1) {
@@ -116,8 +110,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   };
 
   /**
-   * Unified eyebrow transforms. 
-   * Uses dynamic transition durations to maintain snappy follow and smooth flinching.
+   * Refined Eyebrow logic.
+   * Everything is merged into a single coordinate target to ensure no 'popping' occurs.
    */
   const getEyebrowTransforms = () => {
     const { face } = elementPositions;
@@ -125,45 +119,46 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       return { left: { dx: 0, dy: 0, angle: 0 }, right: { dx: 0, dy: 0, angle: 0 } };
     }
 
-    // Dynamic mouse tracking factors
+    // Dynamic mouse factor (-1 to 1)
     const dx = cursorPosition.x - face.x;
     const dy = cursorPosition.y - face.y;
     const xFactor = Math.max(-1, Math.min(1, dx / (face.width / 2)));
     const yFactor = Math.max(-1, Math.min(1, dy / (face.height / 1.5)));
 
-    // Base movement logic
-    const tilt = xFactor * 5; 
-    const verticalOffset = yFactor * (yFactor < 0 ? 18 : 10); 
-    const frownAngle = yFactor > 0 ? yFactor * 12 : 0; 
-    const seeSawOffset = xFactor * -15; 
-    const maxSqueeze = 25;
-    const leftSqueeze = xFactor > 0 ? xFactor * maxSqueeze : 0;
-    const rightSqueeze = xFactor < 0 ? xFactor * maxSqueeze : 0;
+    // Base "Rest" offsets from the original SVG design
+    const LEFT_REST_DX = -65;
+    const LEFT_REST_DY = 25;
+    const LEFT_REST_ANGLE = -25;
 
-    // Default target values (tracking)
-    let leftTargetDx = leftSqueeze;
-    let leftTargetDy = verticalOffset + seeSawOffset;
-    let leftTargetAngle = tilt + frownAngle;
+    const RIGHT_REST_DX = 75;
+    const RIGHT_REST_DY = 10;
+    const RIGHT_REST_ANGLE = 30;
 
-    let rightTargetDx = rightSqueeze;
-    let rightTargetDy = verticalOffset - seeSawOffset;
-    let rightTargetAngle = tilt - frownAngle;
+    // Movement responsiveness
+    const trackingTilt = xFactor * 8; 
+    const trackingVertical = yFactor * 20; 
+    const trackingSqueeze = xFactor * 15;
 
-    // Hover override (converge)
+    let leftT = { dx: LEFT_REST_DX + trackingSqueeze, dy: LEFT_REST_DY + trackingVertical, angle: LEFT_REST_ANGLE + trackingTilt };
+    let rightT = { dx: RIGHT_REST_DX + trackingSqueeze, dy: RIGHT_REST_DY + trackingVertical, angle: RIGHT_REST_ANGLE + trackingTilt };
+
+    // Hover Override - The "Gliding" targets
     if (isConnectHovered) {
-      leftTargetDx = 30;      // Inward squeeze
-      leftTargetDy = -15;     // Surprised lift
-      leftTargetAngle = 25;   // Flinch rotation
+      // Transition to centered converged state
+      leftT = { 
+        dx: LEFT_REST_DX + 50,    // Slide inward
+        dy: LEFT_REST_DY - 25,    // Lift up
+        angle: LEFT_REST_ANGLE + 60 // Rotate inward (final angle ~35deg)
+      };
       
-      rightTargetDx = -30;    // Inward squeeze
-      rightTargetDy = -15;    // Surprised lift
-      rightTargetAngle = -25; // Flinch rotation
+      rightT = { 
+        dx: RIGHT_REST_DX - 50,   // Slide inward
+        dy: RIGHT_REST_DY - 25,   // Lift up
+        angle: RIGHT_REST_ANGLE - 60 // Rotate inward (final angle ~-30deg)
+      };
     }
 
-    return {
-      left: { dx: leftTargetDx, dy: leftTargetDy, angle: leftTargetAngle },
-      right: { dx: rightTargetDx, dy: rightTargetDy, angle: rightTargetAngle }
-    };
+    return { left: leftT, right: rightT };
   }
 
   const pupils = getPupilTransforms();
@@ -171,11 +166,11 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
 
-  // Fixed pivot points for rotations
-  const leftEB_CX = 286;
-  const leftEB_CY = 238;
-  const rightEB_CX = 574;
-  const rightEB_CY = 239;
+  // Rotation centers for eyebrows (must match SVG coordinates)
+  const EB_L_CX = 286;
+  const EB_L_CY = 238;
+  const EB_R_CX = 574;
+  const EB_R_CY = 239;
 
   return (
     <svg ref={faceRef} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="67 105 745 364">
@@ -196,18 +191,15 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </g>
       </g>
       
-      {/* Left Eyebrow - Single group with dynamic transition */}
+      {/* Left Eyebrow - Unified smooth transform */}
       <g 
-        transform={`translate(${leftEB.dx}, ${leftEB.dy}) rotate(${leftEB.angle}, ${leftEB_CX}, ${leftEB_CY})`}
+        transform={`translate(${leftEB.dx}, ${leftEB.dy}) rotate(${leftEB.angle}, ${EB_L_CX}, ${EB_L_CY})`}
         style={{ 
           willChange: 'transform',
-          // Faster duration during mouse move for responsiveness, longer for flinch glide
-          transition: `transform ${isConnectHovered ? '0.5s' : '0.1s'} cubic-bezier(0.34, 1.56, 0.64, 1)`
+          transition: 'transform 0.45s cubic-bezier(0.23, 1, 0.32, 1)' 
         }}
       >
-        <g transform="translate(-65, 25) rotate(-25, 286, 238)">
-          <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
-        </g>
+        <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
       </g>
 
       {/* Right Eye */}
@@ -218,20 +210,18 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </g>
       </g>
       
-      {/* Right Eyebrow - Single group with dynamic transition */}
+      {/* Right Eyebrow - Unified smooth transform */}
       <g 
-        transform={`translate(${rightEB.dx}, ${rightEB.dy}) rotate(${rightEB.angle}, ${rightEB_CX}, ${rightEB_CY})`}
+        transform={`translate(${rightEB.dx}, ${rightEB.dy}) rotate(${rightEB.angle}, ${EB_R_CX}, ${EB_R_CY})`}
         style={{ 
           willChange: 'transform',
-          transition: `transform ${isConnectHovered ? '0.5s' : '0.1s'} cubic-bezier(0.34, 1.56, 0.64, 1)`
+          transition: 'transform 0.45s cubic-bezier(0.23, 1, 0.32, 1)' 
         }}
       >
-        <g transform="translate(75, 10) rotate(30, 574, 239)">
-          <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
-        </g>
+        <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10.0412" transform="translate(24.26, -13.98)"></path>
       </g>
       
-      {/* Mouth Component */}
+      {/* Mouth Component with consistent transitioned state */}
       <g className="mouth-group">
         <path 
           transform="scale(1.43) translate(-4, -3)" 
