@@ -40,7 +40,7 @@ export const PROJECTS_DATA = [
   },
   {
     name: "SURU GPT",
-    description: "A context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection at inference time.",
+    description: "SuruGPT is a context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection.",
     keywords: ["ARTIFICIAL INTELLIGENCE", "DEVELOPER TOOLS", "LLM"],
     images: [
       '/surugpt-1.png',
