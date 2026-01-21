@@ -10,8 +10,7 @@ interface InteractiveFaceIconProps {
 
 /**
  * An interactive SVG face icon.
- * Features a dual-layer cross-fade for eyebrows to ensure responsive tracking
- * and a refined flinch pose where eyes and brows converge toward the center.
+ * Features a dual-layer cross-fade for eyebrows and organic, asymmetric pupil tracking.
  */
 export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode, isConnectHovered = false }) => {
   const faceRef = useRef<SVGSVGElement>(null);
@@ -73,17 +72,26 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const { face, scale } = elementPositions;
     if (face.width === 0 || face.x === 0) return { left: { dx: 0, dy: 0 }, right: { dx: 0, dy: 0 } };
 
-    const maxTravelX = 60;
-    const maxTravelY = 35;
-    const sensitivity = 0.45; 
+    // Common tracking base
+    const rawDx = (cursorPosition.x - face.x) / scale.x;
+    const rawDy = (cursorPosition.y - face.y) / scale.y;
 
-    const rawDx = ((cursorPosition.x - face.x) * sensitivity) / scale.x;
-    const rawDy = ((cursorPosition.y - face.y) * sensitivity) / scale.y;
+    /**
+     * Helper to apply asymmetric sensitivity and limits to each eye
+     * This creates "freeness" so they don't look like a single rigid unit.
+     */
+    const getEyeMove = (sX: number, sY: number, maxX: number, maxY: number, isLeft: boolean) => {
+      let tx = rawDx * sX;
+      let ty = rawDy * sY;
 
-    const limit = (x: number, y: number) => {
-      let tx = x;
-      let ty = y;
-      const ratio = (tx / maxTravelX) ** 2 + (ty / maxTravelY) ** 2;
+      // Add flinch pull
+      if (isConnectHovered) {
+        tx += isLeft ? 38 : -38;
+        ty += 24;
+      }
+
+      // Constrain within elliptical bound
+      const ratio = (tx / maxX) ** 2 + (ty / maxY) ** 2;
       if (ratio > 1) {
         const factor = 1 / Math.sqrt(ratio);
         tx *= factor;
@@ -92,14 +100,12 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       return { dx: tx, dy: ty };
     };
 
-    // Concentrated pull inward and downward for flinch
-    const pullX = 42;
-    const pullY = 28;
+    // Left eye: More sensitive to X, larger horizontal travel
+    const left = getEyeMove(0.48, 0.44, 62, 34, true);
+    // Right eye: More sensitive to Y, tighter horizontal travel
+    const right = getEyeMove(0.42, 0.46, 58, 36, false);
 
-    const leftFinal = limit(rawDx + (isConnectHovered ? pullX : 0), rawDy + (isConnectHovered ? pullY : 0));
-    const rightFinal = limit(rawDx - (isConnectHovered ? pullX : 0), rawDy + (isConnectHovered ? pullY : 0));
-
-    return { left: leftFinal, right: rightFinal };
+    return { left, right };
   };
 
   const getTrackingEyebrows = () => {
@@ -111,9 +117,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const xFactor = Math.max(-1, Math.min(1, dx / (face.width / 2)));
     const yFactor = Math.max(-1, Math.min(1, dy / (face.height / 1.5)));
 
-    const moveX = xFactor * 15;
-    const moveY = yFactor * 12;
-    const rot = xFactor * 8;
+    const moveX = xFactor * 18;
+    const moveY = yFactor * 10;
+    const rot = xFactor * 6;
 
     return {
       left: `translate(${moveX}, ${moveY}) rotate(${rot}, 286, 238)`,
@@ -146,8 +152,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </clipPath>
       </defs>
       
-      {/* Left Eye Assembly - Shifts 15 units (2% of 745) right on flinch */}
-      <g style={{ ...crossFadeStyle, transform: isConnectHovered ? 'translate(15px, 2px)' : 'translate(0px, 0px)' }}>
+      {/* Left Eye Assembly - Shifts right by exactly 2% (15px) on flinch */}
+      <g style={{ transition: 'transform 0.4s ease-in-out', transform: isConnectHovered ? 'translateX(15px)' : 'translateX(0)' }}>
         <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
         <g clipPath="url(#leftEyeClip)">
           <g 
@@ -166,15 +172,15 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(-40, 10) rotate(-25, 286, 238)"></path>
         </g>
         <g 
-          transform={`translate(60, 35) rotate(35, ${EB_L_CX}, ${EB_L_CY})`} 
+          transform={`translate(55, 30) rotate(32, ${EB_L_CX}, ${EB_L_CY})`} 
           style={{ ...crossFadeStyle, opacity: isConnectHovered ? 1 : 0 }}
         >
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(-40, 10) rotate(-25, 286, 238)"></path>
         </g>
       </g>
 
-      {/* Right Eye Assembly */}
-      <g style={{ ...crossFadeStyle, transform: isConnectHovered ? 'translate(-5px, 2px)' : 'translate(0px, 0px)' }}>
+      {/* Right Eye Assembly - Remains Stationary */}
+      <g>
         <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
         <g clipPath="url(#rightEyeClip)">
           <g 
@@ -193,7 +199,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(100, 0) rotate(30, 574, 239)"></path>
         </g>
         <g 
-          transform={`translate(-60, 35) rotate(-35, ${EB_R_CX}, ${EB_R_CY})`}
+          transform={`translate(-55, 30) rotate(-32, ${EB_R_CX}, ${EB_R_CY})`}
           style={{ ...crossFadeStyle, opacity: isConnectHovered ? 1 : 0 }}
         >
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(100, 0) rotate(30, 574, 239)"></path>
