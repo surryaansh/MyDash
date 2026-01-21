@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useHorizontalDragScroll } from '../../hooks/useHorizontalDragScroll.ts';
 import { SKILLS } from '../../constants/skills.ts';
@@ -21,23 +22,22 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
   const defaultMargin = 'mr-10 sm:mr-14 md:mr-20';
   
   // To create a seamless infinite scroll, we render the list of skills twice.
-  // When the scroll reaches the end of the first list, it's reset to the beginning.
   const duplicatedSkills = [...SKILLS, ...SKILLS];
 
   return (
-    <section id="skills" className={`border-t ${borderClasses}`}>
+    <section id="skills" className={`border-t flex flex-col ${borderClasses}`}>
       <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
         <span>04 SKILLS</span>
         <span>/04</span>
       </div>
       <div
         ref={scrollerRef}
-        className="overflow-x-auto no-scrollbar px-5 sm:px-7 md:px-10 cursor-none select-none"
+        className="overflow-x-auto no-scrollbar px-5 sm:px-7 md:px-10 cursor-none select-none min-h-[140px] md:min-h-[180px] flex items-center"
         role="region"
         aria-label="Technology Skills Carousel"
         {...eventHandlers}
       >
-        <div className="flex w-max items-center transform -translate-y-2 pointer-events-none" role="list">
+        <div className="flex w-max items-center pointer-events-none" role="list">
           {duplicatedSkills.map((skill, index) => (
             <div 
               key={index} 
