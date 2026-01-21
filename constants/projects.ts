@@ -6,7 +6,7 @@
 export const PROJECTS_DATA = [
   {
     name: "BARKCHAIN",
-    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable stray-dog adoption. It implements ERC-20 token and ERC-721 NFT-based adoption certificates via MetaMask. It supports dog listings, adoption workflows, and SOS reporting.",
+    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable stray-dog adoption. It implements ERC-20 token and ERC-721 NFT-based adoption certificates via MetaMask. It supports dog listings, adoption workflows, and geolocation-based SOS reporting.",
     keywords: ["TRUSTLESS INFRASTRUCTURE", "UX DESIGN", "SMART CONTRACTS"],
     images: [
       '/barkchain-1.png',
@@ -20,7 +20,8 @@ export const PROJECTS_DATA = [
       img3: "w-[22.5%] h-auto bottom-[18%] right-[22%] z-[30]",
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
-    link: "#"
+    link: "#",
+    githubLink: "https://github.com"
   },
   {
     name: "MYDASH",
@@ -36,11 +37,12 @@ export const PROJECTS_DATA = [
       img3: "", 
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
-    link: "#"
+    link: "#",
+    githubLink: "https://github.com"
   },
   {
     name: "SURU GPT",
-    description: "SuruGPT is a context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection.",
+    description: "A context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection at inference time.",
     keywords: ["ARTIFICIAL INTELLIGENCE", "DEVELOPER TOOLS", "LLM"],
     images: [
       '/surugpt-1.png',
@@ -54,7 +56,8 @@ export const PROJECTS_DATA = [
       img3: "w-[22.5%] h-auto bottom-[12%] right-[28%] z-[30]",
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
-    link: "#"
+    link: "#",
+    githubLink: "https://github.com"
   },
 ];
 

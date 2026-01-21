@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { PROJECTS_DATA } from '../../constants/projects.ts';
+import { GithubArrowIcon } from '../icons/GithubArrowIcon.tsx';
 
 interface ProjectsRightPanelProps {
   isDarkMode: boolean;
@@ -36,7 +36,20 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
     <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
       <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
         <span>03 WORK</span>
-        <span>/03</span>
+        <div className="flex flex-col items-end">
+          <span>/03</span>
+          {activeProjectData?.githubLink && (
+            <a 
+              href={activeProjectData.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 transition-colors duration-300 hover:text-[#FF4500]"
+              aria-label={`View ${selectedProject} on GitHub`}
+            >
+              <GithubArrowIcon className="w-5 h-auto" />
+            </a>
+          )}
+        </div>
       </div>
       
       {/* Project Description Block - Shifted 6% down with matched in-animation (no delay) */}
