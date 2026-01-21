@@ -39,13 +39,13 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <span>/03</span>
       </div>
       
-      {/* Project Description Block */}
-      <div className={`text-[10px] uppercase leading-relaxed mb-6 max-w-[280px] lg:max-w-md animate-fade-in ${grayTextClasses}`} key={selectedProject}>
+      {/* Project Description Block - Tightened width for better alignment */}
+      <div className={`text-[10px] uppercase leading-relaxed mb-6 max-w-[280px] lg:max-w-[320px] animate-fade-in ${grayTextClasses}`} key={selectedProject}>
         {activeProjectData?.description}
       </div>
       
-      {/* Image Container with stable minimum height to prevent layout warping */}
-      <div className="flex-1 relative w-full h-full min-h-[350px] lg:min-h-[500px] overflow-hidden">
+      {/* Image Container - Scaled down min-height by ~20% to follow section scaling */}
+      <div className="flex-1 relative w-full h-full min-h-[300px] lg:min-h-[420px] overflow-hidden">
         {PROJECTS_DATA.map((project) => {
           const isSelected = project.name === selectedProject;
           const { layout } = project;
