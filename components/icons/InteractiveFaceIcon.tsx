@@ -116,8 +116,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   };
 
   /**
-   * Unifies tracking and expression into a single set of targets.
-   * When hovered, mouse inputs are discarded for fixed "center" coordinates.
+   * Unified eyebrow transforms. 
+   * Uses dynamic transition durations to maintain snappy follow and smooth flinching.
    */
   const getEyebrowTransforms = () => {
     const { face } = elementPositions;
@@ -125,12 +125,13 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       return { left: { dx: 0, dy: 0, angle: 0 }, right: { dx: 0, dy: 0, angle: 0 } };
     }
 
-    // Dynamic mouse-tracking factors
+    // Dynamic mouse tracking factors
     const dx = cursorPosition.x - face.x;
     const dy = cursorPosition.y - face.y;
     const xFactor = Math.max(-1, Math.min(1, dx / (face.width / 2)));
     const yFactor = Math.max(-1, Math.min(1, dy / (face.height / 1.5)));
 
+    // Base movement logic
     const tilt = xFactor * 5; 
     const verticalOffset = yFactor * (yFactor < 0 ? 18 : 10); 
     const frownAngle = yFactor > 0 ? yFactor * 12 : 0; 
@@ -139,7 +140,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     const leftSqueeze = xFactor > 0 ? xFactor * maxSqueeze : 0;
     const rightSqueeze = xFactor < 0 ? xFactor * maxSqueeze : 0;
 
-    // Determine final target position
+    // Default target values (tracking)
     let leftTargetDx = leftSqueeze;
     let leftTargetDy = verticalOffset + seeSawOffset;
     let leftTargetAngle = tilt + frownAngle;
@@ -148,15 +149,15 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     let rightTargetDy = verticalOffset - seeSawOffset;
     let rightTargetAngle = tilt - frownAngle;
 
-    // If hovered, override mouse input with fixed converged targets
+    // Hover override (converge)
     if (isConnectHovered) {
-      leftTargetDx = 25;      // Converged towards center
-      leftTargetDy = -15;     // Surprise lift
-      leftTargetAngle = 22;   // Inward rotation
+      leftTargetDx = 30;      // Inward squeeze
+      leftTargetDy = -15;     // Surprised lift
+      leftTargetAngle = 25;   // Flinch rotation
       
-      rightTargetDx = -25;    // Converged towards center
-      rightTargetDy = -15;    // Surprise lift
-      rightTargetAngle = -22; // Inward rotation
+      rightTargetDx = -30;    // Inward squeeze
+      rightTargetDy = -15;    // Surprised lift
+      rightTargetAngle = -25; // Flinch rotation
     }
 
     return {
@@ -170,7 +171,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
 
-  // Static rotation centers
+  // Fixed pivot points for rotations
   const leftEB_CX = 286;
   const leftEB_CY = 238;
   const rightEB_CX = 574;
@@ -195,12 +196,13 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </g>
       </g>
       
-      {/* Left Eyebrow - Single group for all transforms to ensure smooth flow */}
+      {/* Left Eyebrow - Single group with dynamic transition */}
       <g 
         transform={`translate(${leftEB.dx}, ${leftEB.dy}) rotate(${leftEB.angle}, ${leftEB_CX}, ${leftEB_CY})`}
         style={{ 
           willChange: 'transform',
-          transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+          // Faster duration during mouse move for responsiveness, longer for flinch glide
+          transition: `transform ${isConnectHovered ? '0.5s' : '0.1s'} cubic-bezier(0.34, 1.56, 0.64, 1)`
         }}
       >
         <g transform="translate(-65, 25) rotate(-25, 286, 238)">
@@ -216,12 +218,12 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </g>
       </g>
       
-      {/* Right Eyebrow - Single group for all transforms to ensure smooth flow */}
+      {/* Right Eyebrow - Single group with dynamic transition */}
       <g 
         transform={`translate(${rightEB.dx}, ${rightEB.dy}) rotate(${rightEB.angle}, ${rightEB_CX}, ${rightEB_CY})`}
         style={{ 
           willChange: 'transform',
-          transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+          transition: `transform ${isConnectHovered ? '0.5s' : '0.1s'} cubic-bezier(0.34, 1.56, 0.64, 1)`
         }}
       >
         <g transform="translate(75, 10) rotate(30, 574, 239)">
@@ -229,9 +231,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         </g>
       </g>
       
-      {/* Mouth Component with dual-direction stroking animation */}
+      {/* Mouth Component */}
       <g className="mouth-group">
-        {/* Standard Neutral Mouth */}
         <path 
           transform="scale(1.43) translate(-4, -3)" 
           d="M303.755 322.279C303.755 322.279 306.533 301.467 315.204 302.897C317.611 303.294 319.874 305.306 321.63 307.387C322.882 308.872 326.005 308.326 326.714 306.517C327.558 304.369 328.793 302.219 330.549 301.169C337.703 296.892 347.191 314.644 347.191 314.644" 
@@ -248,7 +249,6 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           }}
         />
 
-        {/* Special Smile Mouth */}
         <g transform="translate(-10, 25)">
           <path 
             d="M481.921 396.586L421.351 383.886C418.826 383.357 416.406 385.058 416.228 387.632C415.327 400.666 415.65 436.353 445.832 438.94C472.109 441.192 482.267 412.692 485.193 401.7C485.816 399.361 484.291 397.083 481.921 396.586Z" 
