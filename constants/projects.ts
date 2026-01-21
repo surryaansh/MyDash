@@ -38,7 +38,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com/surryaansh/My-Portfolio"
+    githubLink: "https://github.com/surryaansh/MyDash"
   },
   {
     name: "SURU GPT",
