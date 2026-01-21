@@ -1,21 +1,22 @@
+
 // constants/skills.ts
 
-import { ReactSkillIcon } from '@/components/icons/skills/ReactSkillIcon.tsx';
-import { NodeSkillIcon } from '@/components/icons/skills/NodeSkillIcon.tsx';
-import { ExpressSkillIcon } from '@/components/icons/skills/ExpressSkillIcon.tsx';
-import { MongoSkillIcon } from '@/components/icons/skills/MongoSkillIcon.tsx';
-import { TailwindSkillIcon } from '@/components/icons/skills/TailwindSkillIcon.tsx';
-import { PostgresSkillIcon } from '@/components/icons/skills/PostgresSkillIcon.tsx';
-import { FirebaseSkillIcon } from '@/components/icons/skills/FirebaseSkillIcon.tsx';
-import { EthereumSkillIcon } from '@/components/icons/skills/EthereumSkillIcon.tsx';
-import { SoliditySkillIcon } from '@/components/icons/skills/SoliditySkillIcon.tsx';
-import { MetamaskSkillIcon } from '@/components/icons/skills/MetamaskSkillIcon.tsx';
-import { GitSkillIcon } from '@/components/icons/skills/GitSkillIcon.tsx';
-import { AwsSkillIcon } from '@/components/icons/skills/AwsSkillIcon.tsx';
-import { DockerSkillIcon } from '@/components/icons/skills/DockerSkillIcon.tsx';
-import { PythonSkillIcon } from '@/components/icons/skills/PythonSkillIcon.tsx';
-import { TypescriptSkillIcon } from '@/components/icons/skills/TypescriptSkillIcon.tsx';
-import { NextJsSkillIcon } from '@/components/icons/skills/NextJsSkillIcon.tsx';
+import { ReactSkillIcon } from '../components/icons/skills/ReactSkillIcon.tsx';
+import { NodeSkillIcon } from '../components/icons/skills/NodeSkillIcon.tsx';
+import { ExpressSkillIcon } from '../components/icons/skills/ExpressSkillIcon.tsx';
+import { MongoSkillIcon } from '../components/icons/skills/MongoSkillIcon.tsx';
+import { TailwindSkillIcon } from '../components/icons/skills/TailwindSkillIcon.tsx';
+import { PostgresSkillIcon } from '../components/icons/skills/PostgresSkillIcon.tsx';
+import { FirebaseSkillIcon } from '../components/icons/skills/FirebaseSkillIcon.tsx';
+import { EthereumSkillIcon } from '../components/icons/skills/EthereumSkillIcon.tsx';
+import { SoliditySkillIcon } from '../components/icons/skills/SoliditySkillIcon.tsx';
+import { MetamaskSkillIcon } from '../components/icons/skills/MetamaskSkillIcon.tsx';
+import { GitSkillIcon } from '../components/icons/skills/GitSkillIcon.tsx';
+import { AwsSkillIcon } from '../components/icons/skills/AwsSkillIcon.tsx';
+import { DockerSkillIcon } from '../components/icons/skills/DockerSkillIcon.tsx';
+import { PythonSkillIcon } from '../components/icons/skills/PythonSkillIcon.tsx';
+import { TypescriptSkillIcon } from '../components/icons/skills/TypescriptSkillIcon.tsx';
+import { NextJsSkillIcon } from '../components/icons/skills/NextJsSkillIcon.tsx';
 
 /**
  * Defines the list of skills to be displayed in the infinite scrolling section.
@@ -53,21 +54,18 @@ export const SKILLS = [
     component: MetamaskSkillIcon, 
     transform: 'transform -translate-y-px', 
     size: 'w-40 md:w-[10rem]',
-    // Default was mr-10 (2.5rem), sm:mr-14 (3.5rem), md:mr-20 (5rem). Increased by 3%.
     margin: 'mr-[2.575rem] sm:mr-[3.605rem] md:mr-[5.15rem]'
   },
   { 
     component: GitSkillIcon, 
     transform: 'transform translate-y-[2%] opacity-80', 
     size: 'w-[4.374rem] md:w-[5.103rem]',
-    // Increased previous margin by 3%
     margin: 'mr-[2.936rem] sm:mr-[4.069rem] md:mr-[5.768rem]'
   },
   { 
     component: AwsSkillIcon, 
     transform: 'transform translate-y-[4%]', 
     size: 'w-[3.42rem] md:w-[4.275rem]',
-    // Increased previous margin by 3%
     margin: 'mr-[2.987rem] sm:mr-[4.223rem] md:mr-[5.974rem]'
   },
   { 

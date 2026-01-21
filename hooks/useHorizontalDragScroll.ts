@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 interface DragScrollOptions {
   /** The base speed for automatic scrolling when not dragging. Default is 1.02. */
@@ -23,6 +23,7 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const animationFrameId = useRef<number | null>(null);
   const virtualScrollLeft = useRef(0);
 
+  // Added React.MouseEvent to fix "Cannot find namespace 'React'" error.
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollerRef.current) return;
     isDragging.current = true;
@@ -36,6 +37,7 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     isDragging.current = false;
   }, []);
 
+  // Added React.MouseEvent to fix "Cannot find namespace 'React'" error.
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging.current || !scrollerRef.current) return;
     
