@@ -6,7 +6,7 @@
 export const PROJECTS_DATA = [
   {
     name: "BARKCHAIN",
-    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable stray-dog adoption. It implements ERC-20 token and ERC-721 NFT-based adoption certificates via MetaMask. It supports dog listings, adoption workflows, and geolocation-based SOS reporting via REST APIs.",
+    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable stray-dog adoption. It implements ERC-20 token and ERC-721 NFT-based adoption certificates via MetaMask. It supports dog listings, adoption workflows, and geolocation-based SOS reporting.",
     keywords: ["TRUSTLESS INFRASTRUCTURE", "UX DESIGN", "SMART CONTRACTS"],
     images: [
       '/barkchain-1.png',
