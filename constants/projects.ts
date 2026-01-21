@@ -16,12 +16,12 @@ export const PROJECTS_DATA = [
     ],
     layout: {
       img1: "w-[45%] h-auto max-h-[45%] bottom-4 left-[13%] z-[10]",
-      img2: "w-[25%] h-auto top-[5%] right-[44%] z-[20]",
+      img2: "w-[25%] h-auto top-[4%] right-[42%] z-[20]",
       img3: "w-[22.5%] h-auto bottom-[18%] right-[21%] z-[30]",
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com"
+    githubLink: "https://github.com/surryaansh"
   },
   {
     name: "MYDASH",
@@ -38,7 +38,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com"
+    githubLink: "https://github.com/surryaansh/My-Portfolio"
   },
   {
     name: "SURU GPT",
@@ -57,7 +57,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com"
+    githubLink: "https://github.com/surryaansh/SuruGPT"
   },
 ];
 
