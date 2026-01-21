@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { PROJECTS_DATA } from '../../constants/projects.ts';
 
@@ -39,9 +38,9 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         <span>/03</span>
       </div>
       
-      {/* Project Description Block - Increased font size by an additional 10% for improved legibility */}
+      {/* Project Description Block - Shifted 4% down with matched in-animation (no delay) */}
       <div 
-        className={`uppercase leading-relaxed mb-6 max-w-[266px] lg:max-w-[304px] animate-fade-in ${grayTextClasses}`} 
+        className={`uppercase leading-relaxed mb-6 max-w-[266px] lg:max-w-[304px] animate-project-description ${grayTextClasses}`} 
         style={{ fontSize: '11.5px' }}
         key={selectedProject}
       >
