@@ -6,7 +6,7 @@
 export const PROJECTS_DATA = [
   {
     name: "BARKCHAIN",
-    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable verifiable adoption workflows. It implements ERC-20 token incentives and ERC-721 NFT-based adoption certificates via MetaMask-connected transactions. Backend services coordinate off-chain approval logic with on-chain minting and transaction state tracking. It supports dog listings, adoption workflows, and geolocation-based SOS reporting via REST APIs.",
+    description: "BarkChain is a MERN + Web3 application integrating Ethereum smart contracts to enable verifiable adoption workflows. It implements ERC-20 token incentives and ERC-721 NFT-based adoption certificates via MetaMask-connected transactions. It supports dog listings, adoption workflows, and geolocation-based SOS reporting via REST APIs.",
     keywords: ["TRUSTLESS INFRASTRUCTURE", "UX DESIGN", "SMART CONTRACTS"],
     images: [
       '/barkchain-1.png',
@@ -24,7 +24,7 @@ export const PROJECTS_DATA = [
   },
   {
     name: "MYDASH",
-    description: "MyDash is my optimized Next.js portfolio built with TypeScript and Tailwind CSS. It leverages reusable component abstractions and serverless API routes for dynamic content updates. Performance, SEO, and metadata optimizations improved Lighthouse scores and load efficiency. The application is deployed on Vercel with a focus on scalability and code maintainability.",
+    description: "MyDash is my optimized Next.js portfolio built with TypeScript and Tailwind CSS. It leverages reusable component abstractions and serverless API routes for dynamic content updates. The application is deployed on Vercel with a focus on scalability and code maintainability.",
     keywords: ["PRODUCTIVITY", "FRONTEND DEV", "DATA VISUALIZATION"],
     images: [
       '/mydash-2.png',
@@ -40,7 +40,7 @@ export const PROJECTS_DATA = [
   },
   {
     name: "SURU GPT",
-    description: "A context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection at inference time. The system maintains multi-session continuity while enforcing secure API and data handling. Deployed using Firebase and Vercel.",
+    description: "A context-aware LLM system with memory pipeline. Implementing persistent conversational memory using embeddings and semantic retrieval. It features automated summarization, vector storage, and relevance-based context injection at inference time.",
     keywords: ["ARTIFICIAL INTELLIGENCE", "DEVELOPER TOOLS", "LLM"],
     images: [
       '/surugpt-1.png',

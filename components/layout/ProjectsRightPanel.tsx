@@ -44,8 +44,8 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
         {activeProjectData?.description}
       </div>
       
-      {/* Image Container - Scaled down min-height by ~20% to follow section scaling */}
-      <div className="flex-1 relative w-full h-full min-h-[300px] lg:min-h-[420px] overflow-hidden">
+      {/* Image Container - Further reduced min-height for a more compact appearance */}
+      <div className="flex-1 relative w-full h-full min-h-[250px] lg:min-h-[340px] overflow-hidden">
         {PROJECTS_DATA.map((project) => {
           const isSelected = project.name === selectedProject;
           const { layout } = project;
