@@ -24,7 +24,7 @@ export const PROJECTS_DATA = [
   },
   {
     name: "MYDASH",
-    description: "MyDash is my optimized Next.js portfolio built with TypeScript and Tailwind CSS. It leverages reusable component abstractions and serverless API routes for dynamic content updates. The application is deployed on Vercel with a focus on scalability and code maintainability.",
+    description: "This is my optimized Next.js portfolio built with TypeScript and Tailwind CSS. It leverages reusable component abstractions and serverless API routes for dynamic content updates. The application is deployed on Vercel with a focus on scalability and code maintainability.",
     keywords: ["PRODUCTIVITY", "FRONTEND DEV", "DATA VISUALIZATION"],
     images: [
       '/mydash-2.png',
