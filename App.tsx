@@ -1,3 +1,4 @@
+
 import React, { useState, memo } from 'react';
 import { Header } from './components/layout/Header.tsx';
 import { LeftPanel } from './components/layout/LeftPanel.tsx';
@@ -86,7 +87,7 @@ export default function App() {
           <RightPanel isDarkMode={isDarkMode} />
         </section>
 
-        <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[60vh] divide-y lg:divide-y-0 ${borderClasses}`}>
+        <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[85vh] divide-y lg:divide-y-0 ${borderClasses}`}>
             <MemoizedProjectsLeftPanel 
               isDarkMode={isDarkMode}
               selectedProject={selectedProject}
