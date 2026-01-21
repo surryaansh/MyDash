@@ -60,8 +60,8 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
             className={`transition-colors duration-300 hover:text-[#FF4500] ${grayTextClasses} flex-shrink-0 pt-[3px]`}
             aria-label={`View ${selectedProject} on GitHub`}
           >
-            {/* Increased height to 24.64px (exactly 12% increase from 22px) */}
-            <GithubArrowIcon className="h-[24.64px]" />
+            {/* Increased height to 28.34px (exactly 15% increase from previous 24.64px) */}
+            <GithubArrowIcon className="h-[28.34px]" />
           </a>
         )}
       </div>
