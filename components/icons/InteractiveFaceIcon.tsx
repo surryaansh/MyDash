@@ -9,13 +9,15 @@ interface InteractiveFaceIconProps {
 
 /**
  * An interactive SVG face icon where the eyes and eyebrows follow the cursor's movement.
- * Uses a unified gaze vector calculated from the face center to ensure coordinated movement.
+ * Uses a blended gaze model to ensure coordination while allowing organic freeness and convergence.
  */
 export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursorPosition, isDarkMode }) => {
   const faceRef = useRef<SVGSVGElement>(null);
 
   const [elementPositions, setElementPositions] = useState({
     face: { x: 0, y: 0, width: 0, height: 0 },
+    leftEye: { x: 0, y: 0 },
+    rightEye: { x: 0, y: 0 },
     scale: { x: 1, y: 1 },
   });
 
@@ -39,6 +41,11 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       const scaleX = faceRect.width / viewBox.width;
       const scaleY = faceRect.height / viewBox.height;
 
+      const getDocCoords = (svgX: number, svgY: number) => ({
+        x: docLeft + (svgX - viewBox.x) * scaleX,
+        y: docTop + (svgY - viewBox.y) * scaleY,
+      });
+
       setElementPositions({
         face: { 
           x: docLeft + faceRect.width / 2, 
@@ -46,6 +53,8 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
           width: faceRect.width, 
           height: faceRect.height 
         },
+        leftEye: getDocCoords(213, 395),
+        rightEye: getDocCoords(667, 395),
         scale: { x: scaleX, y: scaleY },
       });
     };
@@ -72,36 +81,51 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
   }, []);
 
   /**
-   * Calculates a single unified gaze offset for both eyes.
-   * This ensures coordination as the eyes move as a pair.
+   * Calculates specific transforms for each pupil using a blended model.
+   * 85% unified gaze + 15% local tracking creates coordination with organic convergence.
    */
-  const getGazeTransform = () => {
-    const { face, scale } = elementPositions;
+  const getPupilTransforms = () => {
+    const { face, leftEye, rightEye, scale } = elementPositions;
     if (face.width === 0 || face.x === 0 || scale.x === 0 || scale.y === 0) {
-      return { dx: 0, dy: 0 };
+      return { left: { dx: 0, dy: 0 }, right: { dx: 0, dy: 0 } };
     }
 
     const maxTravelX = 60;
     const maxTravelY = 30;
     const sensitivity = 0.35;
+    const freeness = 0.15; // 15% local movement allows for convergence
 
-    // Calculate delta relative to face center
-    const dx_raw = (cursorPosition.x - face.x) * sensitivity;
-    const dy_raw = (cursorPosition.y - face.y) * sensitivity;
-    
-    // Scale to SVG coordinate space
-    let dx = dx_raw / scale.x;
-    let dy = dy_raw / scale.y;
+    const calculateEye = (eyeCenter: { x: number, y: number }) => {
+      // Unified component (relative to face center)
+      const udx = (cursorPosition.x - face.x) * sensitivity;
+      const udy = (cursorPosition.y - face.y) * sensitivity;
 
-    // Constrain movement to an elliptical bounds
-    const ellipseRatio = (dx / maxTravelX) ** 2 + (dy / maxTravelY) ** 2;
-    if (ellipseRatio > 1) {
-      const scaleFactor = 1 / Math.sqrt(ellipseRatio);
-      dx *= scaleFactor;
-      dy *= scaleFactor;
-    }
-    
-    return { dx, dy };
+      // Local component (relative to specific eye center)
+      const ldx = (cursorPosition.x - eyeCenter.x) * sensitivity;
+      const ldy = (cursorPosition.y - eyeCenter.y) * sensitivity;
+
+      // Blend
+      let dx_raw = (udx * (1 - freeness)) + (ldx * freeness);
+      let dy_raw = (udy * (1 - freeness)) + (ldy * freeness);
+      
+      // Scale to SVG space
+      let dx = dx_raw / scale.x;
+      let dy = dy_raw / scale.y;
+
+      // Constrain to ellipse
+      const ellipseRatio = (dx / maxTravelX) ** 2 + (dy / maxTravelY) ** 2;
+      if (ellipseRatio > 1) {
+        const scaleFactor = 1 / Math.sqrt(ellipseRatio);
+        dx *= scaleFactor;
+        dy *= scaleFactor;
+      }
+      return { dx, dy };
+    };
+
+    return {
+      left: calculateEye(leftEye),
+      right: calculateEye(rightEye)
+    };
   };
 
   const getEyebrowTransforms = () => {
@@ -138,7 +162,7 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
     };
   }
 
-  const gaze = getGazeTransform();
+  const pupils = getPupilTransforms();
   const { left: leftEyebrowTransform, right: rightEyebrowTransform } = getEyebrowTransforms();
 
   const eyeWhiteColor = isDarkMode ? '#000000' : '#EEEEEE';
@@ -162,9 +186,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Left Eye White */}
       <path d="M197 457.91C122.881 463.524 70.2463 480.789 69.4998 421.41C68.7534 362.031 166.773 307.424 238.5 315.91C297.973 322.946 356.5 355.91 347.5 428.41C341.052 480.354 271.118 452.296 197 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       
-      {/* Left Pupil - Coordinated movement */}
+      {/* Left Pupil - Blended movement */}
       <g clipPath="url(#leftEyeClip)">
-        <g transform={`translate(${gaze.dx}, ${gaze.dy})`}>
+        <g transform={`translate(${pupils.left.dx}, ${pupils.left.dy})`}>
           <ellipse cx="213" cy="395" rx="55" ry="45" fill="currentColor"/>
         </g>
       </g>
@@ -185,9 +209,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
       {/* Right Eye White */}
       <path d="M650.904 457.91C576.786 463.524 524.151 480.789 523.404 421.41C522.658 362.031 620.677 307.424 692.404 315.91C751.877 322.946 810.404 355.91 801.404 428.41C794.956 480.354 725.023 452.296 650.904 457.91Z" fill={eyeWhiteColor} stroke="currentColor" strokeWidth="3"></path>
       
-      {/* Right Pupil - Coordinated movement */}
+      {/* Right Pupil - Blended movement */}
       <g clipPath="url(#rightEyeClip)">
-        <g transform={`translate(${gaze.dx}, ${gaze.dy})`}>
+        <g transform={`translate(${pupils.right.dx}, ${pupils.right.dy})`}>
           <ellipse cx="667" cy="395" rx="55" ry="45" fill="currentColor"/>
         </g>
       </g>
