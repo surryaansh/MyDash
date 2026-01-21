@@ -163,9 +163,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         >
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(-40, 10) rotate(-25, 286, 238)"></path>
         </g>
-        {/* Flinch pose brow - Moved closer to center (72) and downwards (15) */}
+        {/* Flinch pose brow - Moved 3% lower (15 + 10.92 = 25.92) and angle reduced by 3% (32 * 0.97 = 31.04) */}
         <g 
-          transform={`translate(72, 15) rotate(32, ${EB_L_CX}, ${EB_L_CY})`} 
+          transform={`translate(72, 25.92) rotate(31.04, ${EB_L_CX}, ${EB_L_CY})`} 
           style={{ ...crossFadeStyle, opacity: isConnectHovered ? 1 : 0 }}
         >
           <path d="M371.513 318.177L358.587 329.736C350.61 336.869 338.44 336.494 330.918 328.883L200.698 197.134C192.798 189.141 192.994 176.221 201.134 168.472L223.07 147.588C231.394 139.662 244.659 140.327 252.149 149.045L373.359 290.12C380.486 298.415 379.665 310.887 371.513 318.177Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(-40, 10) rotate(-25, 286, 238)"></path>
@@ -191,9 +191,9 @@ export const InteractiveFaceIcon: React.FC<InteractiveFaceIconProps> = ({ cursor
         >
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(100, 0) rotate(30, 574, 239)"></path>
         </g>
-        {/* Flinch pose brow - Adjusted position: 3% rightwards and 2% downwards from (-72, 15) */}
+        {/* Flinch pose brow - Moved 3% lower (22.28 + 10.92 = 33.2) */}
         <g 
-          transform={`translate(-49.65, 22.28) rotate(-32, ${EB_R_CX}, ${EB_R_CY})`}
+          transform={`translate(-49.65, 33.2) rotate(-32, ${EB_R_CX}, ${EB_R_CY})`}
           style={{ ...crossFadeStyle, opacity: isConnectHovered ? 1 : 0 }}
         >
           <path d="M603.446 147.589L497.186 306.039C491.008 315.251 493.468 327.726 502.679 333.903L507.902 337.406C516.692 343.3 528.548 341.362 535.003 332.974L651.597 181.453C658.674 172.256 656.505 158.991 646.866 152.527L631.311 142.095C622.099 135.918 609.624 138.377 603.446 147.589Z" fill="currentColor" stroke="currentColor" strokeWidth="10" transform="translate(100, 0) rotate(30, 574, 239)"></path>
