@@ -18,21 +18,25 @@ export const ContactLeftPanel: React.FC<ContactLeftPanelProps> = ({ isDarkMode, 
         <span>05 CONTACT</span>
         <span>/05</span>
       </div>
-      <div className="flex-1 flex flex-col justify-between pt-8 pb-8 lg:pb-12">
-        <h2 className="text-4xl md:text-5xl font-light leading-tight">
+      <div className="flex-1 flex flex-col justify-between pt-4 lg:pt-8 pb-4 lg:pb-12">
+        <h2 className="text-3xl md:text-5xl font-light leading-tight">
           EAGER TO TAKE ON NEW CHALLENGES. FEEL FREE TO REACH OUT.
         </h2>
 
         {/* Mobile-only Connect Me Card - Merged view */}
-        <div className="block lg:hidden w-full my-8">
-           <ConnectMeCard 
-              isDarkMode={isDarkMode} 
-              onHoverChange={onHoverChange} 
-              className="w-full aspect-video rounded-none"
-           />
+        <div className="block lg:hidden w-full my-6">
+           {/* Reduced aspect ratio via height control relative to width or hardcoded class override */}
+           <div className="w-full h-48 sm:h-64">
+             <ConnectMeCard 
+                isDarkMode={isDarkMode} 
+                onHoverChange={onHoverChange} 
+                className="w-full h-full rounded-none"
+             />
+           </div>
         </div>
 
-        <div className="relative self-start mt-4 lg:mt-12 max-w-[70%] lg:max-w-[560px] w-full">
+        {/* Face Icon - Shifted to right on mobile */}
+        <div className="relative self-end lg:self-start mt-4 lg:mt-12 max-w-[50%] lg:max-w-[560px] w-full">
           <InteractiveFaceIcon 
             cursorPosition={cursorPosition} 
             isDarkMode={isDarkMode} 

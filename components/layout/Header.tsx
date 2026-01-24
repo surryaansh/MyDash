@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { LightningIcon } from '../icons/LightningIcon.tsx';
 import { DarkModeToggle } from '../DarkModeToggle.tsx';
@@ -28,11 +27,11 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) =>
 
   return (
     <>
-      <header className={`flex justify-between items-center py-4 border-b ${isDarkMode ? 'border-[#efeeee]' : 'border-black'} relative z-50`}>
+      <header className={`flex justify-between items-center py-3 md:py-4 border-b ${isDarkMode ? 'border-[#efeeee]' : 'border-black'} relative z-50`}>
         {/* Left: Branding */}
-        <div className="flex items-center gap-2 no-cursor-invert">
-          <LightningIcon className="h-6 text-[#FF4500]" />
-          <span className="text-xl font-extrabold italic text-[#FF4500] tracking-wide">SURYANSH // SINGH</span>
+        <div className="flex items-center gap-2 no-cursor-invert transform -translate-y-0.5">
+          <LightningIcon className="h-5 md:h-6 text-[#FF4500]" />
+          <span className="text-lg md:text-xl font-extrabold italic text-[#FF4500] tracking-wide">SURYANSH // SINGH</span>
         </div>
 
         {/* Desktop Nav & Toggle */}
@@ -45,8 +44,8 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) =>
           <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         </div>
 
-        {/* Mobile: Pill (Toggle + Hamburger) - Removed BG classes */}
-        <div className={`md:hidden flex items-center gap-3 px-3 py-1.5 rounded-full border ${isDarkMode ? 'border-white/20' : 'border-black/10'} backdrop-blur-sm`}>
+        {/* Mobile: Buttons (No Pill Outline) */}
+        <div className="md:hidden flex items-center gap-3 pr-1">
           <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
           <button 
             onClick={toggleMenu}

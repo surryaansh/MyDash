@@ -27,8 +27,10 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
       {/* Centered navigation section */}
       <div className="flex justify-center items-center pt-5 pb-11">
-        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-xl">
-          <a href="#about" onClick={handleScroll} className="transition-opacity duration-200">ABOUT ME</a>
+        <nav className="flex flex-nowrap justify-center gap-x-6 md:gap-x-8 text-lg md:text-xl">
+          {/* Hidden on mobile, visible on desktop if needed, but per request focusing on mobile strictly to have 3 buttons */}
+          <a href="#about" onClick={handleScroll} className="hidden md:inline transition-opacity duration-200">ABOUT ME</a>
+          
           <a href="#projects" onClick={handleScroll} className="transition-opacity duration-200">PROJECTS</a>
           <a href="#skills" onClick={handleScroll} className="transition-opacity duration-200">SKILLS</a>
           <a href="mailto:suryanshs1804@gmail.com" className="transition-opacity duration-200">CONTACT</a>

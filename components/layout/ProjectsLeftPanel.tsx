@@ -11,16 +11,16 @@ interface ProjectsLeftPanelProps {
 /**
  * Displays a selectable list of projects.
  * On Desktop: Vertical list.
- * On Mobile: Horizontal infinite drag-scrollable loop.
+ * On Mobile: Horizontal infinite drag-scrollable loop (no auto-scroll).
  */
 export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode, selectedProject, setSelectedProject }) => {
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
   
-  // Hook for mobile drag scroll
-  const { scrollerRef, eventHandlers } = useHorizontalDragScroll({ autoScrollSpeed: 0.5 });
+  // Hook for mobile drag scroll - Speed 0 disables auto-scrolling
+  const { scrollerRef, eventHandlers } = useHorizontalDragScroll({ autoScrollSpeed: 0 });
   
   // Duplicate projects for infinite loop on mobile
-  const duplicatedProjects = [...PROJECTS, ...PROJECTS, ...PROJECTS]; // Tripled to ensure smooth fill
+  const duplicatedProjects = [...PROJECTS, ...PROJECTS, ...PROJECTS]; 
 
   return (
     <div className={`w-full lg:col-span-1 flex flex-col lg:pr-6 pb-2 lg:pb-0 lg:border-r ${isDarkMode ? 'lg:border-[#efeeee]' : 'lg:border-black'}`}>
@@ -57,31 +57,38 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
         </nav>
       </div>
 
-      {/* Mobile Horizontal Marquee */}
+      {/* Mobile Horizontal Marquee with Fade Mask */}
       <div 
-        ref={scrollerRef}
-        className="flex lg:hidden overflow-x-auto no-scrollbar pt-2 pb-6 cursor-none select-none"
-        {...eventHandlers}
+        className="relative flex lg:hidden overflow-hidden"
+        style={{
+          maskImage: 'linear-gradient(to right, black 85%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 85%, transparent 100%)'
+        }}
       >
-        <div className="flex w-max items-center gap-6 pr-6">
-          {duplicatedProjects.map((project, index) => {
-            const isActive = project === selectedProject;
-            // Note: We use index in key here because items are duplicated
-            return (
-               <button
-                  key={`${project}-${index}`}
-                  onClick={() => setSelectedProject(project)}
-                  className={`whitespace-nowrap transition-all duration-200 ease-in-out
-                    ${isActive
-                      ? 'text-4xl font-black tracking-tighter text-[#FF4500]'
-                      : 'text-2xl font-normal tracking-tight'
-                    }`
-                  }
-               >
-                  {project}
-               </button>
-            );
-          })}
+        <div 
+          ref={scrollerRef}
+          className="flex overflow-x-auto no-scrollbar pt-2 pb-2 cursor-none select-none w-full"
+          {...eventHandlers}
+        >
+          <div className="flex w-max items-center gap-6 pr-12">
+            {duplicatedProjects.map((project, index) => {
+              const isActive = project === selectedProject;
+              return (
+                 <button
+                    key={`${project}-${index}`}
+                    onClick={() => setSelectedProject(project)}
+                    className={`whitespace-nowrap transition-all duration-200 ease-in-out
+                      ${isActive
+                        ? 'text-4xl font-black tracking-tighter text-[#FF4500]'
+                        : 'text-2xl font-normal tracking-tight'
+                      }`
+                    }
+                 >
+                    {project}
+                 </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

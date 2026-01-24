@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { PROJECTS_DATA } from '../../constants/projects.ts';
 import { GithubArrowIcon } from '../icons/GithubArrowIcon.tsx';
@@ -34,8 +33,9 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
   const imageInteractionClasses = `transition-transform duration-500 ease-out hover:scale-[1.02] border-[0.5px] border-black object-cover pointer-events-auto`;
 
   return (
-    <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-6 lg:pt-0">
-      <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
+    <div className="w-full lg:col-span-2 flex flex-col lg:pl-6 pt-2 lg:pt-0">
+      {/* Hidden on mobile to merge with the section above */}
+      <div className={`hidden lg:flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
         <span>03 WORK</span>
         <span>/03</span>
       </div>
@@ -43,7 +43,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
       {/* 
           Row for Description and GitHub link. 
       */}
-      <div className="flex justify-between items-start mt-[5px] mb-6 w-full animate-project-description" key={selectedProject}>
+      <div className="flex justify-between items-start mt-0 lg:mt-[5px] mb-6 w-full animate-project-description" key={selectedProject}>
         <div 
           className={`uppercase leading-relaxed max-w-[85%] lg:max-w-[298px] ${grayTextClasses} text-xs md:text-[11.85px]`}
         >
