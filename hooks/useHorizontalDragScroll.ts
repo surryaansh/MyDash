@@ -23,10 +23,15 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const lastMouseX = useRef(0);
   const animationFrameId = useRef<number | null>(null);
   const virtualScrollLeft = useRef(0);
+  
+  // Animation state for programmatic scrolling
+  const isAnimatingScroll = useRef(false);
+  const targetScrollPos = useRef(0);
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollerRef.current) return;
     isDragging.current = true;
+    isAnimatingScroll.current = false; // Stop any ongoing smooth scroll
     velocity.current = 0;
     startX.current = e.pageX;
     lastMouseX.current = e.pageX;
@@ -36,6 +41,7 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
     if (!scrollerRef.current) return;
     isDragging.current = true;
+    isAnimatingScroll.current = false; // Stop any ongoing smooth scroll
     velocity.current = 0;
     startX.current = e.touches[0].pageX;
     lastMouseX.current = e.touches[0].pageX;
@@ -72,9 +78,42 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   }, []);
 
   const setScrollPosition = useCallback((position: number) => {
-    virtualScrollLeft.current = position;
+    // Legacy instant snap method, if needed
     if (scrollerRef.current) {
+        virtualScrollLeft.current = position;
         scrollerRef.current.scrollLeft = position;
+        velocity.current = 0;
+        isAnimatingScroll.current = false;
+    }
+  }, []);
+
+  /**
+   * Smoothly scrolls to a specific position.
+   * @param position The target scroll position.
+   * @param snapWidth Optional. If provided, instantly snaps the current position 
+   * modulo this width to ensure the animation travel distance is minimized 
+   * (seamless loop jump).
+   */
+  const animateScrollTo = useCallback((position: number, snapWidth?: number) => {
+    if (scrollerRef.current) {
+        isAnimatingScroll.current = true;
+        velocity.current = 0;
+        
+        // If we have a snap width (the width of one full set of items),
+        // we can normalize the current position to be in the first set before animating.
+        // This prevents the carousel from scrolling backwards for miles if we are deep in the loop.
+        if (snapWidth && snapWidth > 0) {
+            // Normalize current position to [0, snapWidth)
+            let normalizedCurrent = virtualScrollLeft.current % snapWidth;
+            if (normalizedCurrent < 0) normalizedCurrent += snapWidth;
+            
+            // Seamlessly update virtual position to the normalized equivalent
+            // Visually this is an invisible jump because the content is duplicated.
+            virtualScrollLeft.current = normalizedCurrent;
+            scrollerRef.current.scrollLeft = normalizedCurrent;
+        }
+
+        targetScrollPos.current = position;
     }
   }, []);
 
@@ -82,11 +121,25 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
+    // Force scroll-behavior auto to prevent CSS smooth scrolling from interfering with JS animation
+    scroller.style.scrollBehavior = 'auto';
+
     const animate = () => {
       if (!scroller) return;
 
-      if (!isDragging.current) {
-        // Apply friction to the drag velocity (momentum)
+      if (isAnimatingScroll.current) {
+        // Smooth lerp to target
+        const diff = targetScrollPos.current - virtualScrollLeft.current;
+        
+        if (Math.abs(diff) < 0.5) {
+            virtualScrollLeft.current = targetScrollPos.current;
+            isAnimatingScroll.current = false; // Animation done
+        } else {
+            // Ease out
+            virtualScrollLeft.current += diff * 0.1; 
+        }
+      } else if (!isDragging.current) {
+        // Normal auto-scroll physics
         if (Math.abs(velocity.current) > 0.1) {
           virtualScrollLeft.current += velocity.current;
           velocity.current *= friction;
@@ -98,6 +151,8 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
       }
       
       // Handle infinite loop reset
+      // We rely on the container having 2x content (or more).
+      // We wrap when we exceed half the total scroll width.
       const scrollableWidth = scroller.scrollWidth / 2;
       if (scrollableWidth > 0) {
         if (virtualScrollLeft.current >= scrollableWidth) {
@@ -133,5 +188,5 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     onTouchMove: handleTouchMove,
   };
 
-  return { scrollerRef, eventHandlers, setScrollPosition };
+  return { scrollerRef, eventHandlers, setScrollPosition, animateScrollTo };
 };
