@@ -45,7 +45,7 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
       */}
       <div className="flex justify-between items-start mt-0 lg:mt-[5px] mb-6 w-full animate-project-description" key={selectedProject}>
         <div 
-          className={`uppercase leading-relaxed max-w-[85%] lg:max-w-[298px] ${grayTextClasses} text-xs md:text-[11.85px]`}
+          className={`uppercase leading-relaxed max-w-[55%] lg:max-w-[298px] ${grayTextClasses} text-xs md:text-[11.85px]`}
         >
           {activeProjectData?.description}
         </div>
@@ -65,10 +65,10 @@ export const ProjectsRightPanel: React.FC<ProjectsRightPanelProps> = ({ isDarkMo
       </div>
       
       {/* 
-          Image Container - Min-height reduced to reflect new section height.
+          Image Container - Min-height increased for mobile aspect ratio.
           Applied translate-y-[-4%] to shift project images upwards.
       */}
-      <div className="flex-1 relative w-full h-full min-h-[274px] lg:min-h-[383px] overflow-hidden transform -translate-y-[4%]">
+      <div className="flex-1 relative w-full h-full min-h-[420px] lg:min-h-[383px] overflow-hidden transform -translate-y-[4%]">
         {PROJECTS_DATA.map((project) => {
           const isSelected = project.name === selectedProject;
           const { layout } = project;

@@ -17,10 +17,31 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
   const grayTextClasses = `transition-colors duration-300 ease-in-out ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`;
   
   // Hook for mobile drag scroll - Speed 0 disables auto-scrolling
-  const { scrollerRef, eventHandlers } = useHorizontalDragScroll({ autoScrollSpeed: 0 });
+  const { scrollerRef, eventHandlers, setScrollPosition } = useHorizontalDragScroll({ autoScrollSpeed: 0 });
   
-  // Duplicate projects for infinite loop on mobile
-  const duplicatedProjects = [...PROJECTS, ...PROJECTS, ...PROJECTS]; 
+  // Duplicate projects for infinite loop on mobile (4 sets to ensure half-split logic works perfectly)
+  const duplicatedProjects = [...PROJECTS, ...PROJECTS, ...PROJECTS, ...PROJECTS]; 
+
+  const handleProjectClick = (e: React.MouseEvent<HTMLButtonElement>, project: string) => {
+    setSelectedProject(project);
+    
+    // Mobile only: Scroll selected to start
+    if (window.innerWidth < 1024 && scrollerRef.current) { 
+        const button = e.currentTarget;
+        const container = scrollerRef.current;
+        
+        // Calculate the button's position relative to the container's visible area
+        const rect = button.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const relativeLeft = rect.left - containerRect.left;
+        
+        // Add current scroll position to get the absolute scroll target
+        // This puts the clicked button exactly at the left edge (0 index visual position)
+        const targetScrollLeft = container.scrollLeft + relativeLeft;
+        
+        setScrollPosition(targetScrollLeft); 
+    }
+  };
 
   return (
     <div className={`w-full lg:col-span-1 flex flex-col lg:pr-6 pb-2 lg:pb-0 lg:border-r ${isDarkMode ? 'lg:border-[#efeeee]' : 'lg:border-black'}`}>
@@ -76,7 +97,7 @@ export const ProjectsLeftPanel: React.FC<ProjectsLeftPanelProps> = ({ isDarkMode
               return (
                  <button
                     key={`${project}-${index}`}
-                    onClick={() => setSelectedProject(project)}
+                    onClick={(e) => handleProjectClick(e, project)}
                     className={`whitespace-nowrap transition-all duration-200 ease-in-out
                       ${isActive
                         ? 'text-4xl font-black tracking-tighter text-[#FF4500]'

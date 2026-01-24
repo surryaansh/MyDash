@@ -19,6 +19,21 @@ export const ConnectMeCard: React.FC<ConnectMeCardProps> = ({ isDarkMode, classN
     onHoverChange?.(false);
   };
 
+  const handleConnectClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Check for mobile (lg breakpoint is 1024px in Tailwind)
+    if (window.innerWidth < 1024) {
+      e.preventDefault();
+      setIsLocalHovered(true);
+      onHoverChange?.(true); // Trigger flinch animation
+      
+      const href = e.currentTarget.href;
+      // Wait for animation (1000ms to ensure full visual effect)
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000);
+    }
+  };
+
   const buttonClasses = `transform -translate-y-1 px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg font-bold transition-colors duration-300 ease-in-out hover:bg-[#FF4500] ${
     isDarkMode ? 'bg-[#efeeee] text-black' : 'bg-black text-[#efeeee]'
   }`;
@@ -36,6 +51,7 @@ export const ConnectMeCard: React.FC<ConnectMeCardProps> = ({ isDarkMode, classN
               className={buttonClasses}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
+              onClick={handleConnectClick}
             >
                 LET'S CONNECT
             </a>

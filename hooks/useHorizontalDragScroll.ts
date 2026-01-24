@@ -71,6 +71,13 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     lastMouseX.current = mouseX;
   }, []);
 
+  const setScrollPosition = useCallback((position: number) => {
+    virtualScrollLeft.current = position;
+    if (scrollerRef.current) {
+        scrollerRef.current.scrollLeft = position;
+    }
+  }, []);
+
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
@@ -126,5 +133,5 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     onTouchMove: handleTouchMove,
   };
 
-  return { scrollerRef, eventHandlers };
+  return { scrollerRef, eventHandlers, setScrollPosition };
 };
