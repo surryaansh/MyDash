@@ -25,12 +25,12 @@ export const ContactRightPanel: React.FC<ContactRightPanelProps> = ({ isDarkMode
   }`;
 
   return (
-    <div className="w-full lg:w-1/2 flex flex-col lg:pl-6 pt-8 lg:pt-0">
+    <div className="w-full lg:w-1/2 flex flex-col lg:pl-6 pt-8 lg:pt-0 min-h-[300px] lg:min-h-0">
       <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
         <span>06 CONTACT</span>
         <span>/06</span>
       </div>
-      <div className="flex-1 relative overflow-hidden px-2 pt-0 pb-6 lg:px-0">
+      <div className="flex-1 relative overflow-hidden px-0 pb-6 lg:px-0">
         <img
           src="/connect-me.png"
           alt="An abstract, glowing wireframe figure reaching out a hand."

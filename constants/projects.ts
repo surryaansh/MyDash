@@ -21,7 +21,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com/surryaansh"
+    githubLink: "https://github.com"
   },
   {
     name: "MYDASH",
@@ -38,7 +38,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com/surryaansh/MyDash"
+    githubLink: "https://github.com"
   },
   {
     name: "SURU GPT",
@@ -57,7 +57,7 @@ export const PROJECTS_DATA = [
       img4: "h-[92%] w-auto bottom-4 right-0 z-[25]"
     },
     link: "#",
-    githubLink: "https://github.com/surryaansh/SuruGPT"
+    githubLink: "https://github.com"
   },
 ];
 
