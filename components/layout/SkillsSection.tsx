@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useHorizontalDragScroll } from '../../hooks/useHorizontalDragScroll.ts';
 import { SKILLS } from '../../constants/skills.ts';
@@ -27,8 +28,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDarkMode }) => {
   return (
     <section id="skills" className={`border-t ${borderClasses}`}>
       <div className={`flex justify-between text-[10px] py-2 ${grayTextClasses}`}>
-        <span>04 SKILLS</span>
-        <span>/04</span>
+        <span>03 SKILLS</span>
+        <span>/03</span>
       </div>
       <div
         ref={scrollerRef}

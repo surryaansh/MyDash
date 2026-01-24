@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll.ts';
 
@@ -19,9 +20,9 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
       {/* Top border */}
       <div className={`border-t ${borderClasses}`} />
 
-      {/* Top line: 07 FOOTER and Copyright */}
+      {/* Top line: 05 FOOTER and Copyright */}
       <div className={`flex justify-between items-center text-[10px] py-2 ${grayTextClasses}`}>
-        <span>07 FOOTER</span>
+        <span>05 FOOTER</span>
         <span>© SURYANSH</span>
       </div>
 
