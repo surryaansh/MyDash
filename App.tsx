@@ -1,4 +1,3 @@
-
 import React, { useState, memo } from 'react';
 import { Header } from './components/layout/Header.tsx';
 import { LeftPanel } from './components/layout/LeftPanel.tsx';
@@ -88,8 +87,8 @@ export default function App() {
           <RightPanel isDarkMode={isDarkMode} />
         </section>
 
-        {/* Projects Section - Reduced height by 3% (70.5vh -> 68.5vh) */}
-        <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[68.5vh] divide-y lg:divide-y-0 ${borderClasses}`}>
+        {/* Projects Section - Removed divide-y on mobile for merged look */}
+        <section id="projects" className={`flex flex-col lg:grid lg:grid-cols-3 flex-1 border-t min-h-[68.5vh] divide-y-0 lg:divide-y-0 ${borderClasses}`}>
             <MemoizedProjectsLeftPanel 
               isDarkMode={isDarkMode}
               selectedProject={selectedProject}

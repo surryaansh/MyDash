@@ -10,6 +10,7 @@ interface DragScrollOptions {
 /**
  * Custom hook to enable horizontal drag-to-scroll and continuous auto-scrolling.
  * Uses a virtual coordinate system to ensure smoothness and infinite looping.
+ * Supports both mouse and touch events.
  */
 export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const { autoScrollSpeed = 1.02, friction = 0.95 } = options;
@@ -23,7 +24,6 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
   const animationFrameId = useRef<number | null>(null);
   const virtualScrollLeft = useRef(0);
 
-  // Added React.MouseEvent to fix "Cannot find namespace 'React'" error.
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollerRef.current) return;
     isDragging.current = true;
@@ -33,11 +33,19 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     scrollLeftStart.current = virtualScrollLeft.current;
   }, []);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (!scrollerRef.current) return;
+    isDragging.current = true;
+    velocity.current = 0;
+    startX.current = e.touches[0].pageX;
+    lastMouseX.current = e.touches[0].pageX;
+    scrollLeftStart.current = virtualScrollLeft.current;
+  }, []);
+
   const handleMouseUpOrLeave = useCallback(() => {
     isDragging.current = false;
   }, []);
 
-  // Added React.MouseEvent to fix "Cannot find namespace 'React'" error.
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging.current || !scrollerRef.current) return;
     
@@ -48,6 +56,17 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     virtualScrollLeft.current = scrollLeftStart.current - walk;
     
     // Calculate velocity for momentum after release
+    velocity.current = lastMouseX.current - mouseX;
+    lastMouseX.current = mouseX;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging.current || !scrollerRef.current) return;
+    
+    const mouseX = e.touches[0].pageX;
+    const walk = mouseX - startX.current;
+    
+    virtualScrollLeft.current = scrollLeftStart.current - walk;
     velocity.current = lastMouseX.current - mouseX;
     lastMouseX.current = mouseX;
   }, []);
@@ -102,6 +121,9 @@ export const useHorizontalDragScroll = (options: DragScrollOptions = {}) => {
     onMouseUp: handleMouseUpOrLeave,
     onMouseLeave: handleMouseUpOrLeave,
     onMouseMove: handleMouseMove,
+    onTouchStart: handleTouchStart,
+    onTouchEnd: handleMouseUpOrLeave,
+    onTouchMove: handleTouchMove,
   };
 
   return { scrollerRef, eventHandlers };
